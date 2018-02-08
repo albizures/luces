@@ -1,0 +1,19 @@
+{
+  "name": "luces",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/albizures/luces.git"
+  },
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/albizures/luces/issues"
+  },
+  "homepage": "https://github.com/albizures/luces#readme",
+  "dependencies": {}
+}
