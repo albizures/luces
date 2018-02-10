@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "jest",
     "lint": "eslint ./src --fix",
     "dev": "node index.js",
     "start": "NODE_ENV=production node index.js"
@@ -11,6 +12,8 @@
   "keywords": [],
   "author": "",
   "dependencies": {
+    "@zeit/next-css": "0.0.7",
+    "antd": "^3.2.0",
     "axios": "^0.17.1",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
@@ -34,6 +37,8 @@
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-react": "^7.6.1",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-standard": "^3.0.1",
+    "jest": "^22.2.1",
+    "react-test-renderer": "^16.2.0"
   }
 }
