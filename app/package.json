@@ -12,7 +12,9 @@
     "axios": "^0.17.1",
     "babel-plugin-transform-inline-environment-variables": "^0.3.0",
     "react": "16.2.0",
-    "react-native": "0.52.2"
+    "react-native": "0.52.2",
+    "react-native-navigation": "^1.1.378",
+    "react-native-onboarding-swiper": "^0.3.1"
   },
   "devDependencies": {
     "babel-jest": "22.1.0",

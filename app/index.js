@@ -1,4 +1,3 @@
-import { AppRegistry } from 'react-native';
-import App from './App';
+import app from './src'
 
-AppRegistry.registerComponent('LucesApp', () => App);
+app();
