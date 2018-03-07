@@ -1,5 +1,8 @@
 {
   "presets": ["next/babel"],
+  "plugins": [
+    ["transform-define", "./env.config.js"]
+  ],
   "env": {
     "test": {
       "presets": [["next/babel", { "preset-env": { "modules": "commonjs" } }]]
