@@ -1,3 +1,4 @@
+import '../config/axios'
 import React from 'react'
 import Head from 'next/head'
 import { Layout, Menu } from 'antd'
@@ -23,7 +24,9 @@ export default ({children}) => (
         </Menu>
       </Header>
       <Content style={{ padding: '0 50px' }}>
-        {children}
+        <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+          {children}
+        </div>
       </Content>
     </Layout>
     <Footer style={{ textAlign: 'center' }}>
