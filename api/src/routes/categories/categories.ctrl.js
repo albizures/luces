@@ -3,14 +3,14 @@ const asyncHandler = require('express-async-handler')
 const knex = require('../../config/connection')
 
 exports.getAll = asyncHandler(async (req, res) => {
-  const videos = await knex
+  const categories = await knex
     .select({
       id: 'id',
       name: 'name'
     })
     .from('categories')
 
-  res.json(videos)
+  res.json(categories)
 })
 
 exports.post = asyncHandler(async (req, res) => {
