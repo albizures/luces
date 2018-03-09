@@ -1,7 +1,9 @@
 import '../config/axios'
 import React from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { Layout, Menu } from 'antd'
+
 const { Header, Content, Footer } = Layout
 const { Item } = Menu
 
@@ -16,9 +18,12 @@ export default ({children}) => (
         <Menu
           theme='dark'
           mode='horizontal'
-          defaultSelectedKeys={['1']}
           style={{ lineHeight: '64px' }}>
-          <Item key='1'>nav 1</Item>
+          <Item key='1'>
+            <Link href='/categories'>
+              <a>Categorias</a>
+            </Link>
+          </Item>
           <Item key='2'>nav 2</Item>
           <Item key='3'>nav 3</Item>
         </Menu>
