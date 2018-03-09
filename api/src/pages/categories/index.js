@@ -5,26 +5,36 @@ import {Row, Col} from 'antd/lib/grid'
 import notification from 'antd/lib/notification'
 import axios from 'axios'
 
+import Remove from '../../components/Remove'
 import Layout from '../../components/Layout'
 import CourseForm from '../../components/CategoryForm'
-
-const columns = [{
-  title: 'Nombre',
-  key: 'name',
-  dataIndex: 'name'
-}]
 
 const getCategories = async () => {
   const { data: categories } = await axios.get('/categories')
   return categories
 }
 
+const deleteCategory = async (id) => {
+  await axios.delete('/categories/' + id)
+  return id
+}
+
 export default class Categories extends Component {
+  renderRow = (category) => {
+    return (
+      <Remove id={category.id} update={this.onUpdate} delete={deleteCategory} />
+    )
+  }
+
   constructor (props) {
     super(props)
     this.state = {
       categories: props.categories
     }
+    this.columns = [
+      { title: 'Nombre', key: 'name', dataIndex: 'name' },
+      { title: 'Action', dataIndex: '', key: 'x', render: this.renderRow }
+    ]
   }
 
   onUpdate = () => {
@@ -46,12 +56,13 @@ export default class Categories extends Component {
   }
 
   render () {
+    console.log(this.state.categories)
     return (
       <Layout>
         <h1>Cursos</h1>
         <Row gutter={16}>
           <Col className='gutter-row' span={12}>
-            <Table rowKey='id' dataSource={this.state.categories} columns={columns} />
+            <Table rowKey='id' dataSource={this.state.categories} columns={this.columns} />
           </Col>
           <Col className='gutter-row' span={12}>
             <CourseForm onUpdate={this.onUpdate} />
