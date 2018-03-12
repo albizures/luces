@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import notification from 'antd/lib/notification'
+import Button from 'antd/lib/button'
 
 export default class Remove extends Component {
   static propTypes = {
@@ -28,9 +29,9 @@ export default class Remove extends Component {
 
   render () {
     return (
-      <button onClick={this.onClick}>
+      <Button type='danger' size='small' onClick={this.onClick}>
         Eliminar
-      </button>
+      </Button>
     )
   }
 }
