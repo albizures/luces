@@ -35,7 +35,7 @@ export default ({children}) => (
       </Content>
     </Layout>
     <Footer style={{ textAlign: 'center' }}>
-      Ant Design ©2016 Created by Ant UED
+      Luces Beautiful ©2018 Created by The Digital Catapult
     </Footer>
   </div>
 )
