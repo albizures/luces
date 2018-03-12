@@ -27,9 +27,15 @@ exports.post = asyncHandler(async (req, res) => {
   res.json({ id })
 })
 
-exports.put = (req, res) => {
+exports.put = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const { name } = req.body
+  await knex('categories')
+    .where({ id })
+    .update({ name })
 
-}
+  res.json({ id })
+})
 
 exports.delete = asyncHandler(async (req, res) => {
   const { id } = req.params
