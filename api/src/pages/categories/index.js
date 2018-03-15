@@ -1,32 +1,21 @@
 import React, { Component, Fragment } from 'react'
-import Button from 'antd/lib/button'
 import Table from 'antd/lib/table'
 import {Row, Col} from 'antd/lib/grid'
 import notification from 'antd/lib/notification'
-import axios from 'axios'
 
 import Remove from '../../components/Remove'
 import Edit from '../../components/Edit'
 import Layout from '../../components/Layout'
 import CategoryForm from '../../components/CategoryForm'
 import categoryMessages from '../../messages/categories'
-
-const getCategories = async () => {
-  const { data: categories } = await axios.get('/categories')
-  return categories
-}
-
-const deleteCategory = async (id) => {
-  await axios.delete('/categories/' + id)
-  return id
-}
+import api from '../../utils/api'
 
 export default class Categories extends Component {
   renderRow = (category) => {
     return (
       <Fragment>
         <Edit data={category} edit={this.onEdit} />
-        <Remove id={category.id} update={this.onUpdate} delete={deleteCategory} />
+        <Remove id={category.id} update={this.onUpdate} delete={api.categories.del} />
       </Fragment>
     )
   }
@@ -61,7 +50,7 @@ export default class Categories extends Component {
   onUpdate = (shouldUnSelect = false) => {
     console.warn(shouldUnSelect)
     shouldUnSelect && this.unSelect()
-    getCategories().then(categories => {
+    api.categories.getAll().then(({data: categories}) => {
       this.setState({ categories })
     }).catch(error => {
       console.error(error)
@@ -70,7 +59,7 @@ export default class Categories extends Component {
   }
 
   static async getInitialProps () {
-    const categories = await getCategories()
+    const {data: categories} = await api.categories.getAll()
 
     return { categories }
   }

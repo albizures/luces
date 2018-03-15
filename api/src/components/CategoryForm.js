@@ -4,9 +4,9 @@ import Form from 'antd/lib/form'
 import Input from 'antd/lib/input'
 import Button from 'antd/lib/button'
 import notification from 'antd/lib/notification'
-import messages from '../messages/categories'
 
-import axios from 'axios'
+import messages from '../messages/categories'
+import api from '../utils/api'
 
 const { Item: FormItem } = Form
 
@@ -19,8 +19,6 @@ const formItemLayout = {
   }
 }
 
-const route = '/categories/'
-
 class CategoriesForm extends Component {
   static propTypes = {
     onUpdate: PropTypes.func.isRequired,
@@ -29,7 +27,7 @@ class CategoriesForm extends Component {
   }
 
   addCategory (data) {
-    axios.post(route, data).then(() => {
+    api.categories.post(data).then(() => {
       notification.success(messages.added)
       this.props.form.resetFields()
       this.props.onUpdate()
@@ -40,7 +38,7 @@ class CategoriesForm extends Component {
   }
 
   editCategory (id, data) {
-    axios.put(route + id, data).then(() => {
+    api.categories.put(id, data).then(() => {
       notification.success(messages.edited)
       this.props.form.resetFields()
       this.props.onUpdate(/* shouldUnselecte */ true)
