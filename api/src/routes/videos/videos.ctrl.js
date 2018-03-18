@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler')
+const axios = require('axios')
 
 const knex = require('../../config/connection')
 
@@ -36,3 +37,12 @@ exports.post = asyncHandler(async (req, res) => {
 exports.put = (req, res) => {
 
 }
+
+const getYoutubeDataUrl = (id) => `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`
+
+exports.getYoutubeData = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const response = await axios.get(getYoutubeDataUrl(id))
+  console.log(response.data)
+  res.json(response.data)
+})
