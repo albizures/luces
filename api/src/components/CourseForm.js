@@ -5,6 +5,7 @@ import Select from 'antd/lib/select'
 import Button from 'antd/lib/button'
 import Icon from 'antd/lib/icon'
 import List from 'antd/lib/list'
+import Divider from 'antd/lib/divider'
 import getVideoId from 'get-video-id'
 
 import api from '../utils/api'
@@ -126,6 +127,9 @@ class CourseForm extends Component {
           <TextArea rows={4} placeholder='Descripcion del curso' />
         )}
       </FormItem>
+      <div className='ant-col-xs-20 ant-col-sm-20 ant-col-offset-4'>
+        <Divider>Videos</Divider>
+      </div>
       <div className='ant-row ant-form-item'>
         <div className='ant-form-item-label ant-col-xs-4 ant-col-sm-4'>
           <label htmlFor='name' title='Videos'>Videos</label>
