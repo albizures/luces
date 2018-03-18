@@ -1,4 +1,3 @@
-import '../config/axios'
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -20,11 +19,15 @@ export default ({children}) => (
           mode='horizontal'
           style={{ lineHeight: '64px' }}>
           <Item key='1'>
+            <Link href='/courses'>
+              <a>Cursos</a>
+            </Link>
+          </Item>
+          <Item key='2'>
             <Link href='/categories'>
               <a>Categorias</a>
             </Link>
           </Item>
-          <Item key='2'>nav 2</Item>
           <Item key='3'>nav 3</Item>
         </Menu>
       </Header>

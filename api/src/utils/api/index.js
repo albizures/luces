@@ -1,14 +1,22 @@
 import axios from 'axios'
+import isRequired from 'is-required'
+
+const PORT = process.env.PORT
+const HOST = process.env.HOST
+
+const api = axios.create({
+  baseURL: `http://${HOST}:${PORT}/api`
+})
 
 const createAPI = (route) => {
-  const post = (data) => axios.post(route, data)
+  const post = (data = isRequired('data')) => api.post(route, data)
 
-  const getAll = () => axios.get(route)
+  const getAll = () => api.get(route)
 
-  const put = (id, data) => axios.put(route + id, data)
+  const put = (id = isRequired('id'), data = isRequired('data')) => api.put(route + id, data)
 
-  const del = async (id) => {
-    await axios.delete(route + id)
+  const del = async (id = isRequired('id')) => {
+    await api.delete(route + id)
     return id
   }
 
@@ -23,7 +31,14 @@ const createAPI = (route) => {
 export const categories = createAPI('/categories/')
 export const courses = createAPI('/courses/')
 
+export const youtube = {
+  getData (videoId = isRequired('videoId')) {
+    return api.get('/videos/youtube/data/' + videoId)
+  }
+}
+
 export default {
+  youtube,
   categories,
   courses
 }
