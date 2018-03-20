@@ -2,7 +2,7 @@
 exports.up = (knex) => {
   return knex.schema.alterTable('courses', (table) => {
     table.integer('id_category').unsigned()
-    table.foreign('id_category').references('courses.id')
+    table.foreign('id_category').references('categories.id')
     table.boolean('deleted').notNullable().defaultTo(false)
   }).then(() => knex('courses').update('deleted', false))
 }
