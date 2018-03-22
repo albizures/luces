@@ -3,5 +3,9 @@ module.exports = {
   parser: 'babel-eslint',
   env: {
     jest: true
+  },
+  rules: {
+    'no-unused-vars': 0,
+    'camelcase': 0,
   }
 }

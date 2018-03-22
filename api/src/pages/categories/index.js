@@ -15,7 +15,7 @@ export default class Categories extends Component {
     return (
       <Fragment>
         <Edit data={category} edit={this.onEdit} />
-        <Remove id={category.id} update={this.onUpdate} delete={api.categories.del} />
+        <Remove id={category.id} onRemove={this.onUpdate} delete={api.categories.del} />
       </Fragment>
     )
   }
@@ -54,7 +54,7 @@ export default class Categories extends Component {
       this.setState({ categories })
     }).catch(error => {
       console.error(error)
-      notification.error(categoryMessages.getCategories)
+      notification.error(categoryMessages.getAll)
     })
   }
 

@@ -15,7 +15,7 @@ export default {
     message: 'Error al agregar categoria',
     description: 'El curso no pudo ser agregada, intentelo de nuevo'
   },
-  getCategories: {
+  getAll: {
     message: 'Error',
     description: 'Ocurrio un error consultando los cursos, por favor recargue la pagina'
   }

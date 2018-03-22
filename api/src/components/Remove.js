@@ -5,7 +5,7 @@ import Button from 'antd/lib/button'
 
 export default class Remove extends Component {
   static propTypes = {
-    update: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
     id: PropTypes.number.isRequired
   }
@@ -17,7 +17,7 @@ export default class Remove extends Component {
           description: 'Registro eleminado'
         })
       })
-      .then(this.props.update)
+      .then(this.props.onRemove)
       .catch(error => {
         console.error(error)
         notification.error({

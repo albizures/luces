@@ -15,7 +15,7 @@ export default {
     message: 'Error al agregar categoria',
     description: 'La categoria no pudo ser agregada, intentelo de nuevo'
   },
-  getCategories: {
+  getAll: {
     message: 'Error',
     description: 'Ocurrio un error consultando las categorias, por favor recargue la pagina'
   }
