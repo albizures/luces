@@ -13,10 +13,10 @@ const createAPI = (route) => {
 
   const getAll = () => api.get(route)
 
-  const put = (id = isRequired('id'), data = isRequired('data')) => api.put(route + id, data)
+  const put = (id = isRequired('id'), data = isRequired('data')) => api.put(route + encodeURIComponent(id), data)
 
   const del = async (id = isRequired('id')) => {
-    await api.delete(route + id)
+    await api.delete(route + encodeURIComponent(id))
     return id
   }
 
@@ -30,15 +30,21 @@ const createAPI = (route) => {
 
 export const categories = createAPI('/categories/')
 export const courses = createAPI('/courses/')
+export const images = {
+  del (url) {
+    return api.delete('/images/' + encodeURIComponent(url))
+  }
+}
 
 export const youtube = {
   getData (videoId = isRequired('videoId')) {
-    return api.get('/videos/youtube/data/' + videoId)
+    return api.get('/videos/youtube/data/' + encodeURIComponent(videoId))
   }
 }
 
 export default {
   youtube,
   categories,
-  courses
+  courses,
+  images
 }

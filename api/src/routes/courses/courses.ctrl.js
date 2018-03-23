@@ -57,10 +57,3 @@ exports.delete = asyncHandler(async (req, res) => {
 
   res.json({ id })
 })
-
-exports.upload = asyncHandler(async (req, res) => {
-  const [image] = req.files
-  res.json({
-    url: image.path
-  })
-})

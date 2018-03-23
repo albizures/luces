@@ -5,7 +5,6 @@ module.exports = {
     jest: true
   },
   rules: {
-    'no-unused-vars': 0,
     'camelcase': 0,
   }
 }

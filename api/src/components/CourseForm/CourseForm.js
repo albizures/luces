@@ -1,23 +1,20 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Form from 'antd/lib/form'
 import Input from 'antd/lib/input'
 import Select from 'antd/lib/select'
 import Button from 'antd/lib/button'
 import Icon from 'antd/lib/icon'
-import List from 'antd/lib/list'
 import Divider from 'antd/lib/divider'
-import Upload from 'antd/lib/upload'
 import notification from 'antd/lib/notification'
 import getVideoId from 'get-video-id'
 
-import messages from '../messages/categories'
-import api from '../utils/api'
+import UploadImage from '../UploadImage'
+import messages from '../../messages/categories'
+import api from '../../utils/api'
 
-const { Item } = List
 const { Option } = Select
 const { TextArea } = Input
-const { Meta } = Item
 
 const { Item: FormItem } = Form
 
@@ -32,7 +29,8 @@ const formItemLayout = {
 
 class CourseForm extends Component {
   static propTypes = {
-    course: PropTypes.object
+    course: PropTypes.object,
+    categories: PropTypes.array.isRequired
   }
 
   state = {
@@ -112,51 +110,10 @@ class CourseForm extends Component {
     )
   }
 
-  getListItem = (id) => {
-    const { videosData } = this.state
-    const data = videosData[id]
-    return (
-      <Item
-        extra={this.getItemExtra(data)}
-        actions={this.getItemAction()}>
-        <Meta
-          avatar={<Fragment />}
-          title={<a href={'https://www.youtube.com/watch?v=' + id}>{data.title}</a>}
-          description={data.author_name} />
-      </Item>
-    )
-  }
-
-  normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e
-    }
-    return e && e.fileList
-  }
-
-  onChange = (info) => {
-    const fileList = info.fileList.slice(-1).map((file) => {
-      // read from response and show file link
-      if (file.response) {
-        // Component will show file.url as link
-        file.url = file.response.url
-      }
-      return file
-    })
-
-    this.props.form.setFieldsValue({
-      image: fileList
-    })
-
-    this.setState({
-      imageList: fileList
-    })
-  }
-
   render () {
-    const { categories, course } = this.props
-    const { getFieldDecorator, getFieldValue } = this.props.form
-    return <Fragment>
+    const { categories, course, form } = this.props
+    const { getFieldDecorator } = form
+    return (
       <Form onSubmit={this.onSubmit}>
         <FormItem {...formItemLayout} label='Nombre'>
           {getFieldDecorator('name', {
@@ -185,20 +142,11 @@ class CourseForm extends Component {
             <TextArea rows={4} placeholder='Descripcion del curso' />
           )}
         </FormItem>
-        <FormItem
+        <UploadImage
           {...formItemLayout}
-          label='Imagen'>
-          {getFieldDecorator('image', {
-            getValueFromEvent: this.normFile,
-            rules: [{ required: true }]
-          })(
-            <Upload onChange={this.onChange} name='logo' fileList={this.state.imageList} action='/api/courses/image' listType='picture'>
-              <Button>
-                <Icon type='upload' /> Click para subir
-              </Button>
-            </Upload>
-          )}
-        </FormItem>
+          label='Imagen'
+          name='image'
+          form={form} />
         <FormItem wrapperCol={{ span: formItemLayout.wrapperCol.span, offset: formItemLayout.labelCol.span }}>
           <Button style={{float: 'left'}} type='primary' htmlType='submit'>
             {course ? 'Editar' : 'Agregar'}
@@ -213,29 +161,7 @@ class CourseForm extends Component {
           <Divider>Videos</Divider>
         </div>
       </Form>
-      <div className='ant-row ant-form-item'>
-        <div className='ant-form-item-label ant-col-xs-4 ant-col-sm-4'>
-          <label htmlFor='name' title='Videos'>Videos</label>
-        </div>
-        <div className='ant-form-item-control-wrapper ant-col-xs-20 ant-col-sm-20'>
-          <span className='ant-input-search ant-input-search-enter-button ant-input-affix-wrapper'>
-            <Input ref={(ref) => { this.newVideo = ref }} placeholder='Ingrese el link o id del video' />
-            <span className='ant-input-suffix'>
-              <Button type='primary' onClick={this.onAddVideo}>
-                <Icon type='plus' />
-              </Button>
-            </span>
-          </span>
-          <br />
-          <br />
-          <List
-            bordered
-            itemLayout='vertical'
-            dataSource={this.state.videos}
-            renderItem={this.getListItem} />
-        </div>
-      </div>
-    </Fragment>
+    )
   }
 }
 
