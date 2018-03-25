@@ -5,8 +5,6 @@ const path = require('path')
 
 const uploadsPath = path.join(__dirname, '..', '..', 'uploads')
 
-console.log(uploadsPath)
-
 module.exports = (app) => {
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())

@@ -4,13 +4,10 @@ import Form from 'antd/lib/form'
 import Input from 'antd/lib/input'
 import Select from 'antd/lib/select'
 import Button from 'antd/lib/button'
-import Icon from 'antd/lib/icon'
 import Divider from 'antd/lib/divider'
-import notification from 'antd/lib/notification'
 import getVideoId from 'get-video-id'
 
 import UploadImage from '../UploadImage'
-import messages from '../../messages/categories'
 import api from '../../utils/api'
 
 const { Option } = Select
@@ -30,6 +27,7 @@ const formItemLayout = {
 class CourseForm extends Component {
   static propTypes = {
     course: PropTypes.object,
+    onSubmit: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired
   }
 
@@ -38,45 +36,16 @@ class CourseForm extends Component {
     videosData: {}
   }
 
-  addCourse (data) {
-    api.courses.post({
-      ...data,
-      image: data.image[0].url
-    }).then(() => {
-      notification.success(messages.added)
-      this.props.form.resetFields()
-      this.props.onUpdate()
-    }).catch(error => {
-      console.error(error)
-      notification.error(messages.addError)
-    })
-  }
-
-  editCourse (id, data) {
-    api.courses.put(id, data).then(() => {
-      notification.success(messages.edited)
-      this.props.form.resetFields()
-      this.props.onUpdate(/* shouldUnselecte */ true)
-    }).catch(error => {
-      console.error(error)
-
-      notification.error(messages.editError)
-    })
-  }
-
   onSubmit = (evt) => {
     evt.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (err) {
         return console.error(err)
       }
-      if (this.props.category) {
-      //   this.editCourse(this.props.course.id, {
-      //     name: values.name
-      //   })
-      } else {
-        this.addCourse(values)
-      }
+
+      this.props.onSubmit(values).then(() => {
+        this.props.form.resetFields()
+      })
     })
   }
 
@@ -94,20 +63,6 @@ class CourseForm extends Component {
         }
       })
     }
-  }
-
-  getItemAction () {
-    return [
-      <Icon type='up' />,
-      <Icon type='down' />,
-      <Icon type='close' />
-    ]
-  }
-
-  getItemExtra (data) {
-    return (
-      <img width={272} alt='thumbnail' src={data.thumbnail_url} />
-    )
   }
 
   render () {

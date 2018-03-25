@@ -11,15 +11,29 @@ const { Item: FormItem } = Form
 
 export default class UploadImage extends React.Component {
   static propTypes = {
-    form: PropTypes.object.isRequired
+    form: PropTypes.object.isRequired,
+    imageList: PropTypes.array
+  }
+
+  static defaultProps = {
+    imageList: []
   }
 
   state = {
     imageList: this.props.imageList
   }
 
+  componentWillReceiveProps (props) {
+    if (props.imageList !== this.props.imageList) {
+      this.props.form.setFieldsValue({
+        [this.props.name]: props.imageList
+      })
+    }
+  }
+
   onChange = (info) => {
     const fileList = info.fileList.slice(-1).map((file) => {
+      file.name = ''
       // read from response and show file link
       if (file.response) {
         // Component will show file.url as link
@@ -35,15 +49,11 @@ export default class UploadImage extends React.Component {
     this.props.form.setFieldsValue({
       [this.props.name]: fileList
     })
-
-    this.setState({
-      imageList: fileList
-    })
   }
 
   render () {
     const { name, form } = this.props
-    const { getFieldDecorator } = form
+    const { getFieldDecorator, getFieldValue } = form
 
     return (
       <FormItem
@@ -52,7 +62,7 @@ export default class UploadImage extends React.Component {
           getValueFromEvent: this.normFile,
           rules: [{ required: true }]
         })(
-          <Upload onChange={this.onChange} name='logo' fileList={this.state.imageList} action='/api/images' listType='picture'>
+          <Upload onChange={this.onChange} name='logo' fileList={getFieldValue(name)} action='/api/images' listType='picture'>
             <Button>
               <Icon type='upload' /> Click para subir
             </Button>
