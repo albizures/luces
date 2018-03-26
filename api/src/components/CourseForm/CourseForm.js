@@ -5,10 +5,8 @@ import Input from 'antd/lib/input'
 import Select from 'antd/lib/select'
 import Button from 'antd/lib/button'
 import Divider from 'antd/lib/divider'
-import getVideoId from 'get-video-id'
 
 import UploadImage from '../UploadImage'
-import api from '../../utils/api'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -36,6 +34,12 @@ class CourseForm extends Component {
     videosData: {}
   }
 
+  cleanValues (values) {
+    return Object.assign(values, {
+      image: values.image[0]
+    })
+  }
+
   onSubmit = (evt) => {
     evt.preventDefault()
     this.props.form.validateFields((err, values) => {
@@ -43,26 +47,11 @@ class CourseForm extends Component {
         return console.error(err)
       }
 
+      values = this.cleanValues(values)
       this.props.onSubmit(values).then(() => {
         this.props.form.resetFields()
       })
     })
-  }
-
-  onAddVideo = async (evt) => {
-    const { videos, videosData } = this.state
-    const { id, service } = getVideoId(this.newVideo.input.value)
-    const { data } = await api.youtube.getData(id)
-
-    if (id && !videos.includes(id) && service === 'youtube') {
-      this.setState({
-        videos: videos.concat(id),
-        videosData: {
-          ...videosData,
-          [id]: data
-        }
-      })
-    }
   }
 
   render () {

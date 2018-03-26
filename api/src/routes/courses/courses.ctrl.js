@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler')
+const Promise = require('bluebird')
 
 const knex = require('../../config/connection')
 
@@ -19,15 +20,41 @@ exports.getAll = asyncHandler(async (req, res) => {
   res.json(categories)
 })
 
-exports.post = asyncHandler(async (req, res) => {
+const createVideo = (course, trx) => async (data) => {
+  const { name, description, id: id_youtube, image } = data
+  const { url: image_url, download } = image
+
+  if (download) {
+    console.log('I NEED TO DOWLOAD THE IMAGE!!!')
+  }
+
+  const [videoId] = await trx('videos')
+    .returning('id')
+    .insert({
+      name,
+      id_youtube,
+      description,
+      image_url
+    })
+
+  await trx('course_videos')
+    .insert({
+      id_video: videoId,
+      id_course: course
+    })
+  return videoId
+}
+
+const beginTransaction = (body) => async (trx) => {
   const {
     name,
     category: id_category,
     description,
-    image: image_url
-  } = req.body
+    image: image_url,
+    videos
+  } = body
 
-  const [id] = await knex('courses')
+  const [courseId] = await trx('courses')
     .returning('id')
     .insert({
       name,
@@ -36,7 +63,18 @@ exports.post = asyncHandler(async (req, res) => {
       image_url
     })
 
-  res.json({ id })
+  const videoCreator = createVideo(courseId, trx)
+
+  await Promise.all(videos.map(videoCreator))
+  return courseId
+}
+
+exports.post = asyncHandler(async (req, res) => {
+  const result = await knex.transaction(beginTransaction(req.body))
+
+  console.log(result)
+
+  res.json({ id: result })
 })
 
 exports.put = asyncHandler(async (req, res) => {

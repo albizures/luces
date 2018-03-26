@@ -28,7 +28,8 @@ export default class Course extends Component {
     try {
       await api.courses.post({
         ...data,
-        image: data.image.fileList[0].url
+        image: data.image.url,
+        videos: this.state.videos.map((id) => this.state.videosData[id])
       })
     } catch (error) {
       console.error(error)
@@ -37,6 +38,10 @@ export default class Course extends Component {
     }
 
     notification.success(messages.added)
+    this.setState({
+      videos: [],
+      videoData: {}
+    })
     this.props.onUpdate()
   }
 
@@ -76,7 +81,10 @@ export default class Course extends Component {
 
   onRemoveVideo (id) {
     const videos = this.state.videos.filter(videoId => videoId !== id)
-    const videosData = Object.assign({}, this.state.videosData, { [id]: undefined })
+    const videosData = {
+      ...this.state.videosData,
+      [id]: undefined
+    }
     this.setState({
       videos,
       videosData
