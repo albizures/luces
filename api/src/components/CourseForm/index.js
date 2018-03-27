@@ -12,6 +12,21 @@ import CourseForm from './CourseForm'
 const { Item } = List
 const { Meta } = Item
 
+const reduceVideos = (videos) => videos.reduce((result, video) => {
+  result.videos.push(video.youtubeId)
+  result.videosData[video.youtubeId] = {
+    id: video.youtubeId,
+    id_video: video.id,
+    image: {
+      url: video.url
+    },
+    description: video.description,
+    name: video.name
+  }
+
+  return result
+}, { videos: [], videosData: {} })
+
 export default class Course extends Component {
   static propTypes = {
     course: PropTypes.object,
@@ -22,6 +37,16 @@ export default class Course extends Component {
   state = {
     videos: [],
     videosData: {}
+  }
+
+  async componentWillReceiveProps (props) {
+    if (props.course && (props.course !== this.props.course)) {
+      const { data: videos } = await api.courses.getVideos(props.course.id)
+      console.warn(videos)
+      const result = reduceVideos(videos)
+
+      this.setState(result)
+    }
   }
 
   async addCourse (data) {
@@ -70,7 +95,7 @@ export default class Course extends Component {
   }
 
   onSubmitCourse = async (course) => {
-    if (this.props.category) {
+    if (this.props.course) {
       //   this.editCourse(this.props.course.id, {
       //     name: values.name
       //   })
@@ -120,9 +145,10 @@ export default class Course extends Component {
   }
 
   render () {
+    const { categories, course } = this.props
     return (
       <Fragment>
-        <CourseForm onSubmit={this.onSubmitCourse} categories={this.props.categories} />
+        <CourseForm onSubmit={this.onSubmitCourse} course={course} categories={categories} />
         <VideosForm onSubmit={this.onSubmitVideo} />
         <div className='ant-row ant-form-item'>
           <div className='ant-col-offset-4 ant-col-xs-20 ant-col-sm-20'>

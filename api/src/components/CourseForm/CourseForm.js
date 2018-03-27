@@ -34,6 +34,22 @@ class CourseForm extends Component {
     videosData: {}
   }
 
+  componentWillReceiveProps (props) {
+    if (props.course && (props.course !== this.props.course)) {
+      this.props.form.setFieldsValue({
+        name: props.course.name,
+        category: props.course.idCategory,
+        description: props.course.description,
+        image: [{
+          uid: 1,
+          status: 'done',
+          url: props.course.image,
+          thumbUrl: props.course.image
+        }]
+      })
+    }
+  }
+
   cleanValues (values) {
     return Object.assign(values, {
       image: values.image[0]

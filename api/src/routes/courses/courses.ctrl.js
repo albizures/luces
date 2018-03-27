@@ -23,6 +23,24 @@ exports.getAll = asyncHandler(async (req, res) => {
   res.json(courses)
 })
 
+exports.getVideos = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const videos = await knex('course_videos')
+    .select({
+      id: 'videos.id',
+      name: 'videos.name',
+      youtubeId: 'videos.id_youtube',
+      description: 'videos.description',
+      url: 'videos.image_url'
+    })
+    .join('videos', 'course_videos.id_video', 'videos.id')
+    .where({
+      'course_videos.id_course': id
+    })
+
+  res.json(videos)
+})
+
 const createVideo = (course, trx) => async (data) => {
   const { name, description, id: id_youtube, image } = data
   const { url: image_url, download } = image

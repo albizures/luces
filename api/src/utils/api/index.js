@@ -29,7 +29,10 @@ const createAPI = (route) => {
 }
 
 export const categories = createAPI('/categories/')
-export const courses = createAPI('/courses/')
+export const courses = {
+  ...createAPI('/courses/'),
+  getVideos: (id = isRequired('id')) => api.get('/courses/' + encodeURIComponent(id) + '/videos')
+}
 export const images = {
   del (url) {
     return api.delete('/images/' + encodeURIComponent(url))
