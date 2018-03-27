@@ -66,6 +66,7 @@ export default class Courses extends Component {
       { title: 'Nombre', key: 'name', dataIndex: 'name' },
       { title: 'Descripcion', key: 'description', dataIndex: 'description' },
       { title: 'Categoria', key: 'idCategory', dataIndex: '', render: this.renderCategory },
+      { title: 'No. Videos', key: 'videos', dataIndex: 'videos' },
       { title: 'Acciones', dataIndex: '', key: 'x', render: this.renderRow, width: '180px' }
     ]
   }

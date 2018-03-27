@@ -6,7 +6,7 @@ const watcher = chokidar.watch('./src/(routes|utils)/**/*.js', {ignored: ignoreR
 
 watcher.on('ready', () => {
   watcher.on('all', (event, filePath) => {
-    console.log('> Reloading server...')
+    console.info('> Reloading server...')
     Object.keys(require.cache).forEach(name => {
       if (watchRegex.test(name) && !ignoreRegex.test(name)) {
         delete require.cache[name]

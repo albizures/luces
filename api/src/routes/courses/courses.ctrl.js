@@ -4,20 +4,23 @@ const Promise = require('bluebird')
 const knex = require('../../config/connection')
 
 exports.getAll = asyncHandler(async (req, res) => {
-  const categories = await knex('courses')
-    .join('categories', 'courses.id_category', 'categories.id')
+  const courses = await knex('courses')
     .select({
       id: 'courses.id',
       name: 'courses.name',
       description: 'courses.description',
       image: 'courses.image_url',
-      idCategory: 'categories.id'
+      idCategory: 'categories.id',
+      videos: knex.raw('COUNT(course_videos.id_course)')
     })
+    .join('categories', 'courses.id_category', 'categories.id')
+    .leftJoin('course_videos', 'courses.id', 'course_videos.id_course')
     .whereNot({
       'courses.deleted': true
     })
+    .groupBy('courses.id')
 
-  res.json(categories)
+  res.json(courses)
 })
 
 const createVideo = (course, trx) => async (data) => {
@@ -25,7 +28,7 @@ const createVideo = (course, trx) => async (data) => {
   const { url: image_url, download } = image
 
   if (download) {
-    console.log('I NEED TO DOWLOAD THE IMAGE!!!')
+    console.warn('I NEED TO DOWLOAD THE IMAGE!!!')
   }
 
   const [videoId] = await trx('videos')
@@ -71,8 +74,6 @@ const beginTransaction = (body) => async (trx) => {
 
 exports.post = asyncHandler(async (req, res) => {
   const result = await knex.transaction(beginTransaction(req.body))
-
-  console.log(result)
 
   res.json({ id: result })
 })

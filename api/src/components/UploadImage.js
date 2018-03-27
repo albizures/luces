@@ -50,15 +50,8 @@ export default class UploadImage extends React.Component {
 
   render () {
     const { name, form } = this.props
-    const { getFieldDecorator, getFieldValue } = form
+    const { getFieldDecorator } = form
 
-    const value = getFieldValue(name)
-    let fileList = []
-    if (value && value.fileList) {
-      fileList = value.fileList
-    }
-
-    console.log(fileList.length)
     return (
       <FormItem
         {...this.props} >
