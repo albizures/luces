@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import notification from 'antd/lib/notification'
 import Button from 'antd/lib/button'
 
+import { showDeleteConfirm } from '../utils/delete'
+
 export default class Remove extends Component {
   static propTypes = {
     onRemove: PropTypes.func.isRequired,
@@ -10,7 +12,10 @@ export default class Remove extends Component {
     id: PropTypes.number.isRequired
   }
   onClick = () => {
-    this.props.delete(this.props.id)
+    showDeleteConfirm()
+      .then(() => {
+        return this.props.delete(this.props.id)
+      })
       .then(() => {
         notification.success({
           message: 'Eliminado',
