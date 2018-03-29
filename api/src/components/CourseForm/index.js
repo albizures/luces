@@ -21,7 +21,8 @@ const reduceVideos = (videos) => videos.reduce((result, video) => {
       url: video.url
     },
     description: video.description,
-    name: video.name
+    name: video.name,
+    order: video.order
   }
 
   return result
@@ -91,12 +92,17 @@ export default class Course extends Component {
     this.props.onUpdate(/* shouldUnselecte */ true)
   }
 
+  getLastOrder () {
+    const lastVideo = this.state.videosData[this.state.videos[this.state.videos.length - 1]]
+    return lastVideo.order + 1
+  }
+
   onSubmitVideo = async (videoData) => {
     if (this.props.course) {
       const {data: videos} = await api.courses.putVideos(this.props.course.id, {
         videos: [{
           ...videoData,
-          order: this.state.videos.length
+          order: this.getLastOrder()
         }]
       })
 
@@ -129,7 +135,13 @@ export default class Course extends Component {
     this.cleanVideos()
   }
 
-  onRemoveVideo (id) {
+  onRemoveVideo = async (id) => {
+    if (this.props.course) {
+      await api.courses.removeVideo(
+        this.props.course.id,
+        this.state.videosData[id].idVideo
+      )
+    }
     const videos = this.state.videos.filter(videoId => videoId !== id)
     const videosData = {
       ...this.state.videosData,
@@ -143,8 +155,8 @@ export default class Course extends Component {
 
   getItemAction (id) {
     return [
-      <Icon type='up' />,
-      <Icon type='down' />,
+      <Icon type='caret-up' />,
+      <Icon type='caret-down' />,
       <Icon type='close' onClick={() => this.onRemoveVideo(id)} />
     ]
   }

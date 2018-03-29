@@ -32,7 +32,11 @@ export const categories = createAPI('/categories/')
 export const courses = {
   ...createAPI('/courses/'),
   getVideos: (id = isRequired('id')) => api.get('/courses/' + encodeURIComponent(id) + '/videos'),
-  putVideos: (id = isRequired('id'), data = isRequired('data')) => api.put('/courses/' + encodeURIComponent(id) + '/videos', data)
+  putVideos: (id = isRequired('id'), data = isRequired('data')) => api.put('/courses/' + encodeURIComponent(id) + '/videos', data),
+  removeVideo: (
+    courseId = isRequired('courseId'),
+    videoId = isRequired('videoId')
+  ) => api.delete('/courses/' + encodeURIComponent(courseId) + '/videos/' + encodeURIComponent(videoId))
 }
 export const images = {
   del (url) {

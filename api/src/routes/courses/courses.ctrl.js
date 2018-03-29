@@ -16,7 +16,8 @@ exports.getAll = asyncHandler(async (req, res) => {
     .join('categories', 'courses.id_category', 'categories.id')
     .leftJoin('course_videos', 'courses.id', 'course_videos.id_course')
     .whereNot({
-      'courses.deleted': true
+      'courses.deleted': true,
+      'course_videos.deleted': true
     })
     .groupBy('courses.id')
 
@@ -31,12 +32,14 @@ exports.getVideos = asyncHandler(async (req, res) => {
       name: 'videos.name',
       youtubeId: 'videos.id_youtube',
       description: 'videos.description',
-      url: 'videos.image_url'
+      url: 'videos.image_url',
+      order: 'course_videos.order'
     })
     .join('videos', 'course_videos.id_video', 'videos.id')
     .orderBy('course_videos.order', 'asc')
     .where({
-      'course_videos.id_course': id
+      'course_videos.id_course': id,
+      'course_videos.deleted': false
     })
 
   res.json(videos)
@@ -134,6 +137,18 @@ exports.delete = asyncHandler(async (req, res) => {
   const { id } = req.params
   await knex('courses')
     .where({ id })
+    .update('deleted', true)
+
+  res.json({ id })
+})
+
+exports.deleteVideo = asyncHandler(async (req, res) => {
+  const { id, videoId } = req.params
+  await knex('course_videos')
+    .where({
+      id_video: videoId,
+      id_course: id
+    })
     .update('deleted', true)
 
   res.json({ id })

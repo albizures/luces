@@ -11,5 +11,6 @@ router.put('/:id', controller.put)
 router.put('/:id/videos', controller.putVideos)
 
 router.delete('/:id', controller.delete)
+router.delete('/:id/videos/:videoId', controller.deleteVideo)
 
 module.exports = router
