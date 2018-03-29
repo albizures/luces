@@ -4,9 +4,9 @@ const confirm = Modal.confirm
 
 export const showDeleteConfirm = () => new Promise((resolve) => {
   confirm({
-    title: 'Are you sure delete this task?',
+    title: 'Estas seguro que quieres eliminar esto?',
     content: 'Some descriptions',
-    okText: 'Yes',
+    okText: 'Si',
     okType: 'danger',
     cancelText: 'No',
     onOk: () => {

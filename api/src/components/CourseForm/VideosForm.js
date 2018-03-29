@@ -66,7 +66,7 @@ class VideosForm extends Component {
     return id
   }
 
-  cleanValues (values) {
+  normalizeValues (values) {
     const { id } = getVideoId(values.link)
     return Object.assign(values, {
       id,
@@ -82,14 +82,8 @@ class VideosForm extends Component {
         return console.error(err)
       }
 
-      values = this.cleanValues(values)
-      if (this.props.video) {
-      //   this.editCourse(this.props.course.id, {
-      //     name: values.name
-      //   })
-      } else {
-        this.props.onSubmit(values)
-      }
+      values = this.normalizeValues(values)
+      this.props.onSubmit(values)
       this.props.form.resetFields()
     })
   }

@@ -50,13 +50,15 @@ export default class Course extends Component {
     }
   }
 
+  getCourseData = (data, withVideos = false) => ({
+    ...data,
+    image: data.image.url,
+    videos: withVideos ? this.state.videos.map((id) => this.state.videosData[id]) : undefined
+  })
+
   async addCourse (data) {
     try {
-      await api.courses.post({
-        ...data,
-        image: data.image.url,
-        videos: this.state.videos.map((id) => this.state.videosData[id])
-      })
+      await api.courses.post(this.getCourseData(data, /* withVideos */ true))
     } catch (error) {
       console.error(error)
       notification.error(messages.addError)
@@ -64,23 +66,21 @@ export default class Course extends Component {
     }
 
     notification.success(messages.added)
-    this.setState({
-      videos: [],
-      videoData: {}
-    })
+    this.cleanVideos()
     this.props.onUpdate()
   }
 
-  editCourse (id, data) {
-    api.courses.put(id, data).then(() => {
-      notification.success(messages.edited)
-      this.props.form.resetFields()
-      this.props.onUpdate(/* shouldUnselecte */ true)
-    }).catch(error => {
+  async editCourse (id, data) {
+    try {
+      await api.courses.put(id, data)
+    } catch (error) {
       console.error(error)
-
       notification.error(messages.editError)
-    })
+      throw new Error(error)
+    }
+
+    notification.success(messages.edited)
+    this.props.onUpdate(/* shouldUnselecte */ true)
   }
 
   onSubmitVideo = async (videoData) => {
@@ -102,14 +102,20 @@ export default class Course extends Component {
     })
   }
 
+  cleanVideos = () => {
+    this.setState({
+      videos: [],
+      videosData: {}
+    })
+  }
+
   onSubmitCourse = async (course) => {
     if (this.props.course) {
-      //   this.editCourse(this.props.course.id, {
-      //     name: values.name
-      //   })
+      await this.editCourse(this.props.course.id, this.getCourseData(course))
     } else {
       await this.addCourse(course)
     }
+    this.cleanVideos()
   }
 
   onRemoveVideo (id) {
@@ -153,11 +159,8 @@ export default class Course extends Component {
   }
 
   courseCancelEdit = () => {
-    this.setState({
-      videos: [],
-      videosData: {}
-    })
     this.props.cancelEdit()
+    this.cleanVideos()
   }
 
   render () {

@@ -98,10 +98,21 @@ exports.post = asyncHandler(async (req, res) => {
 
 exports.put = asyncHandler(async (req, res) => {
   const { id } = req.params
-  const { name } = req.body
+  const {
+    name,
+    category: id_category,
+    description,
+    image: image_url
+  } = req.body
+
   await knex('courses')
     .where({ id })
-    .update({ name })
+    .update({
+      name,
+      id_category,
+      description,
+      image_url
+    })
 
   res.json({ id })
 })
