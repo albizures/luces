@@ -34,6 +34,7 @@ exports.getVideos = asyncHandler(async (req, res) => {
       url: 'videos.image_url'
     })
     .join('videos', 'course_videos.id_video', 'videos.id')
+    .orderBy('course_videos.order', 'asc')
     .where({
       'course_videos.id_course': id
     })
@@ -42,12 +43,13 @@ exports.getVideos = asyncHandler(async (req, res) => {
 })
 
 const createVideo = (course, trx) => async (data) => {
-  const { name, description, id: id_youtube, image } = data
+  const { name, description, id: id_youtube, image, order } = data
   const { url: image_url, download } = image
 
   if (download) {
     console.warn('I NEED TO DOWLOAD THE IMAGE!!!')
   }
+  console.log(order, name)
 
   const [videoId] = await trx('videos')
     .returning('id')
@@ -61,7 +63,8 @@ const createVideo = (course, trx) => async (data) => {
   await trx('course_videos')
     .insert({
       id_video: videoId,
-      id_course: course
+      id_course: course,
+      order
     })
   return videoId
 }

@@ -4,7 +4,7 @@ import List from 'antd/lib/list'
 import notification from 'antd/lib/notification'
 import Icon from 'antd/lib/icon'
 
-import messages from '../../messages/categories'
+import messages from '../../messages/courses'
 import api from '../../utils/api'
 import VideosForm from './VideosForm'
 import CourseForm from './CourseForm'
@@ -49,13 +49,22 @@ export default class Course extends Component {
     }
   }
 
+  getVideosData = () => {
+    return this.state.videos.map((id, index) => {
+      return {
+        ...this.state.videosData[id],
+        order: index
+      }
+    })
+  }
+
   getCourseData = (data, withVideos = false) => ({
     ...data,
     image: data.image.url,
-    videos: withVideos ? this.state.videos.map((id) => this.state.videosData[id]) : undefined
+    videos: withVideos ? this.getVideosData() : undefined
   })
 
-  async addCourse (data) {
+  addCourse = async (data) => {
     try {
       await api.courses.post(this.getCourseData(data, /* withVideos */ true))
     } catch (error) {
@@ -69,7 +78,7 @@ export default class Course extends Component {
     this.props.onUpdate()
   }
 
-  async editCourse (id, data) {
+  editCourse = async (id, data) => {
     try {
       await api.courses.put(id, data)
     } catch (error) {
