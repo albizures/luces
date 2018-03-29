@@ -105,6 +105,16 @@ exports.put = asyncHandler(async (req, res) => {
 
   res.json({ id })
 })
+exports.putVideos = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const { videos } = req.body
+
+  const videoCreator = createVideo(id, knex)
+
+  const videoIds = await Promise.all(videos.map(videoCreator))
+
+  res.json({ videos: videoIds })
+})
 
 exports.delete = asyncHandler(async (req, res) => {
   const { id } = req.params

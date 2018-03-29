@@ -16,7 +16,7 @@ const reduceVideos = (videos) => videos.reduce((result, video) => {
   result.videos.push(video.youtubeId)
   result.videosData[video.youtubeId] = {
     id: video.youtubeId,
-    id_video: video.id,
+    idVideo: video.id,
     image: {
       url: video.url
     },
@@ -82,13 +82,20 @@ export default class Course extends Component {
     })
   }
 
-  onSubmitVideo = (videoData) => {
+  onSubmitVideo = async (videoData) => {
+    if (this.props.course) {
+      const {data: videos} = await api.courses.putVideos(this.props.course.id, {
+        videos: [videoData]
+      })
+
+      videoData.idVideo = videos[0]
+    }
     const { id } = videoData
 
     this.setState({
       videos: this.state.videos.concat(id),
       videosData: {
-        ...videoData,
+        ...this.state.videosData,
         [id]: videoData
       }
     })
@@ -146,6 +153,7 @@ export default class Course extends Component {
 
   render () {
     const { categories, course } = this.props
+    console.log(this.state)
     return (
       <Fragment>
         <CourseForm onSubmit={this.onSubmitCourse} course={course} categories={categories} />
