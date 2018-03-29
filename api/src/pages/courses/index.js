@@ -94,6 +94,10 @@ export default class Courses extends Component {
     </div>
   }
 
+  onCancelEdit = () => {
+    this.unSelect()
+  }
+
   render () {
     const { selectedCourse, courses } = this.state
     const { categories } = this.props
@@ -106,7 +110,7 @@ export default class Courses extends Component {
             <Table rowKey='id' dataSource={courses} columns={this.columns} expandedRowRender={this.expandedRow} />
           </Col>
           <Col className='gutter-row' span={12}>
-            <CourseForm categories={categories} onUpdate={this.onUpdate} course={selectedCourse} />
+            <CourseForm categories={categories} onUpdate={this.onUpdate} course={selectedCourse} cancelEdit={this.onCancelEdit} />
           </Col>
         </Row>
       </Layout>

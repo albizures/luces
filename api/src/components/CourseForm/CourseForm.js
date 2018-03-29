@@ -26,7 +26,8 @@ class CourseForm extends Component {
   static propTypes = {
     course: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    cancelEdit: PropTypes.func.isRequired
   }
 
   state = {
@@ -48,6 +49,11 @@ class CourseForm extends Component {
         }]
       })
     }
+  }
+
+  onCancel = () => {
+    this.props.cancelEdit()
+    this.props.form.resetFields()
   }
 
   cleanValues (values) {

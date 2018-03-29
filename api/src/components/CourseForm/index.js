@@ -31,7 +31,8 @@ export default class Course extends Component {
   static propTypes = {
     course: PropTypes.object,
     categories: PropTypes.array.isRequired,
-    onUpdate: PropTypes.func.isRequired
+    onUpdate: PropTypes.func.isRequired,
+    cancelEdit: PropTypes.func.isRequired
   }
 
   state = {
@@ -151,12 +152,20 @@ export default class Course extends Component {
     )
   }
 
+  courseCancelEdit = () => {
+    this.setState({
+      videos: [],
+      videosData: {}
+    })
+    this.props.cancelEdit()
+  }
+
   render () {
     const { categories, course } = this.props
     console.log(this.state)
     return (
       <Fragment>
-        <CourseForm onSubmit={this.onSubmitCourse} course={course} categories={categories} />
+        <CourseForm onSubmit={this.onSubmitCourse} course={course} categories={categories} cancelEdit={this.courseCancelEdit} />
         <VideosForm onSubmit={this.onSubmitVideo} />
         <div className='ant-row ant-form-item'>
           <div className='ant-col-offset-4 ant-col-xs-20 ant-col-sm-20'>
