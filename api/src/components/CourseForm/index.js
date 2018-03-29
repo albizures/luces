@@ -94,7 +94,10 @@ export default class Course extends Component {
   onSubmitVideo = async (videoData) => {
     if (this.props.course) {
       const {data: videos} = await api.courses.putVideos(this.props.course.id, {
-        videos: [videoData]
+        videos: [{
+          ...videoData,
+          order: this.state.videos.length
+        }]
       })
 
       videoData.idVideo = videos[0]
