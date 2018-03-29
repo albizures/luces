@@ -39,7 +39,6 @@ export default class Courses extends Component {
   }
 
   onUpdate = (shouldUnSelect = false) => {
-    console.warn(shouldUnSelect)
     shouldUnSelect && this.unSelect()
     api.courses.getAll().then(({data: courses}) => {
       this.setState({ courses })

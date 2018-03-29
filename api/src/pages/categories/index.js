@@ -48,7 +48,6 @@ export default class Categories extends Component {
   }
 
   onUpdate = (shouldUnSelect = false) => {
-    console.warn(shouldUnSelect)
     shouldUnSelect && this.unSelect()
     api.categories.getAll().then(({data: categories}) => {
       this.setState({ categories })

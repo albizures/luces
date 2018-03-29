@@ -43,6 +43,5 @@ const getYoutubeDataUrl = (id) => `https://www.youtube.com/oembed?url=https://ww
 exports.getYoutubeData = asyncHandler(async (req, res) => {
   const { id } = req.params
   const response = await axios.get(getYoutubeDataUrl(id))
-  console.log(response.data)
   res.json(response.data)
 })

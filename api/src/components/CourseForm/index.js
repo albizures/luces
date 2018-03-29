@@ -43,7 +43,6 @@ export default class Course extends Component {
   async componentWillReceiveProps (props) {
     if (props.course && (props.course !== this.props.course)) {
       const { data: videos } = await api.courses.getVideos(props.course.id)
-      console.warn(videos)
       const result = reduceVideos(videos)
 
       this.setState(result)
@@ -165,7 +164,6 @@ export default class Course extends Component {
 
   render () {
     const { categories, course } = this.props
-    console.log(this.state)
     return (
       <Fragment>
         <CourseForm onSubmit={this.onSubmitCourse} course={course} categories={categories} cancelEdit={this.courseCancelEdit} />
