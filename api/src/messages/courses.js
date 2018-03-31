@@ -18,5 +18,9 @@ export default {
   getAll: {
     message: 'Error',
     description: 'Ocurrio un error consultando los cursos, por favor recargue la pagina'
+  },
+  errorOrder: {
+    message: 'Error',
+    description: 'No se pudo cambiar el orden del video'
   }
 }

@@ -122,15 +122,32 @@ exports.put = asyncHandler(async (req, res) => {
 
   res.json({ id })
 })
+
 exports.putVideos = asyncHandler(async (req, res) => {
   const { id } = req.params
-  const { videos } = req.body
+  const videos = req.body
 
   const videoCreator = createVideo(id, knex)
 
   const videoIds = await Promise.all(videos.map(videoCreator))
 
   res.json({ videos: videoIds })
+})
+
+exports.putVideosOrder = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const videos = req.body
+
+  await Promise.all(videos.map(({idVideo, order}) => {
+    return knex('course_videos')
+      .where({
+        id_video: idVideo,
+        id_course: id
+      })
+      .update('order', order)
+  }))
+
+  res.json({ id })
 })
 
 exports.delete = asyncHandler(async (req, res) => {

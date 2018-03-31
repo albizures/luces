@@ -9,6 +9,7 @@ router.post('/', controller.post)
 
 router.put('/:id', controller.put)
 router.put('/:id/videos', controller.putVideos)
+router.put('/:id/videos/order', controller.putVideosOrder)
 
 router.delete('/:id', controller.delete)
 router.delete('/:id/videos/:videoId', controller.deleteVideo)

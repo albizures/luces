@@ -11,25 +11,26 @@ export default class Remove extends Component {
     delete: PropTypes.func.isRequired,
     id: PropTypes.number.isRequired
   }
-  onClick = () => {
-    showDeleteConfirm()
-      .then(() => {
-        return this.props.delete(this.props.id)
+  onClick = async () => {
+    const confirm = await showDeleteConfirm()
+    if (!confirm) {
+      return
+    }
+
+    try {
+      await this.props.delete(this.props.id)
+      notification.success({
+        message: 'Eliminado',
+        description: 'Registro eleminado'
       })
-      .then(() => {
-        notification.success({
-          message: 'Eliminado',
-          description: 'Registro eleminado'
-        })
+      this.props.onRemove()
+    } catch (error) {
+      console.error(error)
+      notification.error({
+        message: 'Error',
+        description: 'No se pudo eliminar'
       })
-      .then(this.props.onRemove)
-      .catch(error => {
-        console.error(error)
-        notification.error({
-          message: 'Error',
-          description: 'No se pudo registrar'
-        })
-      })
+    }
   }
 
   render () {

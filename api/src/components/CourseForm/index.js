@@ -6,6 +6,7 @@ import Icon from 'antd/lib/icon'
 
 import messages from '../../messages/courses'
 import api from '../../utils/api'
+import { showDeleteConfirm } from '../../utils/delete'
 import VideosForm from './VideosForm'
 import CourseForm from './CourseForm'
 
@@ -99,12 +100,10 @@ export default class Course extends Component {
 
   onSubmitVideo = async (videoData) => {
     if (this.props.course) {
-      const {data: videos} = await api.courses.putVideos(this.props.course.id, {
-        videos: [{
-          ...videoData,
-          order: this.getLastOrder()
-        }]
-      })
+      const {data: videos} = await api.courses.putVideos(this.props.course.id, [{
+        ...videoData,
+        order: this.getLastOrder()
+      }])
 
       videoData.idVideo = videos[0]
     }
@@ -136,12 +135,18 @@ export default class Course extends Component {
   }
 
   onRemoveVideo = async (id) => {
+    const confirm = await showDeleteConfirm()
+    if (!confirm) {
+      return
+    }
+
     if (this.props.course) {
       await api.courses.removeVideo(
         this.props.course.id,
         this.state.videosData[id].idVideo
       )
     }
+
     const videos = this.state.videos.filter(videoId => videoId !== id)
     const videosData = {
       ...this.state.videosData,
@@ -153,10 +158,73 @@ export default class Course extends Component {
     })
   }
 
+  async swapVideos (firstIndex, secondIndex) {
+    const firstVideo = this.state.videos[firstIndex]
+    const secondVideo = this.state.videos[secondIndex]
+
+    const videos = this.state.videos.slice()
+    const firstVideoData = this.state.videosData[firstVideo]
+    const secondVideoData = this.state.videosData[secondVideo]
+
+    const video = videos[firstIndex]
+    videos[firstIndex] = videos[secondIndex]
+    videos[secondIndex] = video
+
+    const videosData = {
+      ...this.state.videosData,
+      [firstVideo]: {
+        ...firstVideoData,
+        order: secondVideoData.order
+      },
+      [secondVideo]: {
+        ...secondVideoData,
+        order: firstVideoData.order
+      }
+    }
+
+    const modifiedVideos = [
+      videosData[firstVideo],
+      videosData[secondVideo]
+    ]
+
+    try {
+      if (this.props.course) {
+        await api.courses.putVideosOrder(
+          this.props.course.id,
+          modifiedVideos
+        )
+      }
+      this.setState({videos, videosData})
+    } catch (error) {
+      console.log(error)
+      notification.error(messages.errorOrder)
+    }
+  }
+
+  sendVideoUp (id) {
+    const index = this.state.videos.indexOf(id)
+    if (index === 0) {
+      return
+    }
+    const newIndex = index - 1
+
+    this.swapVideos(index, newIndex)
+  }
+
+  sendVideoDown (id) {
+    const index = this.state.videos.indexOf(id)
+    if (index === this.state.videos.length - 1) {
+      return
+    }
+    const newIndex = index + 1
+
+    this.swapVideos(index, newIndex)
+  }
+
   getItemAction (id) {
     return [
-      <Icon type='caret-up' />,
-      <Icon type='caret-down' />,
+      <Icon type='caret-up' onClick={() => this.sendVideoUp(id)} />,
+      <Icon type='caret-down' onClick={() => this.sendVideoDown(id)} />,
       <Icon type='close' onClick={() => this.onRemoveVideo(id)} />
     ]
   }

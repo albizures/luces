@@ -10,7 +10,10 @@ export const showDeleteConfirm = () => new Promise((resolve) => {
     okType: 'danger',
     cancelText: 'No',
     onOk: () => {
-      resolve()
+      resolve(true)
+    },
+    onCancel: () => {
+      resolve(false)
     }
   })
 })
