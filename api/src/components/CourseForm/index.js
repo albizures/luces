@@ -120,7 +120,7 @@ export default class Course extends Component {
     const { id } = videoData
 
     this.setState({
-      videos: this.state.videos.concat(id),
+      videos: this.state.selectedVideo ? this.state.videos : this.state.videos.concat(id),
       videosData: {
         ...this.state.videosData,
         [id]: videoData
