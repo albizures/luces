@@ -22,5 +22,9 @@ export default {
   errorOrder: {
     message: 'Error',
     description: 'No se pudo cambiar el orden del video'
+  },
+  videoEdited: {
+    message: 'Video editado',
+    description: 'El video ha sido editado correctamente'
   }
 }

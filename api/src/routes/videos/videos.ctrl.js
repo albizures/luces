@@ -34,9 +34,27 @@ exports.post = asyncHandler(async (req, res) => {
   res.json({ id })
 })
 
-exports.put = (req, res) => {
+exports.put = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const { name, description, id: id_youtube, image, author } = req.body
+  const { url: image_url, download } = image
 
-}
+  if (download) {
+    console.warn('I NEED TO DOWLOAD THE IMAGE!!!')
+  }
+
+  await knex('videos')
+    .where({ id })
+    .update({
+      name,
+      author,
+      description,
+      id_youtube,
+      image_url
+    })
+
+  res.json({ id })
+})
 
 const getYoutubeDataUrl = (id) => `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`
 

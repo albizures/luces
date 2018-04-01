@@ -1,5 +1,10 @@
 import axios from 'axios'
-import isRequired from 'is-required'
+
+function isRequired (paramName) {
+  let msg = 'Undefined or missing parameter'
+  msg += paramName ? ` "${paramName}"` : ''
+  throw new Error(msg)
+}
 
 const PORT = process.env.PORT
 const HOST = process.env.HOST
@@ -48,6 +53,10 @@ export const images = {
   }
 }
 
+export const videos = {
+  put: (id = isRequired('id'), data = isRequired('data')) => api.put(`/videos/${encode(id)}`, data)
+}
+
 export const youtube = {
   getData (videoId = isRequired('videoId')) {
     return api.get(`/videos/youtube/data/${encode(videoId)}`)
@@ -58,5 +67,6 @@ export default {
   youtube,
   categories,
   courses,
-  images
+  images,
+  videos
 }

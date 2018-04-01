@@ -33,7 +33,8 @@ exports.getVideos = asyncHandler(async (req, res) => {
       youtubeId: 'videos.id_youtube',
       description: 'videos.description',
       url: 'videos.image_url',
-      order: 'course_videos.order'
+      order: 'course_videos.order',
+      author: 'videos.author'
     })
     .join('videos', 'course_videos.id_video', 'videos.id')
     .orderBy('course_videos.order', 'asc')
@@ -46,7 +47,7 @@ exports.getVideos = asyncHandler(async (req, res) => {
 })
 
 const createVideo = (course, trx) => async (data) => {
-  const { name, description, id: id_youtube, image, order } = data
+  const { name, description, id: id_youtube, image, order, author } = data
   const { url: image_url, download } = image
 
   if (download) {
@@ -60,7 +61,8 @@ const createVideo = (course, trx) => async (data) => {
       name,
       id_youtube,
       description,
-      image_url
+      image_url,
+      author
     })
 
   await trx('course_videos')

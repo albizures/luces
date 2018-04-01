@@ -26,10 +26,28 @@ const formItemLayout = {
 
 class VideosForm extends Component {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    video: PropTypes.object
   }
 
   state = {}
+
+  componentWillReceiveProps (props) {
+    if (props.video && (props.video !== this.props.video)) {
+      this.props.form.setFieldsValue({
+        link: `https://www.youtube.com/watch?v=${props.video.id}`,
+        name: props.video.name,
+        description: props.video.description,
+        image: [{
+          uid: 1,
+          status: 'done',
+          url: props.video.image.url,
+          thumbUrl: props.video.image.url
+        }]
+      })
+    }
+  }
+
   onBlurLink = async (e) => {
     const { id, service } = getVideoId(e.target.value)
 
@@ -68,9 +86,15 @@ class VideosForm extends Component {
 
   normalizeValues (values) {
     const { id } = getVideoId(values.link)
+    let author
+    if (this.state.data) {
+      author = this.state.data.author_name
+    } else if (this.props.video) {
+      author = this.props.video.author
+    }
     return Object.assign(values, {
       id,
-      author: this.state.data.author_name,
+      author,
       image: values.image[0]
     })
   }
@@ -89,7 +113,7 @@ class VideosForm extends Component {
   }
 
   render () {
-    const { form } = this.props
+    const { form, video } = this.props
     const { getFieldDecorator } = form
     return (
       <Form onSubmit={this.onSubmit}>
@@ -122,8 +146,13 @@ class VideosForm extends Component {
         </FormItem>
         <FormItem wrapperCol={{ span: formItemLayout.wrapperCol.span, offset: formItemLayout.labelCol.span }}>
           <Button style={{float: 'left'}} type='primary' htmlType='submit'>
-            Agregar
+            {video ? 'Editar' : 'Agregar'}
           </Button>
+          {video && (
+            <Button style={{float: 'right'}} onClick={this.onCancel}>
+              Cancelar
+            </Button>
+          )}
         </FormItem>
       </Form>
     )

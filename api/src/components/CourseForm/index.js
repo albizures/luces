@@ -23,7 +23,8 @@ const reduceVideos = (videos) => videos.reduce((result, video) => {
     },
     description: video.description,
     name: video.name,
-    order: video.order
+    order: video.order,
+    author: video.author
   }
 
   return result
@@ -100,12 +101,21 @@ export default class Course extends Component {
 
   onSubmitVideo = async (videoData) => {
     if (this.props.course) {
-      const {data: videos} = await api.courses.putVideos(this.props.course.id, [{
-        ...videoData,
-        order: this.getLastOrder()
-      }])
+      if (this.state.selectedVideo) {
+        await api.videos.put(
+          this.state.videosData[this.state.selectedVideo].idVideo,
+          videoData
+        )
+        videoData.idVideo = this.state.selectedVideo.idVideo
 
-      videoData.idVideo = videos[0]
+        notification.success(messages.videoEdited)
+      } else {
+        const {data: videos} = await api.courses.putVideos(this.props.course.id, [{
+          ...videoData,
+          order: this.getLastOrder()
+        }])
+        videoData.idVideo = videos[0]
+      }
     }
     const { id } = videoData
 
@@ -114,7 +124,8 @@ export default class Course extends Component {
       videosData: {
         ...this.state.videosData,
         [id]: videoData
-      }
+      },
+      selectedVideo: undefined
     })
   }
 
@@ -225,6 +236,7 @@ export default class Course extends Component {
     return [
       <Icon type='caret-up' onClick={() => this.sendVideoUp(id)} />,
       <Icon type='caret-down' onClick={() => this.sendVideoDown(id)} />,
+      <Icon type='edit' onClick={() => this.selectVideo(id)} />,
       <Icon type='close' onClick={() => this.onRemoveVideo(id)} />
     ]
   }
@@ -233,6 +245,12 @@ export default class Course extends Component {
     return (
       <img width={272} alt='thumbnail' src={data.image.url} />
     )
+  }
+
+  selectVideo (id) {
+    this.setState({
+      selectedVideo: id
+    })
   }
 
   getListItem = (id) => {
@@ -255,11 +273,12 @@ export default class Course extends Component {
   }
 
   render () {
+    const { selectedVideo, videosData } = this.state
     const { categories, course } = this.props
     return (
       <Fragment>
         <CourseForm onSubmit={this.onSubmitCourse} course={course} categories={categories} cancelEdit={this.courseCancelEdit} />
-        <VideosForm onSubmit={this.onSubmitVideo} />
+        <VideosForm onSubmit={this.onSubmitVideo} video={videosData[selectedVideo]} />
         <div className='ant-row ant-form-item'>
           <div className='ant-col-offset-4 ant-col-xs-20 ant-col-sm-20'>
             <br />
