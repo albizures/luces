@@ -6,21 +6,32 @@
     "start:android": "react-native run-android",
     "start:ios": "react-native run-ios",
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "lint": "eslint .",
     "test": "jest"
   },
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.18.0",
     "babel-plugin-transform-inline-environment-variables": "^0.3.0",
-    "react": "16.2.0",
-    "react-native": "0.52.2",
-    "react-native-navigation": "^1.1.378",
-    "react-native-onboarding-swiper": "^0.3.1"
+    "prop-types": "^15.6.1",
+    "react": "^16.3.0",
+    "react-native": "0.54.4",
+    "react-native-onboarding-swiper": "^0.5.0",
+    "react-navigation": "^1.5.9"
   },
   "devDependencies": {
-    "babel-jest": "22.1.0",
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "22.4.3",
     "babel-preset-react-native": "4.0.0",
-    "jest": "22.1.4",
-    "react-test-renderer": "16.2.0"
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-config-standard-react": "^6.0.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-react": "^7.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "jest": "22.4.3",
+    "react-test-renderer": "^16.3.0-alpha.1"
   },
   "jest": {
     "preset": "react-native"
