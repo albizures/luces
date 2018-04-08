@@ -12,7 +12,7 @@ const Step = (props) => {
     <View style={[styles.container, { width, height }]}>
       <ImageBackground source={require('../../assets/300x300.png')} style={styles.imageContainer} imageStyle={styles.imageBackground} />
       <View style={styles.textContainer}>
-        <ButtonCTA title='Ingresar sin registrame' onPress={props.navigation} />
+        <ButtonCTA title='INGRESA CON FACEBOOK' onPress={props.navigation} />
         <Text style={styles.text}>Ingresar sin registrarme</Text>
       </View>
     </View>
@@ -35,13 +35,16 @@ const styles = {
   imageContainer: {
     paddingBottom: potrait ? 60 : 10,
     width: '100%',
-    flex: 12,
+    flex: 14,
     alignContent: 'center',
     alignItems: 'center'
   },
   textContainer: {
-    flex: 8,
-    marginTop: 75
+    flex: 6,
+    marginTop: 46,
+    paddingHorizontal: 28,
+    alignItems: 'center',
+    width: '100%'
   },
   imageBackground: {
     resizeMode: 'cover'
@@ -50,6 +53,10 @@ const styles = {
     paddingHorizontal: 20
   },
   text: {
+    color: '#b98a56',
+    fontWeight: 'bold',
+    fontSize: 12,
+    marginTop: 26,
     textDecorationLine: 'underline'
   }
 }

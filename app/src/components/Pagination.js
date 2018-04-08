@@ -126,7 +126,8 @@ const styles = {
     alignItems: 'flex-end'
   },
   dots: {
-    flexShrink: 0
+    flexShrink: 0,
+    backgroundColor: 'red'
   }
 }
 

@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import tinycolor from 'tinycolor2'
 
 import Pagination from './Pagination'
-import Dot from 'react-native-onboarding-swiper/src/Dot'
+import Dot from './Dot'
 import SkipButton from 'react-native-onboarding-swiper/src/buttons/SkipButton'
 import NextButton from 'react-native-onboarding-swiper/src/buttons/NextButton'
 import DoneButton from 'react-native-onboarding-swiper/src/buttons/DoneButton'
@@ -52,7 +52,16 @@ class Onboarding extends Component {
       animated: true,
       index: this.state.currentPage + 1
     })
-  };
+  }
+
+  onSkip = () => {
+    if (!this.props.onSkip) {
+      this.flatList.scrollToIndex({
+        animated: false,
+        index: this.props.pages.length - 1
+      })
+    }
+  }
 
   _onLayout = () => {
     const { width, height } = Dimensions.get('window')
@@ -75,7 +84,6 @@ class Onboarding extends Component {
       showSkip,
       showNext,
       showDone,
-      onSkip,
       onDone,
       skipLabel,
       nextLabel,
@@ -132,7 +140,7 @@ class Onboarding extends Component {
           showDone={showDone}
           numPages={pages.length}
           currentPage={this.state.currentPage}
-          onSkip={onSkip}
+          onSkip={this.onSkip}
           onDone={onDone}
           onNext={this.goNext}
           skipLabel={skipLabel}

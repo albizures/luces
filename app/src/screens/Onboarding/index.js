@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 
 import OnboardingSwiper from '../../components/Onboarding'
 import { withUser } from '../../components/UserContext'
@@ -11,10 +11,18 @@ import Share from './Share'
 import Login from './Login'
 
 const styles = {
-  backgroundColor: 'whitesmoke',
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center'
+  container: {
+    backgroundColor: 'whitesmoke',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  skipLabel: {
+    textDecorationLine: 'underline',
+    color: '#b98955',
+    fontSize: 12,
+    fontWeight: 'bold'
+  }
 }
 
 class Onboarding extends Component {
@@ -29,18 +37,18 @@ class Onboarding extends Component {
   }
 
   render () {
+    // onSkip={this.goHome}
     return (
-      <View style={styles}>
+      <View style={styles.container}>
         <OnboardingSwiper
-          onSkip={this.goHome}
           showDone={false}
+          skipLabel={<Text style={styles.skipLabel}>Saltar</Text>}
           pages={[
             () => <Welcome />,
             () => <Learn />,
             () => <Share />,
             () => <Login navigation={this.goHome} />
-          ]}
-        />
+          ]} />
       </View>
     )
   }

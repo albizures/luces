@@ -1,4 +1,4 @@
-import { Dimensions, Text, View, Image, ImageBackground } from 'react-native'
+import { Dimensions, Text, View, Image, ImageBackground, PixelRatio } from 'react-native'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -38,13 +38,12 @@ const Step = (props) => {
     <View style={[styles.container, { width, height }]}>
       <ImageBackground source={image} style={styles.imageContainer} imageStyle={styles.imageBackground} >
         <View elevation={10} style={styles.iconContainer}>
-          <Image source={icon} style={styles.icon} />
+          {/* <Image source={icon} style={styles.icon} /> */}
         </View>
       </ImageBackground>
       <View style={styles.textContainer}>
         {titleElement}
         {descriptionElement}
-
       </View>
     </View>
   )
@@ -59,6 +58,9 @@ Step.propTypes = {
 
 Step.defaultProps = {}
 
+const sizeIcon = 85
+const borderRadiusIcon = sizeIcon / 2
+
 const styles = {
   container: {
     flex: 1,
@@ -71,13 +73,14 @@ const styles = {
   imageContainer: {
     paddingBottom: potrait ? 60 : 10,
     width: '100%',
-    flex: 12,
+    flex: 14,
     alignContent: 'center',
     alignItems: 'center'
   },
   textContainer: {
-    flex: 8,
-    marginTop: 75
+    flex: 6,
+    marginTop: 75,
+    paddingHorizontal: 60
   },
   imageBackground: {
     resizeMode: 'cover'
@@ -86,30 +89,35 @@ const styles = {
     paddingHorizontal: 20
   },
   iconContainer: {
+    backgroundColor: '#b98a56',
     shadowColor: '#000000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
     shadowOffset: {
       width: 0,
-      height: 3
+      height: 0
     },
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    top: '100%'
+    width: sizeIcon,
+    height: sizeIcon,
+    borderRadius: borderRadiusIcon,
+    top: '105%'
   },
   icon: {
-    borderRadius: 50,
-    width: 100,
-    height: 100
+    borderRadius: borderRadiusIcon,
+    width: sizeIcon,
+    height: sizeIcon
   },
   title: {
     textAlign: 'center',
-    fontSize: 26,
+    fontSize: 18,
+    fontWeight: 'bold',
     color: '#b98955',
-    paddingBottom: 15
+    paddingBottom: PixelRatio.getPixelSizeForLayoutSize(2)
   },
   description: {
     textAlign: 'center',
-    fontSize: 16,
+    fontWeight: '500',
+    fontSize: 14,
     color: '#fff'
   }
 }
