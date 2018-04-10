@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, Image } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
 
 import { withUser } from '../components/UserContext'
 
@@ -107,7 +108,7 @@ class Interests extends Component {
       return interests
     }, [])
     return (
-      <View style={styles.container}>
+      <LinearGradient colors={['#4c4c4c', '#252525']} style={styles.container}>
         <Image style={styles.image} source={require('../assets/300x300.png')} />
         <Text style={styles.title}>Conozcámonos</Text>
         <Text style={styles.description}>
@@ -115,7 +116,7 @@ class Interests extends Component {
         </Text>
         {interests}
         <ButtonCTA title='CONTINUAR' style={{marginTop: 10}} onPress={() => ({})} />
-      </View>
+      </LinearGradient>
     )
   }
 }
