@@ -35,6 +35,10 @@ class Home extends Component {
 
     if (!this.props.user) {
       this.props.navigation.navigate('Onboarding')
+    } else {
+      if (!this.props.user.interests) {
+        this.props.navigation.navigate('Interests')
+      }
     }
   }
 

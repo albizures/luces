@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StackNavigator } from 'react-navigation'
 
 import Onboarding from './screens/Onboarding'
+import Interests from './screens/Interests'
 import Home from './screens/Home'
 
 import { Provider as UserProvider, getValue } from './components/UserContext'
@@ -15,18 +16,29 @@ const OnboardingStack = StackNavigator({
   initialRouteName: 'Onboarding'
 })
 
+const InterestsStack = StackNavigator({
+  Interests: {
+    screen: Interests
+  }
+}, {
+  headerMode: 'none',
+  initialRouteName: 'Interests'
+})
+
 const MainStack = StackNavigator({
   Home: {
     screen: Home
   }
 }, {
-  headerMode: 'none',
   initialRouteName: 'Home'
 })
 
 const RootStack = StackNavigator({
   Onboarding: {
     screen: OnboardingStack
+  },
+  Interests: {
+    screen: InterestsStack
   },
   Main: {
     screen: MainStack
@@ -39,7 +51,7 @@ const RootStack = StackNavigator({
 
 export default class App extends Component {
   state = {
-    user: undefined
+    user: {}
   }
 
   onChangeUser = (user) => {
