@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import { StackNavigator } from 'react-navigation'
+import { Text } from 'react-native'
+import { StackNavigator, TabBarBottom, TabNavigator } from 'react-navigation'
 
 import Onboarding from './screens/Onboarding'
 import Interests from './screens/Interests'
 import Home from './screens/Home'
+import Course from './screens/Course'
+import HomeCourse from './screens/HomeCourse'
 
 import { Provider as UserProvider, getValue } from './components/UserContext'
 
@@ -25,12 +28,68 @@ const InterestsStack = StackNavigator({
   initialRouteName: 'Interests'
 })
 
-const MainStack = StackNavigator({
-  Home: {
+const styles = {
+  tabBarLabel: {
+    fontSize: 10,
+    color: '#b98a56',
+    fontWeight: '500'
+  }
+}
+
+const CoursesStack = StackNavigator({
+  HomeCourses: {
     screen: Home
+  },
+  HomeCourse: {
+    screen: HomeCourse
+  },
+  Course: {
+    screen: Course
   }
 }, {
-  initialRouteName: 'Home'
+  initialRouteName: 'HomeCourses',
+  headerMode: 'none'
+})
+
+const MainTab = TabNavigator({
+  Home: {
+    screen: CoursesStack
+  },
+  Interests: {
+    screen: Interests
+  }
+}, {
+  initialRouteName: 'Home',
+  title: 'Home',
+  navigationOptions: ({ navigation }) => ({
+    tabBarIcon: () => {
+      const { routeName } = navigation.state
+
+      // You can return any component that you like here! We usually use an
+      // icon component from react-native-vector-icons
+      return <Text >{routeName}</Text>
+    },
+    tabBarLabel: ({ tintColor }) => {
+      const { routeName } = navigation.state
+
+      // You can return any component that you like here! We usually use an
+      // icon component from react-native-vector-icons
+      return <Text style={[styles.tabBarLabel, {color: tintColor}]}>{routeName}</Text>
+    }
+  }),
+  tabBarComponent: TabBarBottom,
+  tabBarPosition: 'bottom',
+  tabBarOptions: {
+    activeTintColor: '#b98a56',
+    inactiveTintColor: '#656767',
+    style: {
+      backgroundColor: '#252525',
+      borderTopWidth: 1,
+      borderTopColor: '#656767'
+    }
+  },
+  animationEnabled: false,
+  swipeEnabled: false
 })
 
 const RootStack = StackNavigator({
@@ -41,7 +100,7 @@ const RootStack = StackNavigator({
     screen: InterestsStack
   },
   Main: {
-    screen: MainStack
+    screen: MainTab
   }
 }, {
   initialRouteName: 'Main',
@@ -51,7 +110,7 @@ const RootStack = StackNavigator({
 
 export default class App extends Component {
   state = {
-    user: {}
+    user: {interests: true}
   }
 
   onChangeUser = (user) => {
