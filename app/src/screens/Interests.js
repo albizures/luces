@@ -13,13 +13,13 @@ const styles = {
     backgroundColor: '#4c4c4c',
     flex: 1,
     alignItems: 'center',
-    paddingTop: 50,
+    paddingTop: 30,
     paddingHorizontal: 20
     // justifyContent: 'center'
   },
   image: {
     width: 70,
-    height: 60
+    height: 50
   },
   title: {
     marginTop: 20,
@@ -74,12 +74,12 @@ class Interests extends Component {
 
   state = {
     interests: [
-      {id: 1, text: 'Maquillaje de ojos', checked: true},
-      {id: 2, text: 'Peinados', checked: false},
-      {id: 3, text: 'Manicure', checked: false},
-      {id: 4, text: 'Maquillaje de labios', checked: true},
-      {id: 5, text: 'Mascarillas', checked: true},
-      {id: 6, text: 'Contornos', checked: false}
+      {id: 1, icon: require('../assets/categories/eyes_active.png'), text: 'Maquillaje de ojos', checked: true},
+      {id: 2, icon: require('../assets/categories/hair.png'), text: 'Peinados', checked: false},
+      {id: 3, icon: require('../assets/categories/nail.png'), text: 'Manicure', checked: false},
+      {id: 4, icon: require('../assets/categories/lips_active.png'), text: 'Maquillaje de labios', checked: true},
+      {id: 5, icon: require('../assets/categories/mask_active.png'), text: 'Mascarillas', checked: true},
+      {id: 6, icon: require('../assets/categories/contour.png'), text: 'Contornos', checked: false}
     ]
   }
 
@@ -88,7 +88,8 @@ class Interests extends Component {
   }
 
   onDone = () => {
-    this.props.changeUser(this.props.user)
+    this.props.changeUser({...this.props.user, interests: true})
+    this.goHome()
   }
 
   render () {
@@ -103,19 +104,19 @@ class Interests extends Component {
       }
 
       interests.push(
-        <Interest key={interest.id} checked={interest.checked} text={interest.text} />
+        <Interest key={interest.id} {...interest} />
       )
       return interests
     }, [])
     return (
       <LinearGradient colors={['#4c4c4c', '#252525']} style={styles.container}>
-        <Image style={styles.image} source={require('../assets/300x300.png')} />
+        <Image style={styles.image} source={require('../assets/logo.png')} />
         <Text style={styles.title}>Conozcámonos</Text>
         <Text style={styles.description}>
           Selecciona los temas que te gustaría aprender con <Text style={styles.description2}>Luces Beautiful</Text>
         </Text>
         {interests}
-        <ButtonCTA title='CONTINUAR' style={{marginTop: 10}} onPress={() => ({})} />
+        <ButtonCTA title='CONTINUAR' style={{marginTop: 20}} onPress={this.onDone} />
       </LinearGradient>
     )
   }

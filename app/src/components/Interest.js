@@ -44,9 +44,10 @@ const styles = {
       alignItems: 'center'
     },
     icon: {
-      width: 30,
-      height: 30,
-      borderRadius: 15,
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      margin: 5,
       backgroundColor: 'transparent'
     },
     text: {
@@ -74,18 +75,19 @@ export default class Interest extends Component {
 
   static propTypes = {
     text: PropTypes.string.isRequired,
-    checked: PropTypes.bool
+    checked: PropTypes.bool,
+    icon: PropTypes.number.isRequired
   }
 
   render () {
-    const style = this.props.checked ? styles.checked : styles.unchecked
+    const { checked, text, icon } = this.props
+    const style = checked ? styles.checked : styles.unchecked
     return (
       <View style={{height: 50, width: '100%'}}>
         <View style={style.container}>
-          {/* <Image style={style.icon} source={require('../assets/300x300.png')} /> */}
-          <View style={style.icon} />
-          <Text style={style.text}>{this.props.text}</Text>
-          <View style={style.check} />
+          <Image style={style.icon} source={icon} />
+          <Text style={style.text}>{text}</Text>
+          {checked ? <Image style={style.check} source={require('../assets/checked.png')} /> : <View style={style.check} />}
         </View>
       </View>
     )
