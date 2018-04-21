@@ -7,6 +7,9 @@ import Interests from './screens/Interests'
 import Home from './screens/Home'
 import Course from './screens/Course'
 import HomeCourse from './screens/HomeCourse'
+import Favorites from './screens/Favorites'
+import Search from './screens/Search'
+import Account from './screens/Account'
 
 import { Provider as UserProvider, getValue } from './components/UserContext'
 
@@ -55,8 +58,14 @@ const MainTab = TabNavigator({
   Home: {
     screen: CoursesStack
   },
-  Interests: {
-    screen: Interests
+  Favorites: {
+    screen: Favorites
+  },
+  Search: {
+    screen: Search
+  },
+  Account: {
+    screen: Account
   }
 }, {
   initialRouteName: 'Home',
