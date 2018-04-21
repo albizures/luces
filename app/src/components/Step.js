@@ -38,7 +38,7 @@ const Step = (props) => {
     <View style={[styles.container, { width, height }]}>
       <ImageBackground source={image} style={styles.imageContainer} imageStyle={styles.imageBackground} >
         <View elevation={10} style={styles.iconContainer}>
-          {/* <Image source={icon} style={styles.icon} /> */}
+          <Image source={icon} style={styles.icon} />
         </View>
       </ImageBackground>
       <View style={styles.textContainer}>

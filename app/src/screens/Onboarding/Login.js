@@ -10,7 +10,7 @@ const potrait = height > width
 const Step = (props) => {
   return (
     <View style={[styles.container, { width, height }]}>
-      <ImageBackground source={require('../../assets/300x300.png')} style={styles.imageContainer} imageStyle={styles.imageBackground} />
+      <ImageBackground source={require('../../assets/photos/login.jpg')} style={styles.imageContainer} imageStyle={styles.imageBackground} />
       <View style={styles.textContainer}>
         <ButtonCTA title='INGRESA CON FACEBOOK' onPress={props.navigation} />
         <Text style={styles.text}>Ingresar sin registrarme</Text>

@@ -5,8 +5,8 @@ import Step from '../../components/Step'
 const Welcome = (props) => {
   return (
     <Step
-      image={require('../../assets/300x300.png')}
-      icon={require('../../assets/300x300.png')}
+      image={require('../../assets/photos/learn.jpg')}
+      icon={require('../../assets/onboarding/learn.png')}
       title='Aprende'
       description='Con diferentes cursos grabados en alta definicion podrás potenciar tu conocimiento' />
   )

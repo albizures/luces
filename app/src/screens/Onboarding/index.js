@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Text } from 'react-native'
+import { View, Text, Image, TouchableHighlight } from 'react-native'
 
 import OnboardingSwiper from '../../components/Onboarding'
 import { withUser } from '../../components/UserContext'
@@ -22,9 +22,20 @@ const styles = {
     color: '#b98955',
     fontSize: 12,
     fontWeight: 'bold'
+  },
+  nextIconContainer: {
+    marginRight: 22
+  },
+  nextIcon: {
+    width: 10,
+    height: 20
   }
 }
-
+const NextIcon = (props) => (
+  <TouchableHighlight {...props} style={styles.nextIconContainer} >
+    <Image source={require('../../assets/next.png')} style={styles.nextIcon} />
+  </TouchableHighlight>
+)
 class Onboarding extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
@@ -43,6 +54,7 @@ class Onboarding extends Component {
         <OnboardingSwiper
           showDone={false}
           skipLabel={<Text style={styles.skipLabel}>Saltar</Text>}
+          NextButtonComponent={NextIcon}
           pages={[
             () => <Welcome />,
             () => <Learn />,
