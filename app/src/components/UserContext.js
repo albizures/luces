@@ -10,7 +10,7 @@ function withUser (Component) {
       {data => <Component {...props} user={data.user} changeUser={data.onChangeUser} />}
     </Consumer>
   )
-
+  ComponentWithUser.navigationOptions = Component.navigationOptions
   ComponentWithUser.displayName = 'UserProvider'
   return ComponentWithUser
 }

@@ -3,7 +3,19 @@ import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import colors from '../utils/colors'
 
+import TabIcon from '../components/TabIcon'
+
 export default class Account extends Component {
+  static navigationOptions = {
+    title: 'Cuenta',
+    tabBarIcon: ({focused}) => {
+      return <TabIcon
+        activeSrc={require('../assets/tabs/account_active.png')}
+        src={require('../assets/tabs/account.png')}
+        focused={focused} />
+    }
+  }
+
   render () {
     return (
       <View style={styles.container}>

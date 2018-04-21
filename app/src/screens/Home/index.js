@@ -4,6 +4,7 @@ import { Text, View, ScrollView, Image } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { withUser } from '../../components/UserContext'
+import TabIcon from '../../components/TabIcon'
 import Highlight from './Highlight'
 import Course from './Course'
 import colors from '../../utils/colors'
@@ -54,6 +55,16 @@ const styles = {
 }
 
 class Home extends Component {
+  static navigationOptions = {
+    title: 'Cursos',
+    tabBarIcon: ({focused}) => {
+      return <TabIcon
+        activeSrc={require('../../assets/tabs/courses_active.png')}
+        src={require('../../assets/tabs/courses.png')}
+        focused={focused} />
+    }
+  };
+
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     user: PropTypes.object
