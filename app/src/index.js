@@ -119,7 +119,7 @@ const RootStack = StackNavigator({
 
 export default class App extends Component {
   state = {
-    user: {interests: false}
+    user: {interests: true}
   }
 
   onChangeUser = (user) => {

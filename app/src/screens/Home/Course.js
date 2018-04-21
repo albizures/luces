@@ -1,26 +1,27 @@
 import React from 'react'
-import { View, ViewPropTypes, TouchableHighlight, Text } from 'react-native'
+import { View, ViewPropTypes, TouchableHighlight, Text, Image } from 'react-native'
 import PropTypes from 'prop-types'
 
 import colors from '../../utils/colors'
 
 const Course = (props) => {
-  const { course } = props
+  const { course, style, icon } = props
   return (
-    <TouchableHighlight {...props} style={[props.style, styles.touchable]}>
+    <TouchableHighlight {...props} style={[style, styles.touchable]}>
       <View style={styles.container}>
-        <View style={styles.icon} />
+        <Image source={icon} style={styles.icon} />
         <View style={styles.text}>
           <Text style={styles.title}>{course.name}</Text>
           <Text style={styles.subTitle}>Por {course.author}</Text>
         </View>
-        <View style={styles.arrow} />
+        <Image style={styles.arrow} source={require('../../assets/next.png')} />
       </View>
     </TouchableHighlight>
   )
 }
 
 Course.propTypes = {
+  icon: PropTypes.number.isRequired,
   style: ViewPropTypes.style,
   course: PropTypes.object.isRequired
 }
@@ -57,9 +58,9 @@ const styles = {
     backgroundColor: colors.darkTan
   },
   arrow: {
-    backgroundColor: colors.darkTan,
-    width: 8,
-    height: 15
+    width: 12,
+    height: 24,
+    marginRight: 5
   }
 }
 

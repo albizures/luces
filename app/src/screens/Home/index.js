@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, View, ScrollView } from 'react-native'
+import { Text, View, ScrollView, Image } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { withUser } from '../../components/UserContext'
 import Highlight from './Highlight'
 import Course from './Course'
+import colors from '../../utils/colors'
 // import http from '../utils/http'
 
 const styles = {
@@ -15,7 +16,14 @@ const styles = {
   header: {
     height: 65,
     width: '100%',
-    backgroundColor: '#252525'
+    backgroundColor: colors.black,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 5
+  },
+  headerLogo: {
+    height: 35,
+    resizeMode: Image.resizeMode.contain
   },
   highlights: {
     height: 50,
@@ -108,7 +116,9 @@ class Home extends Component {
           onTouchStart={this.onTouchStart}
           onMomentumScrollEnd={this.onTouchStart}
           onScrollEndDrag={this.onScrollEndDrag}>
-          <View style={styles.header} />
+          <View style={styles.header}>
+            <Image height={55} style={styles.headerLogo} source={require('../../assets/logo.png')} />
+          </View>
           <View style={styles.highlights}>
             <Text style={styles.title}>Cursos Beautiful</Text>
             <Text style={styles.subTitle}>Destacados</Text>
@@ -121,10 +131,10 @@ class Home extends Component {
           </ScrollView>
           <View style={styles.courses}>
             <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos</Text>
-            <Course onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-            <Course onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-            <Course onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-            <Course onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+            <Course icon={require('../../assets/categories/eyes_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+            <Course icon={require('../../assets/categories/nail_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+            <Course icon={require('../../assets/categories/hair_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+            <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
           </View>
         </ScrollView>
         {/* {videos.map(video => (
