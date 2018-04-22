@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, Image } from 'react-native'
+import { Text, Image } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { withUser } from '../components/UserContext'
 
-import Interest from '../components/Interest'
 import ButtonCTA from '../components/ButtonCTA'
+import colors from '../utils/colors'
+import ListInterests from '../components/ListInterests'
 
 const styles = {
   container: {
@@ -15,7 +16,6 @@ const styles = {
     alignItems: 'center',
     paddingTop: 30,
     paddingHorizontal: 20
-    // justifyContent: 'center'
   },
   image: {
     width: 70,
@@ -38,31 +38,7 @@ const styles = {
   },
   description2: {
     color: '#b98955'
-  },
-  divider: {
-    active: {
-      marginVertical: 5,
-      height: 1,
-      backgroundColor: '#252525',
-      width: '100%'
-    },
-    inactive: {
-      marginVertical: 5,
-      height: 1,
-      backgroundColor: 'transparent',
-      width: '100%'
-    }
   }
-}
-
-const Divider = (props) => {
-  return (
-    <View style={props.active ? styles.divider.active : styles.divider.inactive} />
-  )
-}
-
-Divider.propTypes = {
-  active: PropTypes.bool
 }
 
 class Interests extends Component {
@@ -93,29 +69,14 @@ class Interests extends Component {
   }
 
   render () {
-    const interests = this.state.interests.reduce((interests, interest, index) => {
-      const last = this.state.interests[index - 1]
-
-      if (last) {
-        const active = !last.checked && !interest.checked
-        interests.push(
-          <Divider key={last.id.toString() + interest.id.toString()} active={active} />
-        )
-      }
-
-      interests.push(
-        <Interest key={interest.id} {...interest} />
-      )
-      return interests
-    }, [])
     return (
-      <LinearGradient colors={['#4c4c4c', '#252525']} style={styles.container}>
+      <LinearGradient colors={colors.blackGradientBackground} style={styles.container}>
         <Image style={styles.image} source={require('../assets/logo.png')} />
         <Text style={styles.title}>Conozcámonos</Text>
         <Text style={styles.description}>
           Selecciona los temas que te gustaría aprender con <Text style={styles.description2}>Luces Beautiful</Text>
         </Text>
-        {interests}
+        <ListInterests interests={this.state.interests} />
         <ButtonCTA title='CONTINUAR' style={{marginTop: 20}} onPress={this.onDone} />
       </LinearGradient>
     )
