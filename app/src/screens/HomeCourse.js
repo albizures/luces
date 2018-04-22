@@ -28,6 +28,10 @@ export default class CourseHome extends Component {
     this.props.navigation.goBack()
   }
 
+  startCourse = () => {
+    this.props.navigation.navigate('Course')
+  }
+
   render () {
     const title = 'Uñas'
     const subTitle = 'Acrílicas Masglo'
@@ -53,7 +57,7 @@ export default class CourseHome extends Component {
         <View style={styles.description}>
           <Text style={styles.mainDescription}>{mainDescription}</Text>
           <Text style={styles.secondaryDescription}>{secondaryDescription}</Text>
-          <ButtonCTA title='EMPERZAR CURSO' />
+          <ButtonCTA title='EMPERZAR CURSO' onPress={this.startCourse} />
         </View>
       </View>
     )

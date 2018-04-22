@@ -57,9 +57,6 @@ const CoursesStack = StackNavigator({
   },
   HomeCourse: {
     screen: HomeCourse
-  },
-  Course: {
-    screen: Course
   }
 }, {
   initialRouteName: 'HomeCourses',
@@ -80,7 +77,7 @@ const MainTab = TabNavigator({
     screen: AccountStack
   }
 }, {
-  initialRouteName: 'Account',
+  initialRouteName: 'Home',
   tabBarOptions: {
     showIcon: true,
     activeTintColor: '#b98a56',
@@ -104,9 +101,12 @@ const RootStack = StackNavigator({
   },
   Main: {
     screen: MainTab
+  },
+  Course: {
+    screen: Course
   }
 }, {
-  initialRouteName: 'Main',
+  initialRouteName: 'Course',
   mode: 'modal',
   headerMode: 'none'
 })

@@ -8,7 +8,7 @@ import colors from '../utils/colors'
 import TabIcon from '../components/TabIcon'
 import TopBar from '../components/TopBar'
 
-export default class Course extends Component {
+export default class Notifications extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired
   }

@@ -15,6 +15,7 @@ export default class Course extends Component {
 
 const styles = {
   container: {
+    flex: 1,
     backgroundColor: colors.black
   }
 }

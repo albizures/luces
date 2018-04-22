@@ -9,7 +9,7 @@ import TabIcon from '../components/TabIcon'
 import TopBar from '../components/TopBar'
 import ListInterests from '../components/ListInterests'
 
-export default class Course extends Component {
+export default class InterestsAccount extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired
   }
