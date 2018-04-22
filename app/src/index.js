@@ -9,6 +9,9 @@ import HomeCourse from './screens/HomeCourse'
 import Favorites from './screens/Favorites'
 import Search from './screens/Search'
 import Account from './screens/Account'
+import Profile from './screens/Profile'
+import Notifications from './screens/Notifications'
+import InterestsAccount from './screens/InterestsAccount'
 
 import { Provider as UserProvider, getValue } from './components/UserContext'
 
@@ -28,6 +31,24 @@ const InterestsStack = StackNavigator({
 }, {
   headerMode: 'none',
   initialRouteName: 'Interests'
+})
+
+const AccountStack = StackNavigator({
+  HomeAccount: {
+    screen: Account
+  },
+  Profile: {
+    screen: Profile
+  },
+  Notifications: {
+    screen: Notifications
+  },
+  InterestsAccount: {
+    screen: InterestsAccount
+  }
+}, {
+  headerMode: 'none',
+  initialRouteName: 'HomeAccount'
 })
 
 const CoursesStack = StackNavigator({
@@ -56,10 +77,10 @@ const MainTab = TabNavigator({
     screen: Search
   },
   Account: {
-    screen: Account
+    screen: AccountStack
   }
 }, {
-  initialRouteName: 'Favorites',
+  initialRouteName: 'Account',
   tabBarOptions: {
     showIcon: true,
     activeTintColor: '#b98a56',
