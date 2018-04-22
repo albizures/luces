@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Text } from 'react-native'
-import { StackNavigator, TabBarBottom, TabNavigator } from 'react-navigation'
+import { StackNavigator, TabNavigator } from 'react-navigation'
 
 import Onboarding from './screens/Onboarding'
 import Interests from './screens/Interests'
@@ -68,7 +67,7 @@ const MainTab = TabNavigator({
     screen: Account
   }
 }, {
-  initialRouteName: 'Home',
+  initialRouteName: 'Search',
   tabBarOptions: {
     showIcon: true,
     activeTintColor: '#b98a56',

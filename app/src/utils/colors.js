@@ -24,5 +24,6 @@ export default {
   black,
   greyishBrown,
   camel,
-  veryLightBrown
+  veryLightBrown,
+  blackGradientBackground: [greyishBrown, black]
 }

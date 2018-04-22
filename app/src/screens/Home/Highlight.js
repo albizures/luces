@@ -7,7 +7,7 @@ import LinearGradient from 'react-native-linear-gradient'
 const Highlight = (props) => {
   return (
     <TouchableHighlight {...props} elevation={10} style={styles.box}>
-      <ImageBackground source={props.image} style={styles.container} imageStyle={styles.imageBackground} >
+      <ImageBackground source={props.image} style={styles.container} imageStyle={styles.imageBackground}>
         <LinearGradient colors={['transparent', '#252525']} style={styles.gradient}>
           <Text style={styles.title}>{props.title}</Text>
           <Text style={styles.subTitle}>{props.subTitle}</Text>
