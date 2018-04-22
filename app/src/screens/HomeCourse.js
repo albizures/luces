@@ -1,23 +1,49 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { View, Text, ImageBackground } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import ButtonCTA from '../components/ButtonCTA'
+import TopBar from '../components/TopBar'
 import colors from '../utils/colors'
+import TabIcon from '../components/TabIcon'
 
 export default class CourseHome extends Component {
+  static navigationOptions = {
+    title: 'Cursos',
+    tabBarIcon: ({focused, ...rest}) => {
+      console.log(focused, rest)
+      return <TabIcon
+        activeSrc={require('../assets/tabs/courses_active.png')}
+        src={require('../assets/tabs/courses.png')}
+        focused={focused} />
+    }
+  };
+
+  static propTypes = {
+    navigation: PropTypes.object.isRequired
+  }
+
+  onBack = () => {
+    this.props.navigation.goBack()
+  }
+
   render () {
     const title = 'Uñas'
     const subTitle = 'Acrílicas Masglo'
     const image = require('../assets/300x300.png')
     const mainDescription = 'Las uñas esculpidas se han transformado poco a poco en uno de los servicios más rentables que existen dentro del área de belleza.'
     const secondaryDescription = 'Conviértete en una verdadera Maestra en Uñas, iniciándote con tratamientos integrales de manicuría.'
+    const icon = require('../assets/categories/nail_active.png')
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
+        <TopBar
+          onBack={this.onBack}
+          icon={icon}
+          text={title} />
+        {/* <View style={styles.header}>
           <Text>{title}</Text>
-        </View>
+        </View> */}
         <ImageBackground elevation={20} style={styles.cover} source={image} imageStyle={styles.imageBackground} >
           <LinearGradient colors={['transparent', colors.black]} style={styles.gradient}>
             <Text style={styles.title}>{title}</Text>

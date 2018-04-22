@@ -69,18 +69,8 @@ const MainTab = TabNavigator({
   }
 }, {
   initialRouteName: 'Home',
-  // navigationOptions: ({ navigation, ...rest }) => ({
-  //   tabBarIcon: () => {
-  //     const { routeName } = navigation.state
-  //     console.log(navigation)
-  //     // You can return any component that you like here! We usually use an
-  //     // icon component from react-native-vector-icons
-  //     return <Text >{routeName}</Text>
-  //   }
-  // }),
-  tabBarComponent: TabBarBottom,
-  tabBarPosition: 'bottom',
   tabBarOptions: {
+    showIcon: true,
     activeTintColor: '#b98a56',
     inactiveTintColor: '#656767',
     style: {
@@ -89,15 +79,15 @@ const MainTab = TabNavigator({
       borderTopColor: '#656767'
     }
   },
-  animationEnabled: false,
-  swipeEnabled: false
+  animationEnabled: true,
+  swipeEnabled: true
 })
 
 const RootStack = StackNavigator({
   Onboarding: {
     screen: OnboardingStack
   },
-  Interests: {
+  InterestsStack: {
     screen: InterestsStack
   },
   Main: {
