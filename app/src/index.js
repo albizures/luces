@@ -30,14 +30,6 @@ const InterestsStack = StackNavigator({
   initialRouteName: 'Interests'
 })
 
-const styles = {
-  tabBarLabel: {
-    fontSize: 10,
-    color: '#b98a56',
-    fontWeight: '500'
-  }
-}
-
 const CoursesStack = StackNavigator({
   HomeCourses: {
     screen: Home
@@ -67,7 +59,7 @@ const MainTab = TabNavigator({
     screen: Account
   }
 }, {
-  initialRouteName: 'Search',
+  initialRouteName: 'Favorites',
   tabBarOptions: {
     showIcon: true,
     activeTintColor: '#b98a56',

@@ -5,8 +5,12 @@ import LinearGradient from 'react-native-linear-gradient'
 import colors from '../utils/colors'
 
 import TabIcon from '../components/TabIcon'
+import Course from '../components/Course'
 
 export default class Search extends Component {
+  state = {
+    results: []
+  }
   static navigationOptions = {
     title: 'Buscar',
     tabBarIcon: ({focused}) => {
@@ -17,6 +21,22 @@ export default class Search extends Component {
     }
   }
 
+  mapResult () {
+    return this.state.results.map((course, index) => (
+      <Course key={index} image={course.image} title={course.title} description={course.description} />
+    ))
+  }
+
+  onChange = (text) => {
+    this.setState({
+      results: [
+        {image: require('../assets/photos/learn.jpg'), title: 'Curso de cabello', description: '¡No necesitas un salón!'},
+        {image: require('../assets/photos/login.jpg'), title: 'Curso de brochas', description: '¡No necesitas un salón!'},
+        {image: require('../assets/photos/share.jpg'), title: 'Curso de sombras', description: 'Estilo natural, nunca falla'}
+      ]
+    })
+  }
+
   render () {
     return (
       <LinearGradient colors={colors.blackGradientBackground} style={styles.container}>
@@ -24,10 +44,11 @@ export default class Search extends Component {
           <View style={styles.searchIconContainer}>
             <Image style={styles.searchIcon} source={require('../assets/search.png')} />
           </View>
-          <TextInput placeholderTextColor={colors.whiteTwo} placeholder='Buscar' style={styles.searchInput} />
+          <TextInput onChangeText={this.onChange} placeholderTextColor={colors.whiteTwo} placeholder='Buscar' style={styles.searchInput} />
         </View>
         <ImageBackground source={require('../assets/logo.png')} style={styles.resultsContainer} imageStyle={styles.imageBackground}>
-          <Text>Buscar</Text>
+          <Text style={styles.results}>Resultados</Text>
+          {this.mapResult()}
         </ImageBackground>
       </LinearGradient>
     )
@@ -35,6 +56,12 @@ export default class Search extends Component {
 }
 
 const styles = {
+  results: {
+    color: colors.darkTan,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20
+  },
   imageBackground: {
     height: 100,
     width: 140,
@@ -45,7 +72,10 @@ const styles = {
     marginLeft: -70
   },
   resultsContainer: {
-    flex: 1
+    flex: 1,
+    paddingTop: 20,
+    paddingHorizontal: 15,
+    alignItems: 'center'
   },
   searchIcon: {
     width: 25,
