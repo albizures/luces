@@ -16,9 +16,12 @@
     "react": "^16.3.0",
     "react-native": "0.54.4",
     "react-native-elevated-view": "0.0.6",
+    "react-native-gesture-handler": "^1.0.0-alpha.43",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-onboarding-swiper": "^0.5.0",
-    "react-navigation": "^1.5.9"
+    "react-native-tab-view": "0.0.77",
+    "react-native-youtube": "^1.1.0",
+    "react-navigation": "^1.5.11"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",

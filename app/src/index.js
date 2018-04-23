@@ -106,14 +106,14 @@ const RootStack = StackNavigator({
     screen: Course
   }
 }, {
-  initialRouteName: 'Course',
+  initialRouteName: 'Main',
   mode: 'modal',
   headerMode: 'none'
 })
 
 export default class App extends Component {
   state = {
-    user: {interests: true}
+    user: undefined
   }
 
   onChangeUser = (user) => {
