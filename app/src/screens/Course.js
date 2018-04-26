@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import YouTube from 'react-native-youtube'
-import { View, Text, ScrollView, Dimensions } from 'react-native'
+import { NavigationActions } from 'react-navigation'
+import { View, Text, ScrollView, Dimensions, Image, TouchableHighlight } from 'react-native'
 import { TabViewAnimated, SceneMap, TabBar } from 'react-native-tab-view'
 
 import colors from '../utils/colors'
@@ -13,6 +14,10 @@ const initialLayout = {
 }
 
 export default class Course extends Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired
+  }
+
   state = {
     index: 0,
     routes: [
@@ -56,6 +61,10 @@ export default class Course extends Component {
     description: this.getDescription
   });
 
+  onBack = () => {
+    this.props.navigation.dispatch(NavigationActions.back())
+  }
+
   render () {
     return (
       <ScrollView style={styles.container}>
@@ -70,6 +79,9 @@ export default class Course extends Component {
           onChangeQuality={e => this.setState({ quality: e.quality })}
           onError={e => this.setState({ error: e.error })}
           style={{ alignSelf: 'stretch', height: 224, backgroundColor: colors.black }} />
+        <TouchableHighlight style={styles.backContainer} onPress={this.onBack}>
+          <Image style={styles.back} source={require('../assets/video_back.png')} />
+        </TouchableHighlight>
         <View style={styles.container2}>
           <Text style={styles.title}>Curso Uñas</Text>
           <FavoritesButton />
@@ -88,6 +100,17 @@ export default class Course extends Component {
 }
 
 const styles = {
+  backContainer: {
+    position: 'absolute',
+    top: 10,
+    width: 36,
+    height: 36,
+    left: 10
+  },
+  back: {
+    width: 36,
+    height: 36
+  },
   label: {
     // color: colors.darkTan,
     fontSize: 18,

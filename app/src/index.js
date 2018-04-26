@@ -68,7 +68,7 @@ const MainTab = TabNavigator({
     screen: AccountStack
   }
 }, {
-  initialRouteName: 'Account',
+  initialRouteName: 'Home',
   tabBarOptions: {
     showIcon: true,
     activeTintColor: '#b98a56',
