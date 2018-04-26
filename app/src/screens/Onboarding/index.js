@@ -10,12 +10,15 @@ import Learn from './Learn'
 import Share from './Share'
 import Login from './Login'
 
+import colors from '../../utils/colors'
+
 const styles = {
   container: {
-    backgroundColor: 'whitesmoke',
+    backgroundColor: colors.black,
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingTop: 20
   },
   skipLabel: {
     textDecorationLine: 'underline',

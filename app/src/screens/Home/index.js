@@ -11,6 +11,11 @@ import colors from '../../utils/colors'
 // import http from '../utils/http'
 
 const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: colors.black,
+    paddingTop: 20
+  },
   gradient: {
     flex: 1
   },
@@ -121,40 +126,42 @@ class Home extends Component {
   render () {
     // const { videos } = this.state
     return (
-      <LinearGradient colors={['#4c4c4c', '#252525']} style={styles.gradient}>
-        <ScrollView
-          style={{flex: 1}}
-          scrollEnabled={this.state.enabled}
-          onTouchStart={this.onTouchStart}
-          onMomentumScrollEnd={this.onTouchStart}
-          onScrollEndDrag={this.onScrollEndDrag}>
-          <View style={styles.header}>
-            <Image height={55} style={styles.headerLogo} source={require('../../assets/logo.png')} />
-          </View>
-          <View style={styles.highlights}>
-            <Text style={styles.title}>Cursos Beautiful</Text>
-            <Text style={styles.subTitle}>Destacados</Text>
-          </View>
-          <ScrollView horizontal style={styles.scrollView} >
-            <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
-            <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
-            <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
-            <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
+      <View style={styles.container}>
+        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
+          <ScrollView
+            style={{flex: 1}}
+            scrollEnabled={this.state.enabled}
+            onTouchStart={this.onTouchStart}
+            onMomentumScrollEnd={this.onTouchStart}
+            onScrollEndDrag={this.onScrollEndDrag}>
+            <View style={styles.header}>
+              <Image height={55} style={styles.headerLogo} source={require('../../assets/logo.png')} />
+            </View>
+            <View style={styles.highlights}>
+              <Text style={styles.title}>Cursos Beautiful</Text>
+              <Text style={styles.subTitle}>Destacados</Text>
+            </View>
+            <ScrollView horizontal style={styles.scrollView} >
+              <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
+              <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
+              <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
+              <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
+            </ScrollView>
+            <View style={styles.courses}>
+              <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos</Text>
+              <Course icon={require('../../assets/categories/eyes_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+              <Course icon={require('../../assets/categories/nail_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+              <Course icon={require('../../assets/categories/hair_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+              <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+            </View>
           </ScrollView>
-          <View style={styles.courses}>
-            <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos</Text>
-            <Course icon={require('../../assets/categories/eyes_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-            <Course icon={require('../../assets/categories/nail_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-            <Course icon={require('../../assets/categories/hair_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-            <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-          </View>
-        </ScrollView>
-        {/* {videos.map(video => (
-          <Text style={styles.instructions} key={video.id}>
-            {video.name}
-          </Text>
-        ))} */}
-      </LinearGradient>
+          {/* {videos.map(video => (
+            <Text style={styles.instructions} key={video.id}>
+              {video.name}
+            </Text>
+          ))} */}
+        </LinearGradient>
+      </View>
     )
   }
 }

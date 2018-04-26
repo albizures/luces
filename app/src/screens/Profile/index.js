@@ -31,25 +31,27 @@ export default class Profile extends Component {
 
   render () {
     return (
-      <LinearGradient colors={colors.blackGradientBackground} style={styles.container}>
-        <TopBar
-          onBack={this.onBack}
-          icon={require('../../assets/account.png')}
-          text='Mi perfil' />
-        <View style={styles.profile}>
-          <ElevatedView elevation={2}>
-            <Image style={styles.photo} source={require('../../assets/300x300.png')} />
-          </ElevatedView>
-          <Text style={styles.name}>Lorena Enriquez</Text>
-          <Text style={styles.info}>Guatemala - 27 años</Text>
-        </View>
-        <View style={styles.courses}>
-          <Text style={styles.coursesTitle}>Mis cursos</Text>
-          <Course title='Ondas naturales en cabello' icon={require('../../assets/categories/hair.png')} />
-          <Course title='Sombras de ojos nude' icon={require('../../assets/categories/eyes.png')} />
-          <Course title='Curso de uñas' icon={require('../../assets/categories/nail.png')} />
-        </View>
-      </LinearGradient>
+      <View style={styles.container}>
+        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
+          <TopBar
+            onBack={this.onBack}
+            icon={require('../../assets/account.png')}
+            text='Mi perfil' />
+          <View style={styles.profile}>
+            <ElevatedView elevation={2}>
+              <Image style={styles.photo} source={require('../../assets/300x300.png')} />
+            </ElevatedView>
+            <Text style={styles.name}>Lorena Enriquez</Text>
+            <Text style={styles.info}>Guatemala - 27 años</Text>
+          </View>
+          <View style={styles.courses}>
+            <Text style={styles.coursesTitle}>Mis cursos</Text>
+            <Course title='Ondas naturales en cabello' icon={require('../../assets/categories/hair.png')} />
+            <Course title='Sombras de ojos nude' icon={require('../../assets/categories/eyes.png')} />
+            <Course title='Curso de uñas' icon={require('../../assets/categories/nail.png')} />
+          </View>
+        </LinearGradient>
+      </View>
     )
   }
 }
@@ -88,7 +90,11 @@ const styles = {
     paddingTop: 30,
     alignItems: 'center'
   },
+  gradient: {
+    flex: 1
+  },
   container: {
+    paddingTop: 20,
     backgroundColor: colors.black,
     flex: 1
   }

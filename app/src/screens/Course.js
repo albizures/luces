@@ -117,6 +117,7 @@ const styles = {
   },
   container: {
     flex: 1,
+    paddingTop: 20,
     backgroundColor: colors.black
   }
 }

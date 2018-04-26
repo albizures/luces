@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
-import { ImageBackground, Alert } from 'react-native'
+import { ImageBackground, Alert, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import colors from '../utils/colors'
@@ -33,16 +33,18 @@ export default class Favorites extends Component {
 
   render () {
     return (
-      <LinearGradient colors={colors.blackGradientBackground} style={styles.container}>
-        <TopBar
-          icon={require('../assets/favorites.png')}
-          text='Favoritos' />
-        <ImageBackground source={require('../assets/logo.png')} style={styles.resultsContainer} imageStyle={styles.imageBackground}>
-          <Course image={require('../assets/photos/learn.jpg')} title='Balayage' description='¡No necesitas un salón!' onRemove={this.onRemove} />
-          <Course image={require('../assets/photos/login.jpg')} title='Balayage' description='¡No necesitas un salón!' onRemove={this.onRemove} />
-          <Course image={require('../assets/photos/share.jpg')} title='Balayage' description='¡No necesitas un salón!' onRemove={this.onRemove} />
-        </ImageBackground>
-      </LinearGradient>
+      <View style={styles.container}>
+        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
+          <TopBar
+            icon={require('../assets/favorites.png')}
+            text='Favoritos' />
+          <ImageBackground source={require('../assets/logo.png')} style={styles.resultsContainer} imageStyle={styles.imageBackground}>
+            <Course image={require('../assets/photos/learn.jpg')} title='Balayage' description='¡No necesitas un salón!' onRemove={this.onRemove} />
+            <Course image={require('../assets/photos/login.jpg')} title='Balayage' description='¡No necesitas un salón!' onRemove={this.onRemove} />
+            <Course image={require('../assets/photos/share.jpg')} title='Balayage' description='¡No necesitas un salón!' onRemove={this.onRemove} />
+          </ImageBackground>
+        </LinearGradient>
+      </View>
     )
   }
 }
@@ -62,7 +64,11 @@ const styles = {
     marginHorizontal: 15,
     marginVertical: 30
   },
+  gradient: {
+    flex: 1
+  },
   container: {
+    paddingTop: 20,
     backgroundColor: colors.black,
     flex: 1
   }

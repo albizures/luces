@@ -24,15 +24,6 @@ const OnboardingStack = StackNavigator({
   initialRouteName: 'Onboarding'
 })
 
-const InterestsStack = StackNavigator({
-  Interests: {
-    screen: Interests
-  }
-}, {
-  headerMode: 'none',
-  initialRouteName: 'Interests'
-})
-
 const AccountStack = StackNavigator({
   HomeAccount: {
     screen: Account
@@ -77,7 +68,7 @@ const MainTab = TabNavigator({
     screen: AccountStack
   }
 }, {
-  initialRouteName: 'Home',
+  initialRouteName: 'Account',
   tabBarOptions: {
     showIcon: true,
     activeTintColor: '#b98a56',
@@ -96,8 +87,8 @@ const RootStack = StackNavigator({
   Onboarding: {
     screen: OnboardingStack
   },
-  InterestsStack: {
-    screen: InterestsStack
+  Interests: {
+    screen: Interests
   },
   Main: {
     screen: MainTab
@@ -113,7 +104,7 @@ const RootStack = StackNavigator({
 
 export default class App extends Component {
   state = {
-    user: undefined
+    user: { interests: true }
   }
 
   onChangeUser = (user) => {

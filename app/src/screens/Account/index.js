@@ -26,25 +26,27 @@ export default class Account extends Component {
   render () {
     const { navigation } = this.props
     return (
-      <LinearGradient colors={colors.blackGradientBackground} style={styles.container}>
-        <TopBar
-          icon={require('../../assets/account.png')}
-          text='Mi cuenta' />
-        <Option onPress={() => navigation.navigate('Profile')} title='Mi Perfil' icon={require('../../assets/account/profile.png')} />
-        <Option onPress={() => navigation.navigate('Notifications')} title='Notificationes' icon={require('../../assets/account/notifications.png')} />
-        <Option onPress={() => navigation.navigate('InterestsAccount')} title='Intereses' icon={require('../../assets/account/interests.png')} />
-        <View style={styles.logoutAbout}>
-          <View style={styles.logout}>
-            <Image style={styles.logoutIcon} source={require('../../assets/account/logout.png')} />
-            <Text style={styles.logoutText}>Cerrar Sesión</Text>
+      <View style={styles.container}>
+        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
+          <TopBar
+            icon={require('../../assets/account.png')}
+            text='Mi cuenta' />
+          <Option onPress={() => navigation.navigate('Profile')} title='Mi Perfil' icon={require('../../assets/account/profile.png')} />
+          <Option onPress={() => navigation.navigate('Notifications')} title='Notificationes' icon={require('../../assets/account/notifications.png')} />
+          <Option onPress={() => navigation.navigate('InterestsAccount')} title='Intereses' icon={require('../../assets/account/interests.png')} />
+          <View style={styles.logoutAbout}>
+            <View style={styles.logout}>
+              <Image style={styles.logoutIcon} source={require('../../assets/account/logout.png')} />
+              <Text style={styles.logoutText}>Cerrar Sesión</Text>
+            </View>
+            <View style={styles.about}>
+              <Image style={styles.aboutIcon} source={require('../../assets/account/about.png')} />
+              <Text style={styles.aboutText}>Luces Beautiful App 2018 {'\n'} Made with ❤ by Minimo</Text>
+              <Image style={styles.logo} source={require('../../assets/logo.png')} />
+            </View>
           </View>
-          <View style={styles.about}>
-            <Image style={styles.aboutIcon} source={require('../../assets/account/about.png')} />
-            <Text style={styles.aboutText}>Luces Beautiful App 2018 {'\n'} Made with ❤ by Minimo</Text>
-            <Image style={styles.logo} source={require('../../assets/logo.png')} />
-          </View>
-        </View>
-      </LinearGradient>
+        </LinearGradient>
+      </View>
     )
   }
 }
@@ -97,8 +99,12 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'space-between'
   },
+  gradient: {
+    flex: 1
+  },
   container: {
     backgroundColor: colors.black,
+    paddingTop: 20,
     flex: 1
   }
 }

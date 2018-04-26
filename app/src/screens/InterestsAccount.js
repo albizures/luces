@@ -41,17 +41,19 @@ export default class InterestsAccount extends Component {
 
   render () {
     return (
-      <LinearGradient colors={colors.blackGradientBackground} style={styles.container}>
-        <TopBar
-          onBack={this.onBack}
-          icon={require('../assets/favorites.png')}
-          text='Intereses' />
-        <View style={styles.container2}>
-          <Image style={styles.logo} source={require('../assets/logo.png')} />
-          <Text style={styles.description}>Selecciona las categorías que más te gusten y así sabremos que cursos recomendarte.</Text>
-          <ListInterests interests={this.state.interests} />
-        </View>
-      </LinearGradient>
+      <View style={styles.container}>
+        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
+          <TopBar
+            onBack={this.onBack}
+            icon={require('../assets/favorites.png')}
+            text='Intereses' />
+          <View style={styles.container2}>
+            <Image style={styles.logo} source={require('../assets/logo.png')} />
+            <Text style={styles.description}>Selecciona las categorías que más te gusten y así sabremos que cursos recomendarte.</Text>
+            <ListInterests interests={this.state.interests} />
+          </View>
+        </LinearGradient>
+      </View>
     )
   }
 }
@@ -77,7 +79,12 @@ const styles = {
     alignItems: 'center',
     width: '100%'
   },
+  gradient: {
+    flex: 1,
+    width: '100%'
+  },
   container: {
+    paddingTop: 20,
     backgroundColor: colors.black,
     flex: 1,
     alignItems: 'center'

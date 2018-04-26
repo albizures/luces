@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, Image } from 'react-native'
+import { Text, Image, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
+import { NavigationActions } from 'react-navigation'
 
 import { withUser } from '../components/UserContext'
 
@@ -10,12 +11,16 @@ import colors from '../utils/colors'
 import ListInterests from '../components/ListInterests'
 
 const styles = {
-  container: {
-    backgroundColor: '#4c4c4c',
-    flex: 1,
+  gradient: {
     alignItems: 'center',
-    paddingTop: 30,
-    paddingHorizontal: 20
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 30
+  },
+  container: {
+    paddingTop: 20,
+    backgroundColor: colors.black,
+    flex: 1
   },
   image: {
     width: 70,
@@ -59,26 +64,24 @@ class Interests extends Component {
     ]
   }
 
-  goHome = () => {
-    this.props.navigation.navigate('Home')
-  }
-
   onDone = () => {
     this.props.changeUser({...this.props.user, interests: true})
-    this.goHome()
+    this.props.navigation.dispatch(NavigationActions.back())
   }
 
   render () {
     return (
-      <LinearGradient colors={colors.blackGradientBackground} style={styles.container}>
-        <Image style={styles.image} source={require('../assets/logo.png')} />
-        <Text style={styles.title}>Conozcámonos</Text>
-        <Text style={styles.description}>
-          Selecciona los temas que te gustaría aprender con <Text style={styles.description2}>Luces Beautiful</Text>
-        </Text>
-        <ListInterests interests={this.state.interests} />
-        <ButtonCTA title='CONTINUAR' style={{marginTop: 20}} onPress={this.onDone} />
-      </LinearGradient>
+      <View style={styles.container}>
+        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
+          <Image style={styles.image} source={require('../assets/logo.png')} />
+          <Text style={styles.title}>Conozcámonos</Text>
+          <Text style={styles.description}>
+            Selecciona los temas que te gustaría aprender con <Text style={styles.description2}>Luces Beautiful</Text>
+          </Text>
+          <ListInterests interests={this.state.interests} />
+          <ButtonCTA title='CONTINUAR' style={{marginTop: 20}} onPress={this.onDone} />
+        </LinearGradient>
+      </View>
     )
   }
 }

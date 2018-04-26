@@ -29,33 +29,35 @@ export default class Notifications extends Component {
 
   render () {
     return (
-      <LinearGradient colors={colors.blackGradientBackground} style={styles.container}>
-        <TopBar
-          onBack={this.onBack}
-          icon={require('../assets/notification.png')}
-          text='Notificaciones' />
-        <View style={styles.container2}>
-          <Image style={styles.logo} source={require('../assets/logo.png')} />
-          <Text style={styles.title}>Tus cursos</Text>
-          <Text style={styles.description}>Selecciona el medio por el que quieres que te comunicaquemos de cursos nuevos.</Text>
-          <View style={styles.option}>
-            <Image style={styles.optionIcon} source={require('../assets/account/notifications.png')} />
-            <View style={styles.optionDescription}>
-              <Text style={styles.optionTitle}>Push notification</Text>
-              <Text style={styles.optionSubTitle}>Nuevos Cursos</Text>
+      <View style={styles.container}>
+        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
+          <TopBar
+            onBack={this.onBack}
+            icon={require('../assets/notification.png')}
+            text='Notificaciones' />
+          <View style={styles.container2}>
+            <Image style={styles.logo} source={require('../assets/logo.png')} />
+            <Text style={styles.title}>Tus cursos</Text>
+            <Text style={styles.description}>Selecciona el medio por el que quieres que te comunicaquemos de cursos nuevos.</Text>
+            <View style={styles.option}>
+              <Image style={styles.optionIcon} source={require('../assets/account/notifications.png')} />
+              <View style={styles.optionDescription}>
+                <Text style={styles.optionTitle}>Push notification</Text>
+                <Text style={styles.optionSubTitle}>Nuevos Cursos</Text>
+              </View>
+              <Switch style={styles.optionValue} tintColor={colors.darkTan} value thumbTintColor={colors.gunmetal} onTintColor={colors.darkTan} />
             </View>
-            <Switch style={styles.optionValue} tintColor={colors.darkTan} value thumbTintColor={colors.gunmetal} onTintColor={colors.darkTan} />
-          </View>
-          <View style={styles.option}>
-            <Image style={styles.optionIcon} source={require('../assets/account/email.png')} />
-            <View style={styles.optionDescription}>
-              <Text style={styles.optionTitle}>Email</Text>
-              <Text style={styles.optionSubTitle}>Promociones</Text>
+            <View style={styles.option}>
+              <Image style={styles.optionIcon} source={require('../assets/account/email.png')} />
+              <View style={styles.optionDescription}>
+                <Text style={styles.optionTitle}>Email</Text>
+                <Text style={styles.optionSubTitle}>Promociones</Text>
+              </View>
+              <Switch style={styles.optionValue} tintColor={colors.darkTan} value={false} thumbTintColor={colors.gunmetal} onTintColor={colors.darkTan} />
             </View>
-            <Switch style={styles.optionValue} tintColor={colors.darkTan} value={false} thumbTintColor={colors.gunmetal} onTintColor={colors.darkTan} />
           </View>
-        </View>
-      </LinearGradient>
+        </LinearGradient>
+      </View>
     )
   }
 }
@@ -113,7 +115,12 @@ const styles = {
     color: 'white',
     paddingHorizontal: 38
   },
+  gradient: {
+    flex: 1,
+    width: '100%'
+  },
   container: {
+    paddingTop: 20,
     backgroundColor: colors.black,
     flex: 1,
     alignItems: 'center'

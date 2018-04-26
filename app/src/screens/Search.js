@@ -39,18 +39,20 @@ export default class Search extends Component {
 
   render () {
     return (
-      <LinearGradient colors={colors.blackGradientBackground} style={styles.container}>
-        <View style={styles.topbar}>
-          <View style={styles.searchIconContainer}>
-            <Image style={styles.searchIcon} source={require('../assets/search.png')} />
+      <View style={styles.container}>
+        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
+          <View style={styles.topbar}>
+            <View style={styles.searchIconContainer}>
+              <Image style={styles.searchIcon} source={require('../assets/search.png')} />
+            </View>
+            <TextInput onChangeText={this.onChange} placeholderTextColor={colors.whiteTwo} placeholder='Buscar' style={styles.searchInput} />
           </View>
-          <TextInput onChangeText={this.onChange} placeholderTextColor={colors.whiteTwo} placeholder='Buscar' style={styles.searchInput} />
-        </View>
-        <ImageBackground source={require('../assets/logo.png')} style={styles.resultsContainer} imageStyle={styles.imageBackground}>
-          <Text style={styles.results}>Resultados</Text>
-          {this.mapResult()}
-        </ImageBackground>
-      </LinearGradient>
+          <ImageBackground source={require('../assets/logo.png')} style={styles.resultsContainer} imageStyle={styles.imageBackground}>
+            <Text style={styles.results}>Resultados</Text>
+            {this.mapResult()}
+          </ImageBackground>
+        </LinearGradient>
+      </View>
     )
   }
 }
@@ -108,8 +110,12 @@ const styles = {
     borderBottomRightRadius: 18,
     backgroundColor: colors.gunmetal
   },
+  gradient: {
+    flex: 1
+  },
   container: {
     backgroundColor: colors.black,
+    paddingTop: 20,
     flex: 1
   }
 }
