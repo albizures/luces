@@ -124,16 +124,16 @@ class Home extends Component {
   }
 
   render () {
+    // scrollEnabled={this.state.enabled}
+    // onTouchStart={this.onTouchStart}
+    // onMomentumScrollEnd={this.onTouchStart}
+    // onScrollEndDrag={this.onScrollEndDrag}
     // const { videos } = this.state
     return (
       <View style={styles.container}>
         <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
           <ScrollView
-            style={{flex: 1}}
-            scrollEnabled={this.state.enabled}
-            onTouchStart={this.onTouchStart}
-            onMomentumScrollEnd={this.onTouchStart}
-            onScrollEndDrag={this.onScrollEndDrag}>
+            style={{flex: 1}}>
             <View style={styles.header}>
               <Image height={55} style={styles.headerLogo} source={require('../../assets/logo.png')} />
             </View>
@@ -152,6 +152,10 @@ class Home extends Component {
               <Course icon={require('../../assets/categories/eyes_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
               <Course icon={require('../../assets/categories/nail_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
               <Course icon={require('../../assets/categories/hair_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+              <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+              <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+              <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+              <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
               <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
             </View>
           </ScrollView>
