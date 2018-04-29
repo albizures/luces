@@ -5,8 +5,9 @@ import { NavigationActions } from 'react-navigation'
 import { View, Text, ScrollView, Dimensions, Image, TouchableHighlight } from 'react-native'
 import { TabViewAnimated, SceneMap, TabBar } from 'react-native-tab-view'
 
-import colors from '../utils/colors'
-import FavoritesButton from '../components/FavoritesButton'
+import colors from '../../utils/colors'
+import FavoritesButton from '../../components/FavoritesButton'
+import Comments from './Comments'
 
 const initialLayout = {
   height: 0,
@@ -29,15 +30,13 @@ export default class Course extends Component {
   onIndexChange = index => this.setState({ index });
 
   getDescription = () => {
-    return <View>
-      <Text>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum eum fuga dignissimos neque perferendis aut eius suscipit natus excepturi nemo hic iste quidem molestias debitis consequuntur eos, fugiat, ex voluptatibus?</Text>
+    return <View style={{padding: 20}}>
+      <Text style={{color: colors.whiteTwo, fontSize: 14}}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum eum fuga dignissimos neque perferendis aut eius suscipit natus excepturi nemo hic iste quidem molestias debitis consequuntur eos, fugiat, ex voluptatibus?</Text>
     </View>
   }
 
   getComments = () => {
-    return <View>
-      <Text>3 comnetarios</Text>
-    </View>
+    return <Comments commentsCount={3} />
   }
 
   renderLabel = (scene) => {
@@ -80,20 +79,19 @@ export default class Course extends Component {
           onError={e => this.setState({ error: e.error })}
           style={{ alignSelf: 'stretch', height: 224, backgroundColor: colors.black }} />
         <TouchableHighlight style={styles.backContainer} onPress={this.onBack}>
-          <Image style={styles.back} source={require('../assets/video_back.png')} />
+          <Image style={styles.back} source={require('../../assets/video_back.png')} />
         </TouchableHighlight>
         <View style={styles.container2}>
           <Text style={styles.title}>Curso Uñas</Text>
           <FavoritesButton />
         </View>
-        <View>
-          <TabViewAnimated
-            navigationState={this.state}
-            renderScene={this.renderScene}
-            renderHeader={this.getTabBar}
-            onIndexChange={this.onIndexChange}
-            initialLayout={initialLayout} />
-        </View>
+        <TabViewAnimated
+          style={{flex: 1}}
+          navigationState={this.state}
+          renderScene={this.renderScene}
+          renderHeader={this.getTabBar}
+          onIndexChange={this.onIndexChange}
+          initialLayout={initialLayout} />
       </ScrollView>
     )
   }

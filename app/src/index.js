@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
+import { StatusBar, View } from 'react-native'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 
 import Onboarding from './screens/Onboarding'
 import Interests from './screens/Interests'
 import Home from './screens/Home'
-import Course from './screens/Course'
 import HomeCourse from './screens/HomeCourse'
 import Favorites from './screens/Favorites'
 import Search from './screens/Search'
@@ -12,6 +12,7 @@ import Account from './screens/Account'
 import Profile from './screens/Profile'
 import Notifications from './screens/Notifications'
 import InterestsAccount from './screens/InterestsAccount'
+import Course from './screens/Course/index'
 
 import { Provider as UserProvider, getValue } from './components/UserContext'
 
@@ -115,9 +116,12 @@ export default class App extends Component {
     const { user } = this.state
     const contextValue = getValue(user, this.onChangeUser)
     return (
-      <UserProvider value={contextValue}>
-        <RootStack />
-      </UserProvider>
+      <View style={{flex: 1}}>
+        <StatusBar barStyle='light-content' />
+        <UserProvider value={contextValue}>
+          <RootStack />
+        </UserProvider>
+      </View>
     )
   }
 }
