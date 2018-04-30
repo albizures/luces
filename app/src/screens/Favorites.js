@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
-import { ImageBackground, Alert, View } from 'react-native'
+import { ImageBackground, Alert } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import colors from '../utils/colors'
 import TopBar from '../components/TopBar'
 import TabIcon from '../components/TabIcon'
 import Course from '../components/Course'
+import Container from '../components/Container'
 
 export default class Favorites extends Component {
   static navigationOptions = {
@@ -33,7 +34,7 @@ export default class Favorites extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
+      <Container>
         <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
           <TopBar
             icon={require('../assets/favorites.png')}
@@ -44,7 +45,7 @@ export default class Favorites extends Component {
             <Course image={require('../assets/photos/share.jpg')} title='Balayage' description='¡No necesitas un salón!' onRemove={this.onRemove} />
           </ImageBackground>
         </LinearGradient>
-      </View>
+      </Container>
     )
   }
 }
@@ -65,11 +66,6 @@ const styles = {
     marginVertical: 30
   },
   gradient: {
-    flex: 1
-  },
-  container: {
-    paddingTop: 20,
-    backgroundColor: colors.black,
     flex: 1
   }
 }

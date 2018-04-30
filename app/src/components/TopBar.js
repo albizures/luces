@@ -3,6 +3,7 @@ import { View, TouchableHighlight, Image, Text } from 'react-native'
 import PropTypes from 'prop-types'
 
 import colors from '../utils/colors'
+import CircleImage from './CircleImage'
 
 const Dot = ({ icon, text, onBack }) => {
   return (
@@ -13,7 +14,7 @@ const Dot = ({ icon, text, onBack }) => {
           <Image source={require('../assets/prev.png')} style={styles.back} />
         </TouchableHighlight>
       ) : null}
-      {icon ? <Image style={styles.icon} source={icon} /> : null}
+      {icon ? <CircleImage size={26} style={styles.icon} source={icon} /> : null}
       <Text style={styles.text}>{text}</Text>
     </View>
   )
@@ -27,9 +28,6 @@ Dot.propTypes = {
 
 const styles = {
   icon: {
-    width: 25,
-    height: 25,
-    borderRadius: 12,
     backgroundColor: colors.darkTan,
     marginRight: 12
   },

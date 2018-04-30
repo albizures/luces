@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, Image } from 'react-native'
+import { View, Text } from 'react-native'
+
+import CircleImage from './CircleImage'
 
 const styles = {
   checked: {
@@ -13,9 +15,6 @@ const styles = {
       alignItems: 'center'
     },
     icon: {
-      width: 40,
-      height: 40,
-      borderRadius: 20,
       margin: 5,
       backgroundColor: '#b98a56'
     },
@@ -26,12 +25,7 @@ const styles = {
       color: '#b98a56'
     },
     check: {
-      borderWidth: 2,
       backgroundColor: '#b98a56',
-      borderColor: '#b98a56',
-      borderRadius: 12,
-      height: 24,
-      width: 24,
       margin: 13
     }
   },
@@ -44,9 +38,6 @@ const styles = {
       alignItems: 'center'
     },
     icon: {
-      width: 40,
-      height: 40,
-      borderRadius: 20,
       margin: 5,
       backgroundColor: 'transparent'
     },
@@ -85,9 +76,9 @@ export default class Interest extends Component {
     return (
       <View style={{height: 50, width: '100%'}}>
         <View style={style.container}>
-          <Image style={style.icon} source={icon} />
+          <CircleImage style={style.icon} size={40} source={icon} />
           <Text style={style.text}>{text}</Text>
-          {checked ? <Image style={style.check} source={require('../assets/checked.png')} /> : <View style={style.check} />}
+          {checked ? <CircleImage size={24} style={style.check} source={require('../assets/checked.png')} /> : <View style={style.check} />}
         </View>
       </View>
     )

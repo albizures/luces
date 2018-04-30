@@ -3,13 +3,14 @@ import { View, ViewPropTypes, TouchableHighlight, Text, Image } from 'react-nati
 import PropTypes from 'prop-types'
 
 import colors from '../../utils/colors'
+import CircleImage from '../../components/CircleImage'
 
 const Course = (props) => {
   const { course, style, icon } = props
   return (
     <TouchableHighlight {...props} style={[style, styles.touchable]}>
       <View style={styles.container}>
-        <Image source={icon} style={styles.icon} />
+        <CircleImage size={30} source={icon} style={styles.icon} />
         <View style={styles.text}>
           <Text style={styles.title}>{course.name}</Text>
           <Text style={styles.subTitle}>Por {course.author}</Text>
@@ -51,9 +52,6 @@ const styles = {
     fontWeight: '500'
   },
   icon: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
     marginRight: 15,
     backgroundColor: colors.darkTan
   },

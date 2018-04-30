@@ -5,8 +5,9 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import ButtonCTA from '../components/ButtonCTA'
 import TopBar from '../components/TopBar'
-import colors from '../utils/colors'
 import TabIcon from '../components/TabIcon'
+import Container from '../components/Container'
+import colors from '../utils/colors'
 
 export default class CourseHome extends Component {
   static navigationOptions = {
@@ -40,7 +41,7 @@ export default class CourseHome extends Component {
     const secondaryDescription = 'Conviértete en una verdadera Maestra en Uñas, iniciándote con tratamientos integrales de manicuría.'
     const icon = require('../assets/categories/nail_active.png')
     return (
-      <View style={styles.container}>
+      <Container>
         <TopBar
           onBack={this.onBack}
           icon={icon}
@@ -59,7 +60,7 @@ export default class CourseHome extends Component {
           <Text style={styles.secondaryDescription}>{secondaryDescription}</Text>
           <ButtonCTA title='EMPERZAR CURSO' onPress={this.startCourse} />
         </View>
-      </View>
+      </Container>
     )
   }
 }
@@ -117,10 +118,5 @@ const styles = {
     width: '100%',
     height: 65,
     alignItems: 'center'
-  },
-  container: {
-    flex: 1,
-    paddingTop: 20,
-    backgroundColor: colors.black
   }
 }

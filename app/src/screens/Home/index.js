@@ -5,6 +5,7 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import { withUser } from '../../components/UserContext'
 import TabIcon from '../../components/TabIcon'
+import Container from '../../components/Container'
 import Highlight from './Highlight'
 import Course from './Course'
 import colors from '../../utils/colors'
@@ -130,7 +131,7 @@ class Home extends Component {
     // onScrollEndDrag={this.onScrollEndDrag}
     // const { videos } = this.state
     return (
-      <View style={styles.container}>
+      <Container>
         <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
           <ScrollView
             style={{flex: 1}}>
@@ -165,7 +166,7 @@ class Home extends Component {
             </Text>
           ))} */}
         </LinearGradient>
-      </View>
+      </Container>
     )
   }
 }

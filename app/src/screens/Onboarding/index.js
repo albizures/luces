@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, Image, TouchableHighlight } from 'react-native'
+import { Text, Image, TouchableHighlight } from 'react-native'
 
 import OnboardingSwiper from '../../components/Onboarding'
+import Container from '../../components/Container'
 import { withUser } from '../../components/UserContext'
 
 import Welcome from './Welcome'
@@ -10,15 +11,12 @@ import Learn from './Learn'
 import Share from './Share'
 import Login from './Login'
 
-import colors from '../../utils/colors'
+// import colors from '../../utils/colors'
 
 const styles = {
   container: {
-    backgroundColor: colors.black,
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 20
+    justifyContent: 'center'
   },
   skipLabel: {
     textDecorationLine: 'underline',
@@ -53,7 +51,7 @@ class Onboarding extends Component {
   render () {
     // onSkip={this.goHome}
     return (
-      <View style={styles.container}>
+      <Container style={styles.container}>
         <OnboardingSwiper
           showDone={false}
           skipLabel={<Text style={styles.skipLabel}>Saltar</Text>}
@@ -64,7 +62,7 @@ class Onboarding extends Component {
             () => <Share />,
             () => <Login navigation={this.goHome} />
           ]} />
-      </View>
+      </Container>
     )
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, Image, View } from 'react-native'
+import { Text, Image } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { NavigationActions } from 'react-navigation'
 
@@ -9,6 +9,7 @@ import { withUser } from '../components/UserContext'
 import ButtonCTA from '../components/ButtonCTA'
 import colors from '../utils/colors'
 import ListInterests from '../components/ListInterests'
+import Container from '../components/Container'
 
 const styles = {
   gradient: {
@@ -16,11 +17,6 @@ const styles = {
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 30
-  },
-  container: {
-    paddingTop: 20,
-    backgroundColor: colors.black,
-    flex: 1
   },
   image: {
     width: 70,
@@ -71,7 +67,7 @@ class Interests extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
+      <Container>
         <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
           <Image style={styles.image} source={require('../assets/logo.png')} />
           <Text style={styles.title}>Conozcámonos</Text>
@@ -81,7 +77,7 @@ class Interests extends Component {
           <ListInterests interests={this.state.interests} />
           <ButtonCTA title='CONTINUAR' style={{marginTop: 20}} onPress={this.onDone} />
         </LinearGradient>
-      </View>
+      </Container>
     )
   }
 }

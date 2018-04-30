@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import YouTube from 'react-native-youtube'
 import { NavigationActions } from 'react-navigation'
-import { View, Text, ScrollView, Dimensions, Image, TouchableHighlight } from 'react-native'
+import { View, Text, Dimensions, Image, TouchableHighlight } from 'react-native'
 import { TabViewAnimated, SceneMap, TabBar } from 'react-native-tab-view'
 
 import colors from '../../utils/colors'
 import FavoritesButton from '../../components/FavoritesButton'
+import Container from '../../components/Container'
 import Comments from './Comments'
 
 const initialLayout = {
@@ -66,7 +67,7 @@ export default class Course extends Component {
 
   render () {
     return (
-      <ScrollView style={styles.container}>
+      <Container scroll>
         <YouTube
           videoId='STWuPMcwwbw'
           play={false}
@@ -92,7 +93,7 @@ export default class Course extends Component {
           renderHeader={this.getTabBar}
           onIndexChange={this.onIndexChange}
           initialLayout={initialLayout} />
-      </ScrollView>
+      </Container>
     )
   }
 }
@@ -135,10 +136,5 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
-  },
-  container: {
-    flex: 1,
-    paddingTop: 20,
-    backgroundColor: colors.black
   }
 }

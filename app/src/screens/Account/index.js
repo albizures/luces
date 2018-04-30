@@ -5,6 +5,7 @@ import colors from '../../utils/colors'
 import LinearGradient from 'react-native-linear-gradient'
 
 import TabIcon from '../../components/TabIcon'
+import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
 import Option from './Option'
 
@@ -26,7 +27,7 @@ export default class Account extends Component {
   render () {
     const { navigation } = this.props
     return (
-      <View style={styles.container}>
+      <Container>
         <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
           <TopBar
             icon={require('../../assets/account.png')}
@@ -46,7 +47,7 @@ export default class Account extends Component {
             </View>
           </View>
         </LinearGradient>
-      </View>
+      </Container>
     )
   }
 }
@@ -100,11 +101,6 @@ const styles = {
     justifyContent: 'space-between'
   },
   gradient: {
-    flex: 1
-  },
-  container: {
-    backgroundColor: colors.black,
-    paddingTop: 20,
     flex: 1
   }
 }

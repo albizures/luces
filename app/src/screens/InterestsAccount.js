@@ -8,6 +8,7 @@ import colors from '../utils/colors'
 import TabIcon from '../components/TabIcon'
 import TopBar from '../components/TopBar'
 import ListInterests from '../components/ListInterests'
+import Container from '../components/Container'
 
 export default class InterestsAccount extends Component {
   static propTypes = {
@@ -41,7 +42,7 @@ export default class InterestsAccount extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
+      <Container style={styles.container}>
         <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
           <TopBar
             onBack={this.onBack}
@@ -53,7 +54,7 @@ export default class InterestsAccount extends Component {
             <ListInterests interests={this.state.interests} />
           </View>
         </LinearGradient>
-      </View>
+      </Container>
     )
   }
 }
@@ -81,12 +82,7 @@ const styles = {
   },
   gradient: {
     flex: 1,
-    width: '100%'
-  },
-  container: {
-    paddingTop: 20,
-    backgroundColor: colors.black,
-    flex: 1,
+    width: '100%',
     alignItems: 'center'
   }
 }

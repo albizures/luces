@@ -70,6 +70,7 @@ const MainTab = TabNavigator({
   }
 }, {
   initialRouteName: 'Home',
+  tabBarPosition: 'bottom',
   tabBarOptions: {
     showIcon: true,
     activeTintColor: '#b98a56',
@@ -105,7 +106,7 @@ const RootStack = StackNavigator({
 
 export default class App extends Component {
   state = {
-    user: { interests: true }
+    user: { interests: false }
   }
 
   onChangeUser = (user) => {

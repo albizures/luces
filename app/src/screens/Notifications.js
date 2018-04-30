@@ -7,6 +7,7 @@ import colors from '../utils/colors'
 
 import TabIcon from '../components/TabIcon'
 import TopBar from '../components/TopBar'
+import Container from '../components/Container'
 
 export default class Notifications extends Component {
   static propTypes = {
@@ -29,7 +30,7 @@ export default class Notifications extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
+      <Container>
         <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
           <TopBar
             onBack={this.onBack}
@@ -57,7 +58,7 @@ export default class Notifications extends Component {
             </View>
           </View>
         </LinearGradient>
-      </View>
+      </Container>
     )
   }
 }
@@ -117,12 +118,7 @@ const styles = {
   },
   gradient: {
     flex: 1,
-    width: '100%'
-  },
-  container: {
-    paddingTop: 20,
-    backgroundColor: colors.black,
-    flex: 1,
+    width: '100%',
     alignItems: 'center'
   }
 }

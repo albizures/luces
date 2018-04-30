@@ -6,6 +6,7 @@ import colors from '../utils/colors'
 
 import TabIcon from '../components/TabIcon'
 import Course from '../components/Course'
+import Container from '../components/Container'
 
 export default class Search extends Component {
   state = {
@@ -39,7 +40,7 @@ export default class Search extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
+      <Container>
         <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
           <View style={styles.topbar}>
             <View style={styles.searchIconContainer}>
@@ -52,7 +53,7 @@ export default class Search extends Component {
             {this.mapResult()}
           </ImageBackground>
         </LinearGradient>
-      </View>
+      </Container>
     )
   }
 }
@@ -111,11 +112,6 @@ const styles = {
     backgroundColor: colors.gunmetal
   },
   gradient: {
-    flex: 1
-  },
-  container: {
-    backgroundColor: colors.black,
-    paddingTop: 20,
     flex: 1
   }
 }
