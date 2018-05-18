@@ -67,7 +67,7 @@ export default class Course extends Component {
 
   render () {
     return (
-      <Container scroll>
+      <Container>
         <YouTube
           videoId='STWuPMcwwbw'
           play={false}
@@ -78,7 +78,7 @@ export default class Course extends Component {
           onChangeState={e => this.setState({ status: e.state })}
           onChangeQuality={e => this.setState({ quality: e.quality })}
           onError={e => this.setState({ error: e.error })}
-          style={{ alignSelf: 'stretch', height: 224, backgroundColor: colors.black }} />
+          style={styles.video} />
         <TouchableHighlight style={styles.backContainer} onPress={this.onBack}>
           <Image style={styles.back} source={require('../../assets/video_back.png')} />
         </TouchableHighlight>
@@ -99,6 +99,11 @@ export default class Course extends Component {
 }
 
 const styles = {
+  video: {
+    alignSelf: 'stretch',
+    height: 224,
+    backgroundColor: colors.black
+  },
   backContainer: {
     position: 'absolute',
     top: 10,
@@ -132,7 +137,7 @@ const styles = {
   container2: {
     paddingVertical: 28,
     paddingHorizontal: 20,
-    flex: 1,
+    height: 80,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
