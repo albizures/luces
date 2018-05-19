@@ -9,7 +9,7 @@ import Container from '../../components/Container'
 import Highlight from './Highlight'
 import Course from './Course'
 import colors from '../../utils/colors'
-// import http from '../utils/http'
+import http from '../../utils/http'
 
 const styles = {
   container: {
@@ -89,22 +89,23 @@ class Home extends Component {
     //   animationType: 'slide-up',
     //   navigatorButtons: {}
     // })
-    // try {
-    //   const {data: videos} = await http.get('videos')
-    //   console.log('response vi', videos)
-
-    //   this.setState({loading: false, videos})
-    // } catch (e) {
-    //   console.log(e)
-    //   this.setState({loading: false, error: true})
-    // }
 
     if (!this.props.user) {
-      this.props.navigation.navigate('Onboarding')
+      return this.props.navigation.navigate('Onboarding')
     } else {
       if (!this.props.user.interests) {
-        this.props.navigation.navigate('Interests')
+        return this.props.navigation.navigate('Interests')
       }
+    }
+
+    try {
+      const {data: videos} = await http.get('courses')
+      console.log('response vi', videos)
+
+      this.setState({loading: false, videos})
+    } catch (e) {
+      console.log(e)
+      this.setState({loading: false, error: true})
     }
   }
 
@@ -125,6 +126,7 @@ class Home extends Component {
   }
 
   render () {
+    const { videos } = this.state
     // scrollEnabled={this.state.enabled}
     // onTouchStart={this.onTouchStart}
     // onMomentumScrollEnd={this.onTouchStart}
@@ -149,7 +151,7 @@ class Home extends Component {
               <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
             </ScrollView>
             <View style={styles.courses}>
-              <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos</Text>
+              <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos {videos && videos.length}</Text>
               <Course icon={require('../../assets/categories/eyes_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
               <Course icon={require('../../assets/categories/nail_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
               <Course icon={require('../../assets/categories/hair_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
