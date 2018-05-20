@@ -1,25 +1,55 @@
 import { Dimensions, Text, View, ImageBackground } from 'react-native'
 import PropTypes from 'prop-types'
-import React from 'react'
-
+import React, { Component } from 'react'
+import { LoginManager, LoginButton, AccessToken } from 'react-native-fbsdk'
 import ButtonCTA from '../../components/ButtonCTA'
 
 const { width, height } = Dimensions.get('window')
 const potrait = height > width
 
-const Step = (props) => {
-  return (
-    <View style={[styles.container, { width, height }]}>
-      <ImageBackground source={require('../../assets/photos/login.jpg')} style={styles.imageContainer} imageStyle={styles.imageBackground} />
-      <View style={styles.textContainer}>
-        <ButtonCTA title='INGRESA CON FACEBOOK' onPress={props.navigation} />
-        <Text style={styles.text}>Ingresar sin registrarme</Text>
+class Login extends Component {
+  fbAuth = () => {
+    LoginManager.logInWithPermissions(['email', 'public_profile']).then(result => {
+      if (result.isCancelled) {
+        alert('Login cancelled')
+      } else {
+        alert('Login success:' + result.grantedPermissions)
+      }
+    }).catch(err => alert(err.message))
+  }
+
+  onLoginFinished = (error, result) => {
+    if (error) {
+      alert('login has error: ' + result.error)
+    } else if (result.isCancelled) {
+      alert('login is cancelled.')
+    } else {
+      AccessToken.getCurrentAccessToken().then(
+        (data) => {
+          alert(data.accessToken.toString())
+        }
+      )
+    }
+  }
+
+  render () {
+    return (
+      <View style={[styles.container, { width, height }]}>
+        <ImageBackground source={require('../../assets/photos/login.jpg')} style={styles.imageContainer} imageStyle={styles.imageBackground} />
+        <View style={styles.textContainer}>
+          <LoginButton
+            publishPermissions={['publish_actions', 'email']}
+            onLoginFinished={this.onLoginFinished}
+            onLogoutFinished={() => alert('logout.')} />
+          <ButtonCTA title='INGRESA CON FACEBOOK' onPress={this.props.navigation} />
+          <Text style={styles.text}>Ingresar sin registrarme</Text>
+        </View>
       </View>
-    </View>
-  )
+    )
+  }
 }
 
-Step.propTypes = {
+Login.propTypes = {
   navigation: PropTypes.func
 }
 
@@ -61,4 +91,4 @@ const styles = {
   }
 }
 
-export default Step
+export default Login
