@@ -107,3 +107,7 @@ buck-out/
 */fastlane/screenshots
 
 api/uploads
+*.csr
+*.key
+
+db

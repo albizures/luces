@@ -244,6 +244,13 @@
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
+		6851231220B3A1E200399151 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A6CEAD3B8E5749E78079A349 /* RCTYouTube.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8BDB9BC91B4289AE00EF9FEF;
+			remoteInfo = RCTYouTube;
+		};
 		688B423D207C5BD100842257 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 688B4238207C5BD000842257 /* BVLinearGradient.xcodeproj */;
@@ -313,13 +320,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
-		};
-		68BF1D5220B0E0EF0097F799 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A6CEAD3B8E5749E78079A349 /* RCTYouTube.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8BDB9BC91B4289AE00EF9FEF;
-			remoteInfo = RCTYouTube;
 		};
 		68BF1D5720B0E0EF0097F799 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -596,16 +596,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		688B4239207C5BD000842257 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				688B423E207C5BD100842257 /* libBVLinearGradient.a */,
-				688B4240207C5BD100842257 /* libBVLinearGradient.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		68BF1D2720B0E0E90097F799 /* Recovered References */ = {
+		685122E720B3A1DA00399151 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
 				1D0427669F24479E83B342B0 /* libRCTYouTube.a */,
@@ -614,10 +605,19 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
-		68BF1D4F20B0E0EF0097F799 /* Products */ = {
+		6851230F20B3A1E200399151 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				68BF1D5320B0E0EF0097F799 /* libRCTYouTube.a */,
+				6851231320B3A1E200399151 /* libRCTYouTube.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		688B4239207C5BD000842257 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				688B423E207C5BD100842257 /* libBVLinearGradient.a */,
+				688B4240207C5BD100842257 /* libBVLinearGradient.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -679,7 +679,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				1F44726C20064F538AEF8437 /* Resources */,
-				68BF1D2720B0E0E90097F799 /* Recovered References */,
+				685122E720B3A1DA00399151 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -873,7 +873,7 @@
 					ProjectRef = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
 				},
 				{
-					ProductGroup = 68BF1D4F20B0E0EF0097F799 /* Products */;
+					ProductGroup = 6851230F20B3A1E200399151 /* Products */;
 					ProjectRef = A6CEAD3B8E5749E78079A349 /* RCTYouTube.xcodeproj */;
 				},
 				{
@@ -1074,6 +1074,13 @@
 			remoteRef = 5E9157341DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		6851231320B3A1E200399151 /* libRCTYouTube.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTYouTube.a;
+			remoteRef = 6851231220B3A1E200399151 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		688B423E207C5BD100842257 /* libBVLinearGradient.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1142,13 +1149,6 @@
 			fileType = archive.ar;
 			path = "libprivatedata-tvOS.a";
 			remoteRef = 688B4274207C5BD100842257 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		68BF1D5320B0E0EF0097F799 /* libRCTYouTube.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTYouTube.a;
-			remoteRef = 68BF1D5220B0E0EF0097F799 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		68BF1D5820B0E0EF0097F799 /* libRCTFBSDK.a */ = {

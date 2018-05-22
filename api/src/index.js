@@ -1,6 +1,6 @@
 const isProd = process.env.NODE_ENV === 'production'
 const express = require('express')
-const port = parseInt(process.env.PORT, 10) || 3000
+const port = 80
 
 require('./config/connection')
 
