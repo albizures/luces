@@ -2,16 +2,25 @@ import React from 'react'
 import { View, ViewPropTypes, Platform, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 
+import Loading from './Loading'
 import colors from '../utils/colors'
 
-const CircleImage = (props) => {
+const top = Platform.OS === 'ios' ? 20 : 0
+
+const Container = (props) => {
   const Wrapper = props.scroll ? ScrollView : View
   return (
-    <Wrapper {...props} style={[props.style, styles.container]} />
+    <Wrapper style={[props.style, styles.container]}>
+      <Loading top={top} isLoading={props.isLoading}>
+        {props.children}
+      </Loading>
+    </Wrapper>
   )
 }
 
-CircleImage.propTypes = {
+Container.propTypes = {
+  children: PropTypes.node.isRequired,
+  isLoading: PropTypes.bool,
   style: ViewPropTypes.style,
   scroll: PropTypes.bool
 }
@@ -19,9 +28,9 @@ CircleImage.propTypes = {
 const styles = {
   container: {
     backgroundColor: colors.black,
-    paddingTop: Platform.OS === 'ios' ? 20 : 0,
+    paddingTop: top,
     flex: 1
   }
 }
 
-export default CircleImage
+export default Container

@@ -82,21 +82,19 @@ class Home extends Component {
     enabled: true
   }
 
-  componentDidMount = async () => {
-    // Navigation.showModal({
-    //   screen: 'Onboarding',
-    //   title: 'Onboarding',
-    //   animationType: 'slide-up',
-    //   navigatorButtons: {}
-    // })
-
-    if (!this.props.user) {
+  async checkUser () {
+    if (this.checking) {
+      return
+    }
+    this.checking = true
+    if (this.props.user === null) {
       return this.props.navigation.navigate('Onboarding')
-    } else {
+    } else if (this.props.user) {
       if (!this.props.user.interests) {
         return this.props.navigation.navigate('Interests')
       }
     }
+    this.checking = false
 
     try {
       const {data: videos} = await http.get('courses')
@@ -107,6 +105,22 @@ class Home extends Component {
       console.log(e)
       this.setState({loading: false, error: true})
     }
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.props.user !== prevProps.user) {
+      this.checkUser()
+    }
+  }
+
+  componentDidMount = () => {
+    this.checkUser()
+    // Navigation.showModal({
+    //   screen: 'Onboarding',
+    //   title: 'Onboarding',
+    //   animationType: 'slide-up',
+    //   navigatorButtons: {}
+    // })
   }
 
   onTouchStart = () => {
@@ -126,6 +140,7 @@ class Home extends Component {
   }
 
   render () {
+    console.log(this.props.user)
     const { videos } = this.state
     // scrollEnabled={this.state.enabled}
     // onTouchStart={this.onTouchStart}

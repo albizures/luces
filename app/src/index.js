@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StatusBar, View } from 'react-native'
+import { StatusBar, View, AsyncStorage } from 'react-native'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 
 import Onboarding from './screens/Onboarding'
@@ -99,17 +99,49 @@ const RootStack = StackNavigator({
     screen: Course
   }
 }, {
+  navigationOptions: {
+    gesturesEnabled: false
+  },
   initialRouteName: 'Main',
   mode: 'modal',
   headerMode: 'none'
 })
 
 export default class App extends Component {
+  async componentDidMount () {
+    try {
+      const token = await AsyncStorage.getItem('token')
+
+      if (token) {
+        const interests = await AsyncStorage.getItem('interests')
+        this.setState({
+          user: {
+            token,
+            interests: Boolean(interests)
+          }
+        })
+      } else {
+        this.setState({
+          user: null
+        })
+      }
+    } catch (error) {
+      alert('Algo malo paso')
+    }
+  }
+
   state = {
     // user: { interests: false }
   }
 
-  onChangeUser = (user) => {
+  onChangeUser = async (user) => {
+    console.log('user->', user)
+    if (user.token) {
+      await AsyncStorage.setItem('token', user.token)
+    }
+    if (user.interests) {
+      await AsyncStorage.setItem('interests', user.interests)
+    }
     this.setState({ user })
   }
 

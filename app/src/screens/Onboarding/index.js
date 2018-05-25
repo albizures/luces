@@ -43,15 +43,26 @@ class Onboarding extends Component {
     changeUser: PropTypes.func.isRequired
   }
 
+  state = {
+    loading: false
+  }
+
   goHome = () => {
     this.props.changeUser({})
     this.props.navigation.navigate('Home')
   }
 
+  setLoaderStatus = (status) => {
+    this.setState({
+      loading: status
+    })
+  }
+
   render () {
     // onSkip={this.goHome}
+    const { loading } = this.state
     return (
-      <Container style={styles.container}>
+      <Container style={styles.container} isLoading={loading}>
         <OnboardingSwiper
           showDone={false}
           skipLabel={<Text style={styles.skipLabel}>Saltar</Text>}
@@ -60,7 +71,7 @@ class Onboarding extends Component {
             () => <Welcome />,
             () => <Learn />,
             () => <Share />,
-            () => <Login navigation={this.goHome} />
+            () => <Login setLoaderStatus={this.setLoaderStatus} navigation={this.goHome} />
           ]} />
       </Container>
     )

@@ -1,21 +1,48 @@
 import { Dimensions, Text, View, ImageBackground } from 'react-native'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { LoginManager, LoginButton, AccessToken } from 'react-native-fbsdk'
+import { LoginManager, AccessToken } from 'react-native-fbsdk'
+
+import { withUser } from '../../components/UserContext'
 import ButtonCTA from '../../components/ButtonCTA'
+import http from '../../utils/http'
 
 const { width, height } = Dimensions.get('window')
 const potrait = height > width
 
+const permissions = ['email', 'public_profile']
+
 class Login extends Component {
-  fbAuth = () => {
-    LoginManager.logInWithPermissions(['email', 'public_profile']).then(result => {
-      if (result.isCancelled) {
-        alert('Login cancelled')
-      } else {
-        alert('Login success:' + result.grantedPermissions)
+  static propTypes = {
+    changeUser: PropTypes.func.isRequired,
+    navigation: PropTypes.func.isRequired,
+    setLoaderStatus: PropTypes.func.isRequired
+  }
+
+  state = {
+    loading: false
+  }
+
+  fbAuth = async () => {
+    this.props.setLoaderStatus(true)
+    try {
+      const { isCancelled } = await LoginManager.logInWithReadPermissions(permissions)
+      if (isCancelled) {
+        throw new Error('Login cancelled')
       }
-    }).catch(err => alert(err.message))
+      const { accessToken } = await AccessToken.getCurrentAccessToken()
+
+      const { data: { token, user } } = await http.login(accessToken.toString())
+      console.log(token, user)
+      this.props.changeUser({
+        ...user,
+        token
+      })
+      this.props.navigation()
+    } catch (error) {
+      this.props.setLoaderStatus(false)
+      alert(error.message)
+    }
   }
 
   onLoginFinished = (error, result) => {
@@ -37,20 +64,13 @@ class Login extends Component {
       <View style={[styles.container, { width, height }]}>
         <ImageBackground source={require('../../assets/photos/login.jpg')} style={styles.imageContainer} imageStyle={styles.imageBackground} />
         <View style={styles.textContainer}>
-          <LoginButton
-            publishPermissions={['publish_actions', 'email']}
-            onLoginFinished={this.onLoginFinished}
-            onLogoutFinished={() => alert('logout.')} />
-          <ButtonCTA title='INGRESA CON FACEBOOK' onPress={this.props.navigation} />
+          <ButtonCTA title='INGRESA CON FACEBOOK' onPress={this.fbAuth} />
+          {/* <ButtonCTA title='INGRESA CON FACEBOOK' onPress={this.props.navigation} /> */}
           <Text style={styles.text}>Ingresar sin registrarme</Text>
         </View>
       </View>
     )
   }
-}
-
-Login.propTypes = {
-  navigation: PropTypes.func
 }
 
 const styles = {
@@ -86,9 +106,9 @@ const styles = {
     color: '#b98a56',
     fontWeight: 'bold',
     fontSize: 12,
-    marginTop: 26,
+    marginTop: 20,
     textDecorationLine: 'underline'
   }
 }
 
-export default Login
+export default withUser(Login)

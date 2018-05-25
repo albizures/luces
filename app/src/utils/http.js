@@ -13,5 +13,8 @@ export default {
   },
   post (url, body) {
     return base.post(url, body)
+  },
+  login (token) {
+    return base.post('login', { token })
   }
 }
