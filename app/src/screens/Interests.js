@@ -5,11 +5,14 @@ import LinearGradient from 'react-native-linear-gradient'
 import { NavigationActions } from 'react-navigation'
 
 import { withUser } from '../components/UserContext'
+import { withCategories } from '../components/CategoriesContext'
 
 import ButtonCTA from '../components/ButtonCTA'
 import colors from '../utils/colors'
 import ListInterests from '../components/ListInterests'
 import Container from '../components/Container'
+
+import http from '../utils/http'
 
 const styles = {
   gradient: {
@@ -46,23 +49,23 @@ class Interests extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     changeUser: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    categories: PropTypes.object.isRequired
   }
 
-  state = {
-    interests: [
-      {id: 1, icon: require('../assets/categories/eyes_active.png'), text: 'Maquillaje de ojos', checked: true},
-      {id: 2, icon: require('../assets/categories/hair.png'), text: 'Peinados', checked: false},
-      {id: 3, icon: require('../assets/categories/nail.png'), text: 'Manicure', checked: false},
-      {id: 4, icon: require('../assets/categories/lips_active.png'), text: 'Maquillaje de labios', checked: true},
-      {id: 5, icon: require('../assets/categories/mask_active.png'), text: 'Mascarillas', checked: true},
-      {id: 6, icon: require('../assets/categories/contour.png'), text: 'Contornos', checked: false}
-    ]
-  }
+  interests = React.createRef()
 
-  onDone = () => {
-    this.props.changeUser({...this.props.user, interests: true})
-    this.props.navigation.dispatch(NavigationActions.back())
+  onDone = async () => {
+    const { interests } = this.interests.current.state
+    const categories = Object.keys(interests).map(Number)
+    try {
+      await http.post('/interests/user', { categories })
+      this.props.changeUser({...this.props.user, interests: true})
+      this.props.navigation.dispatch(NavigationActions.back())
+    } catch (error) {
+      console.log(error)
+      alert('Algo malo paso')
+    }
   }
 
   render () {
@@ -74,11 +77,11 @@ class Interests extends Component {
           <Text style={styles.description}>
             Selecciona los temas que te gustaría aprender con <Text style={styles.description2}>Luces Beautiful</Text>
           </Text>
-          <ListInterests interests={this.state.interests} />
+          <ListInterests ref={this.interests} categories={this.props.categories} />
           <ButtonCTA title='CONTINUAR' style={{marginTop: 20}} onPress={this.onDone} />
         </LinearGradient>
       </Container>
     )
   }
 }
-export default withUser(Interests)
+export default withCategories(withUser(Interests))

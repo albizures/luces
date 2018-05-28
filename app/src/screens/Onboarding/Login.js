@@ -33,7 +33,6 @@ class Login extends Component {
       const { accessToken } = await AccessToken.getCurrentAccessToken()
 
       const { data: { token, user } } = await http.login(accessToken.toString())
-      console.log(token, user)
       this.props.changeUser({
         ...user,
         token

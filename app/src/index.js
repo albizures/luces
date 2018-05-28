@@ -15,6 +15,8 @@ import InterestsAccount from './screens/InterestsAccount'
 import Course from './screens/Course/index'
 
 import { Provider as UserProvider, getValue } from './components/UserContext'
+import { Provider as CategoryProvider, getValue as getCategoryValue } from './components/CategoriesContext'
+import http, { instance } from './utils/http'
 
 const OnboardingStack = StackNavigator({
   Onboarding: {
@@ -108,9 +110,23 @@ const RootStack = StackNavigator({
 })
 
 export default class App extends Component {
+  async getCategories () {
+    const { data: categories } = await http.get('categories')
+
+    return categories
+  }
   async componentDidMount () {
     try {
-      const token = await AsyncStorage.getItem('token')
+      const [token, categories] = await Promise.all([
+        AsyncStorage.getItem('token'),
+        this.getCategories()
+      ])
+
+      if (Array.isArray(categories)) {
+        this.setState({
+          categories: getCategoryValue(categories)
+        })
+      }
 
       if (token) {
         const interests = await AsyncStorage.getItem('interests')
@@ -131,29 +147,35 @@ export default class App extends Component {
   }
 
   state = {
+    categories: {}
     // user: { interests: false }
   }
 
   onChangeUser = async (user) => {
-    console.log('user->', user)
     if (user.token) {
       await AsyncStorage.setItem('token', user.token)
     }
     if (user.interests) {
-      await AsyncStorage.setItem('interests', user.interests)
+      await AsyncStorage.setItem('interests', 'true')
     }
     this.setState({ user })
   }
 
   render () {
     const { user } = this.state
+    if (user && user.token) {
+      instance.defaults.headers.common['Authorization'] = 'Bearer ' + user.token
+    }
+
     const contextValue = getValue(user, this.onChangeUser)
     return (
       <View style={{flex: 1}}>
         <StatusBar barStyle='light-content' />
-        <UserProvider value={contextValue}>
-          <RootStack />
-        </UserProvider>
+        <CategoryProvider value={this.state.categories}>
+          <UserProvider value={contextValue}>
+            <RootStack />
+          </UserProvider>
+        </CategoryProvider>
       </View>
     )
   }

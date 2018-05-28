@@ -64,7 +64,6 @@ class Home extends Component {
   static navigationOptions = {
     title: 'Cursos',
     tabBarIcon: ({focused, ...rest}) => {
-      console.log(focused, rest)
       return <TabIcon
         activeSrc={require('../../assets/tabs/courses_active.png')}
         src={require('../../assets/tabs/courses.png')}
@@ -98,7 +97,6 @@ class Home extends Component {
 
     try {
       const {data: videos} = await http.get('courses')
-      console.log('response vi', videos)
 
       this.setState({loading: false, videos})
     } catch (e) {
@@ -140,7 +138,6 @@ class Home extends Component {
   }
 
   render () {
-    console.log(this.props.user)
     const { videos } = this.state
     // scrollEnabled={this.state.enabled}
     // onTouchStart={this.onTouchStart}

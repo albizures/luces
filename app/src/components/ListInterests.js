@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Component } from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 
@@ -14,31 +14,49 @@ Divider.propTypes = {
   active: PropTypes.bool
 }
 
-const ListInterests = (props) => {
-  const interests = props.interests.reduce((interests, interest, index) => {
-    const last = props.interests[index - 1]
+class ListInterests extends Component {
+  static propTypes = {
+    categories: PropTypes.object.isRequired
+  }
 
-    if (last) {
-      const active = !last.checked && !interest.checked
-      interests.push(
-        <Divider key={last.id.toString() + interest.id.toString()} active={active} />
+  state = {
+    interests: {}
+  }
+
+  onPressCategory = (id) => {
+    const { interests } = this.state
+    this.setState({
+      interests: {
+        ...interests,
+        [id]: !interests[id]
+      }
+    })
+  }
+
+  render () {
+    const { categories } = this.props
+    const { interests } = this.state
+    const categoriesKeys = Object.keys(categories)
+
+    return categoriesKeys.reduce((list, categoryKey, index) => {
+      const category = categories[categoryKey]
+      const last = categories[categoriesKeys[index - 1]]
+
+      const checked = interests[category.id]
+
+      if (last) {
+        const active = !last.checked && !checked
+        list.push(
+          <Divider key={last.id.toString() + category.id.toString()} active={active} />
+        )
+      }
+
+      list.push(
+        <Interest key={category.id} {...category} checked={checked} onPress={this.onPressCategory} />
       )
-    }
-
-    interests.push(
-      <Interest key={interest.id} {...interest} />
-    )
-    return interests
-  }, [])
-  return (
-    <Fragment>
-      {interests}
-    </Fragment>
-  )
-}
-
-ListInterests.propTypes = {
-  interests: PropTypes.array.isRequired
+      return list
+    }, [])
+  }
 }
 
 const styles = {

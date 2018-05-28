@@ -13,7 +13,6 @@ export default class CourseHome extends Component {
   static navigationOptions = {
     title: 'Cursos',
     tabBarIcon: ({focused, ...rest}) => {
-      console.log(focused, rest)
       return <TabIcon
         activeSrc={require('../assets/tabs/courses_active.png')}
         src={require('../assets/tabs/courses.png')}
