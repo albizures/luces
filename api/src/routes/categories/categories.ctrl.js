@@ -3,13 +3,16 @@ const asyncHandler = require('express-async-handler')
 const knex = require('../../config/connection')
 
 exports.getAll = asyncHandler(async (req, res) => {
-  const categories = await knex('categories')
+  const categories = await knex('interests')
     .select({
-      id: 'id',
-      name: 'name'
+      category: 'categories.id'
     })
+    .join('categories', 'interests.id_category', 'categories.id')
+    .join('users', 'interests.id_user', 'users.id_user')
     .whereNot({
-      deleted: true
+      'interests.deleted': true,
+      'categories.deleted': true,
+      'users.deleted': true
     })
 
   res.json(categories)
