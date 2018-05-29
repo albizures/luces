@@ -11,6 +11,7 @@ exports.getAll = asyncHandler(async (req, res) => {
       description: 'courses.description',
       image: 'courses.image_url',
       idCategory: 'categories.id',
+      icon: 'categories.icon',
       videos: knex.raw('COUNT(course_videos.id_course)')
     })
     .join('categories', 'courses.id_category', 'categories.id')

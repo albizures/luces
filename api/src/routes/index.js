@@ -1,11 +1,11 @@
-const jwt = require('express-jwt')
+// const jwt = require('express-jwt')
 const { Router } = require('express')
 
 const router = Router()
 
 router.use('/login', require('./login/login'))
 
-router.use('/', jwt({ secret: process.env.SECRET_KEY }).unless({path: ['/api/categories']}))
+// router.use('/', jwt({ secret: process.env.SECRET_KEY }).unless({path: ['/api/categories']}))
 router.use('/videos', require('./videos/videos'))
 router.use('/categories', require('./categories/categories'))
 router.use('/courses', require('./courses/courses'))
