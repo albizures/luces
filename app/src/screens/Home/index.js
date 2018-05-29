@@ -10,6 +10,7 @@ import Highlight from './Highlight'
 import Course from './Course'
 import colors from '../../utils/colors'
 import http from '../../utils/http'
+import icons from '../../utils/icons'
 
 const styles = {
   container: {
@@ -77,7 +78,7 @@ class Home extends Component {
   }
 
   state = {
-    videos: [],
+    courses: [],
     enabled: true
   }
 
@@ -96,12 +97,12 @@ class Home extends Component {
     this.checking = false
 
     try {
-      const {data: videos} = await http.get('courses')
+      const {data: courses} = await http.get('courses')
 
-      this.setState({loading: false, videos})
+      this.setState({loading: false, courses})
     } catch (e) {
       console.log(e)
-      this.setState({loading: false, error: true})
+      this.setState({loading: false})
     }
   }
 
@@ -138,7 +139,7 @@ class Home extends Component {
   }
 
   render () {
-    const { videos } = this.state
+    const { courses } = this.state
     // scrollEnabled={this.state.enabled}
     // onTouchStart={this.onTouchStart}
     // onMomentumScrollEnd={this.onTouchStart}
@@ -163,22 +164,18 @@ class Home extends Component {
               <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
             </ScrollView>
             <View style={styles.courses}>
-              <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos {videos && videos.length}</Text>
-              <Course icon={require('../../assets/categories/eyes_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-              <Course icon={require('../../assets/categories/nail_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-              <Course icon={require('../../assets/categories/hair_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-              <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-              <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-              <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-              <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
-              <Course icon={require('../../assets/categories/mask_active.png')} onPress={this.onClickCourse} course={{name: 'Maquillaje de noche', author: 'Denise Gonzalez'}} />
+              <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos</Text>
+              {courses.map(course => (
+                <Course key={course.id} icon={icons[course.icon].checked} onPress={this.onClickCourse} course={course} />
+              ))}
+              {courses.map(course => (
+                <Course key={course.id} icon={icons[course.icon].checked} onPress={this.onClickCourse} course={course} />
+              ))}
+              {courses.map(course => (
+                <Course key={course.id} icon={icons[course.icon].checked} onPress={this.onClickCourse} course={course} />
+              ))}
             </View>
           </ScrollView>
-          {/* {videos.map(video => (
-            <Text style={styles.instructions} key={video.id}>
-              {video.name}
-            </Text>
-          ))} */}
         </LinearGradient>
       </Container>
     )

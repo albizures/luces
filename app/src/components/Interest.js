@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { View, Text, TouchableHighlight } from 'react-native'
 
 import CircleImage from './CircleImage'
-
+import icons from '../utils/icons'
 const styles = {
   checked: {
     container: {
@@ -64,33 +64,6 @@ const styles = {
   }
 }
 
-const images = {
-  1: {
-    checked: require('../assets/categories/eyes_active.png'),
-    unchecked: require('../assets/categories/eyes.png')
-  },
-  2: {
-    checked: require('../assets/categories/hair_active.png'),
-    unchecked: require('../assets/categories/hair.png')
-  },
-  3: {
-    checked: require('../assets/categories/nail_active.png'),
-    unchecked: require('../assets/categories/nail.png')
-  },
-  4: {
-    checked: require('../assets/categories/lips_active.png'),
-    unchecked: require('../assets/categories/lips.png')
-  },
-  5: {
-    checked: require('../assets/categories/mask_active.png'),
-    unchecked: require('../assets/categories/mask.png')
-  },
-  6: {
-    checked: require('../assets/categories/contour_active.png'),
-    unchecked: require('../assets/categories/contour.png')
-  }
-}
-
 export default class Interest extends Component {
   static defaultProps = {
     checked: false
@@ -107,9 +80,9 @@ export default class Interest extends Component {
   getImage () {
     const { icon, checked } = this.props
 
-    console.log(icon, images)
+    console.log(icon, icons)
 
-    return images[icon][checked ? 'checked' : 'unchecked']
+    return icons[icon][checked ? 'checked' : 'unchecked']
   }
 
   onPress = () => {
