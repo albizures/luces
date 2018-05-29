@@ -12,6 +12,7 @@ exports.getAll = asyncHandler(async (req, res) => {
       image: 'courses.image_url',
       idCategory: 'categories.id',
       icon: 'categories.icon',
+      author: 'courses.author',
       videos: knex.raw('COUNT(course_videos.id_course)')
     })
     .join('categories', 'courses.id_category', 'categories.id')
@@ -81,6 +82,7 @@ const beginTransaction = (body) => async (trx) => {
     category: id_category,
     description,
     image: image_url,
+    author,
     videos
   } = body
 
@@ -88,6 +90,7 @@ const beginTransaction = (body) => async (trx) => {
     .returning('id')
     .insert({
       name,
+      author,
       id_category,
       description,
       image_url
@@ -109,6 +112,7 @@ exports.put = asyncHandler(async (req, res) => {
   const { id } = req.params
   const {
     name,
+    author,
     category: id_category,
     description,
     image: image_url
@@ -118,6 +122,7 @@ exports.put = asyncHandler(async (req, res) => {
     .where({ id })
     .update({
       name,
+      author,
       id_category,
       description,
       image_url

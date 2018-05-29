@@ -108,6 +108,13 @@ class CourseForm extends Component {
             <TextArea rows={4} placeholder='Descripcion del curso' />
           )}
         </FormItem>
+        <FormItem {...formItemLayout} label='Autor'>
+          {getFieldDecorator('author', {
+            rules: [{ required: true }]
+          })(
+            <Input placeholder='Autor del curso' />
+          )}
+        </FormItem>
         <UploadImage
           {...formItemLayout}
           label='Imagen'

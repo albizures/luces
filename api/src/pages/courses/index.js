@@ -64,6 +64,7 @@ export default class Courses extends Component {
     this.columns = [
       { title: 'Nombre', key: 'name', dataIndex: 'name' },
       { title: 'Descripcion', key: 'description', dataIndex: 'description' },
+      { title: 'Autor', key: 'author', dataIndex: 'author' },
       { title: 'Categoria', key: 'idCategory', dataIndex: '', render: this.renderCategory },
       { title: 'No. Videos', key: 'videos', dataIndex: 'videos' },
       { title: 'Acciones', dataIndex: '', key: 'x', render: this.renderRow, width: '180px' }
