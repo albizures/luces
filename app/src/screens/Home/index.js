@@ -165,14 +165,8 @@ class Home extends Component {
             </ScrollView>
             <View style={styles.courses}>
               <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos</Text>
-              {courses.map(course => (
-                <Course key={course.id} icon={icons[course.icon].checked} onPress={this.onClickCourse} course={course} />
-              ))}
-              {courses.map(course => (
-                <Course key={course.id} icon={icons[course.icon].checked} onPress={this.onClickCourse} course={course} />
-              ))}
-              {courses.map(course => (
-                <Course key={course.id} icon={icons[course.icon].checked} onPress={this.onClickCourse} course={course} />
+              {courses.map((course, index) => (
+                <Course key={course.id} index={index} icon={icons[course.icon].checked} onPress={this.onClickCourse} course={course} />
               ))}
             </View>
           </ScrollView>

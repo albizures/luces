@@ -6,14 +6,14 @@ import colors from '../../utils/colors'
 import CircleImage from '../../components/CircleImage'
 
 const Course = (props) => {
-  const { course, style, icon } = props
+  const { course, style, icon, index } = props
   return (
     <TouchableHighlight {...props} style={[style, styles.touchable]}>
       <View style={styles.container}>
         <CircleImage size={30} source={icon} style={styles.icon} />
         <View style={styles.text}>
           <Text style={styles.title}>{course.name}</Text>
-          <Text style={styles.subTitle}>Por {course.author}</Text>
+          <Text style={styles.subTitle}>{index === 0 ? 'NUEVO -' : '' } Por {course.author}</Text>
         </View>
         <Image style={styles.arrow} source={require('../../assets/next.png')} />
       </View>
@@ -24,7 +24,8 @@ const Course = (props) => {
 Course.propTypes = {
   icon: PropTypes.number.isRequired,
   style: ViewPropTypes.style,
-  course: PropTypes.object.isRequired
+  course: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired
 }
 
 const styles = {
