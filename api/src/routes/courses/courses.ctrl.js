@@ -21,6 +21,7 @@ exports.getAll = asyncHandler(async (req, res) => {
       'courses.deleted': true,
       'course_videos.deleted': true
     })
+    .orderBy('courses.created_at', 'desc')
     .groupBy('courses.id')
 
   res.json(courses)
