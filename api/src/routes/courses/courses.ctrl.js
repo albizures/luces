@@ -27,6 +27,33 @@ exports.getAll = asyncHandler(async (req, res) => {
   res.json(courses)
 })
 
+exports.getHighlights = asyncHandler(async (req, res) => {
+  const { id_user } = req.user
+  const courses = await knex('interests')
+    .select({
+      id: 'courses.id',
+      name: 'courses.name',
+      description: 'courses.description',
+      image: 'courses.image_url',
+      idCategory: 'categories.id',
+      categoryName: 'categories.name',
+      icon: 'categories.icon',
+      author: 'courses.author'
+    })
+    .join('courses', 'courses.id_category', 'interests.id_category')
+    .join('categories', 'categories.id', 'interests.id_category')
+    .where({
+      'interests.id_user': id_user
+    })
+    .whereNot({
+      'courses.deleted': true,
+      'interests.deleted': true,
+      'categories.deleted': true
+    })
+    .orderBy('courses.created_at', 'desc')
+  res.json(courses)
+})
+
 exports.getVideos = asyncHandler(async (req, res) => {
   const { id } = req.params
   const videos = await knex('course_videos')
