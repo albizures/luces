@@ -79,30 +79,39 @@ class Home extends Component {
 
   state = {
     courses: [],
+    highlights: [],
     enabled: true
   }
 
   async checkUser () {
-    if (this.checking) {
-      return
-    }
-    this.checking = true
+    console.log('ulala', this.props.user)
+
     if (this.props.user === null) {
       return this.props.navigation.navigate('Onboarding')
     } else if (this.props.user) {
       if (!this.props.user.interests) {
         return this.props.navigation.navigate('Interests')
       }
+    } else if (this.props.user === undefined) {
+      return
     }
-    this.checking = false
 
     try {
-      const {data: courses} = await http.get('courses')
+      console.log(this.props.user)
 
-      this.setState({loading: false, courses})
+      const [
+        {data: courses},
+        {data: highlights}
+      ] = await Promise.all([
+        http.get('courses'),
+        http.get('courses/highlights')
+      ])
+
+      console.log(courses, highlights)
+
+      this.setState({courses, highlights})
     } catch (e) {
       console.log(e)
-      this.setState({loading: false})
     }
   }
 
@@ -139,7 +148,9 @@ class Home extends Component {
   }
 
   render () {
-    const { courses } = this.state
+    const { courses, highlights } = this.state
+
+    console.log(highlights, 'lelele')
     // scrollEnabled={this.state.enabled}
     // onTouchStart={this.onTouchStart}
     // onMomentumScrollEnd={this.onTouchStart}
@@ -158,10 +169,9 @@ class Home extends Component {
               <Text style={styles.subTitle}>Destacados</Text>
             </View>
             <ScrollView horizontal style={styles.scrollView} >
-              <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
-              <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
-              <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
-              <Highlight title='Uñas' subTitle='Acrílicas Masglo' image={require('../../assets/300x300.png')} />
+              {highlights.map(course => (
+                <Highlight key={course.id} title={course.categoryName} subTitle={course.name} image={course.image} />
+              ))}
             </ScrollView>
             <View style={styles.courses}>
               <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos</Text>

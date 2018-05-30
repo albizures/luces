@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 
 import { TouchableHighlight, Text, ImageBackground } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
+import { PORT, HOST } from 'react-native-dotenv'
 
 const Highlight = (props) => {
   return (
     <TouchableHighlight {...props} elevation={10} style={styles.box}>
-      <ImageBackground source={props.image} style={styles.container} imageStyle={styles.imageBackground}>
+      <ImageBackground source={{ uri: `http://${HOST}:${PORT}/${props.image}` }} style={styles.container} imageStyle={styles.imageBackground}>
         <LinearGradient colors={['transparent', '#252525']} style={styles.gradient}>
           <Text style={styles.title}>{props.title}</Text>
           <Text style={styles.subTitle}>{props.subTitle}</Text>
@@ -20,7 +21,7 @@ const Highlight = (props) => {
 Highlight.propTypes = {
   subTitle: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  image: PropTypes.number.isRequired
+  image: PropTypes.string.isRequired
 }
 
 const styles = {
