@@ -8,7 +8,7 @@ import CircleImage from '../../components/CircleImage'
 const Course = (props) => {
   const { course, style, icon, index } = props
   return (
-    <TouchableHighlight {...props} style={[style, styles.touchable]}>
+    <TouchableHighlight {...props} onPress={() => props.onPress(course)} style={[style, styles.touchable]}>
       <View style={styles.container}>
         <CircleImage size={30} source={icon} style={styles.icon} />
         <View style={styles.text}>
@@ -22,6 +22,7 @@ const Course = (props) => {
 }
 
 Course.propTypes = {
+  onPress: PropTypes.func.isRequired,
   icon: PropTypes.number.isRequired,
   style: ViewPropTypes.style,
   course: PropTypes.object.isRequired,

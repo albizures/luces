@@ -143,19 +143,12 @@ class Home extends Component {
     this.setState({ enabled: true })
   }
 
-  onClickCourse = () => {
-    this.props.navigation.navigate('HomeCourse')
+  onClickCourse = (course) => {
+    this.props.navigation.navigate('HomeCourse', { course })
   }
 
   render () {
     const { courses, highlights } = this.state
-
-    console.log(highlights, 'lelele')
-    // scrollEnabled={this.state.enabled}
-    // onTouchStart={this.onTouchStart}
-    // onMomentumScrollEnd={this.onTouchStart}
-    // onScrollEndDrag={this.onScrollEndDrag}
-    // const { videos } = this.state
     return (
       <Container>
         <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
@@ -170,7 +163,7 @@ class Home extends Component {
             </View>
             <ScrollView horizontal style={styles.scrollView} >
               {highlights.map(course => (
-                <Highlight key={course.id} title={course.categoryName} subTitle={course.name} image={course.image} />
+                <Highlight key={course.id} course={course} title={course.categoryName} onPress={this.onClickCourse} subTitle={course.name} image={course.image} />
               ))}
             </ScrollView>
             <View style={styles.courses}>

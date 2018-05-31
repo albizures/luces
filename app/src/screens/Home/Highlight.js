@@ -6,12 +6,13 @@ import LinearGradient from 'react-native-linear-gradient'
 import { PORT, HOST } from 'react-native-dotenv'
 
 const Highlight = (props) => {
+  const { course, title, subTitle } = props
   return (
-    <TouchableHighlight {...props} elevation={10} style={styles.box}>
+    <TouchableHighlight {...props} onPress={() => props.onPress(course)} elevation={10} style={styles.box}>
       <ImageBackground source={{ uri: `http://${HOST}:${PORT}/${props.image}` }} style={styles.container} imageStyle={styles.imageBackground}>
         <LinearGradient colors={['transparent', '#252525']} style={styles.gradient}>
-          <Text style={styles.title}>{props.title}</Text>
-          <Text style={styles.subTitle}>{props.subTitle}</Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.subTitle}>{subTitle}</Text>
         </LinearGradient>
       </ImageBackground>
     </TouchableHighlight>
@@ -19,7 +20,9 @@ const Highlight = (props) => {
 }
 
 Highlight.propTypes = {
+  onPress: PropTypes.func.isRequired,
   subTitle: PropTypes.string.isRequired,
+  course: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired
 }

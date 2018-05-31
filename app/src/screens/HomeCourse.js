@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, ImageBackground } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
+import { PORT, HOST } from 'react-native-dotenv'
 
 import ButtonCTA from '../components/ButtonCTA'
 import TopBar from '../components/TopBar'
 import TabIcon from '../components/TabIcon'
 import Container from '../components/Container'
 import colors from '../utils/colors'
-
+import icons from '../utils/icons'
 export default class CourseHome extends Component {
   static navigationOptions = {
     title: 'Cursos',
@@ -33,12 +34,12 @@ export default class CourseHome extends Component {
   }
 
   render () {
-    const title = 'Uñas'
-    const subTitle = 'Acrílicas Masglo'
-    const image = require('../assets/300x300.png')
-    const mainDescription = 'Las uñas esculpidas se han transformado poco a poco en uno de los servicios más rentables que existen dentro del área de belleza.'
-    const secondaryDescription = 'Conviértete en una verdadera Maestra en Uñas, iniciándote con tratamientos integrales de manicuría.'
-    const icon = require('../assets/categories/nail_active.png')
+    const { navigation } = this.props
+    const course = navigation.getParam('course', {})
+
+    const { name: title, categoryName: subTitle, image, description, icon: iconId } = course
+    const icon = icons[iconId].checked
+
     return (
       <Container>
         <TopBar
@@ -48,15 +49,15 @@ export default class CourseHome extends Component {
         {/* <View style={styles.header}>
           <Text>{title}</Text>
         </View> */}
-        <ImageBackground elevation={20} style={styles.cover} source={image} imageStyle={styles.imageBackground} >
+        <ImageBackground elevation={20} style={styles.cover} source={{uri: `http://${HOST}:${PORT}/${image}`}} imageStyle={styles.imageBackground} >
           <LinearGradient colors={['transparent', colors.black]} style={styles.gradient}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.subTitle}>{subTitle}</Text>
           </LinearGradient>
         </ImageBackground>
         <View style={styles.description}>
-          <Text style={styles.mainDescription}>{mainDescription}</Text>
-          <Text style={styles.secondaryDescription}>{secondaryDescription}</Text>
+          <Text style={styles.mainDescription}>{description}</Text>
+          {/* <Text style={styles.secondaryDescription}>{secondaryDescription}</Text> */}
           <ButtonCTA title='EMPERZAR CURSO' onPress={this.startCourse} />
         </View>
       </Container>
@@ -73,7 +74,9 @@ const styles = {
     textAlign: 'center',
     color: colors.darkTan,
     fontSize: 16,
-    fontWeight: '500'
+    fontWeight: '500',
+    // minHeight: 100,
+    marginBottom: 30
   },
   secondaryDescription: {
     textAlign: 'center',
