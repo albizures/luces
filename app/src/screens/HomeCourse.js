@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, ImageBackground } from 'react-native'
+import { View, Text, ImageBackground, AsyncStorage } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { PORT, HOST } from 'react-native-dotenv'
 
@@ -29,8 +29,15 @@ export default class CourseHome extends Component {
     this.props.navigation.goBack()
   }
 
-  startCourse = () => {
-    this.props.navigation.navigate('Course')
+  startCourse = async () => {
+    const { navigation } = this.props
+    const course = navigation.getParam('course', {})
+    try {
+      await AsyncStorage.setItem(`course-${course.id}`, 'started')
+      this.props.navigation.navigate('Course', { course })
+    } catch (error) {
+      alert('No se pudo comenzar el curso intentelo de nuevo')
+    }
   }
 
   render () {

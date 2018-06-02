@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, View, ScrollView, Image } from 'react-native'
+import { Text, View, ScrollView, Image, AsyncStorage } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { withUser } from '../../components/UserContext'
@@ -143,8 +143,17 @@ class Home extends Component {
     this.setState({ enabled: true })
   }
 
-  onClickCourse = (course) => {
-    this.props.navigation.navigate('HomeCourse', { course })
+  onClickCourse = async (course) => {
+    try {
+      const started = await AsyncStorage.getItem(`course-${course.id}`)
+      if (started === 'started') {
+        this.props.navigation.navigate('Course', { course })
+      } else {
+        this.props.navigation.navigate('HomeCourse', { course })
+      }
+    } catch (error) {
+      alert('algo malo paso')
+    }
   }
 
   render () {
