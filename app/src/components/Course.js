@@ -26,7 +26,10 @@ Course.propTypes = {
   onRemove: PropTypes.func,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  image: PropTypes.number.isRequired
+  image: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object
+  ]).isRequired
 }
 
 const styles = {

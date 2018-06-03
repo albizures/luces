@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { View, Text, TextInput, Image, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 
 import colors from '../../utils/colors'
 
-export default class Comments extends Component {
+export default class Comments extends PureComponent {
   static propTypes = {
     commentsCount: PropTypes.number.isRequired
   }

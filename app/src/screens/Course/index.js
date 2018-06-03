@@ -1,18 +1,35 @@
-import React, { Component } from 'react'
+import React, { Component, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import YouTube from 'react-native-youtube'
 import { NavigationActions } from 'react-navigation'
 import { View, Text, Dimensions, Image, TouchableHighlight } from 'react-native'
-import { TabViewAnimated, SceneMap, TabBar } from 'react-native-tab-view'
+import { TabViewAnimated, TabBar } from 'react-native-tab-view'
 
 import colors from '../../utils/colors'
+import http from '../../utils/http'
 import FavoritesButton from '../../components/FavoritesButton'
 import Container from '../../components/Container'
+import CardCourse from '../../components/Course'
 import Comments from './Comments'
 
 const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width
+}
+
+class Videos extends PureComponent {
+  static propTypes = {
+    videos: PropTypes.array.isRequired
+  }
+
+  render () {
+    const { videos } = this.props
+    return <View style={{padding: 20}}>
+      {videos.map(video => (
+        <CardCourse key={video.id} image={{uri: video.url}} title={video.name} description={video.description} />
+      ))}
+    </View>
+  }
 }
 
 export default class Course extends Component {
@@ -21,24 +38,16 @@ export default class Course extends Component {
   }
 
   state = {
+    videos: [],
     index: 0,
     routes: [
       { key: 'comments', title: 'Comentarios' },
+      { key: 'videos', title: 'Videos' },
       { key: 'description', title: 'Descripción' }
     ]
   }
 
   onIndexChange = index => this.setState({ index });
-
-  getDescription = () => {
-    return <View style={{padding: 20}}>
-      <Text style={{color: colors.whiteTwo, fontSize: 14}}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum eum fuga dignissimos neque perferendis aut eius suscipit natus excepturi nemo hic iste quidem molestias debitis consequuntur eos, fugiat, ex voluptatibus?</Text>
-    </View>
-  }
-
-  getComments = () => {
-    return <Comments commentsCount={3} />
-  }
 
   renderLabel = (scene) => {
     const label = scene.route.title
@@ -56,20 +65,56 @@ export default class Course extends Component {
       style={styles.header} />
   }
 
-  renderScene = SceneMap({
-    comments: this.getComments,
-    description: this.getDescription
-  });
+  async componentDidMount () {
+    const { navigation } = this.props
+    const course = navigation.getParam('course')
+    this.setState({ isLoading: true })
+    try {
+      const { data: videos } = await http.get(`courses/${course.id}/videos`)
+      this.setState({ isLoading: false, videos, selectedVideo: 0 })
+      alert(videos.length)
+    } catch (error) {
+      alert('No se pudieron cargar los videos')
+    }
+  }
+
+  renderScene = ({ route }) => {
+    switch (route.key) {
+      case 'comments':
+        return <Comments commentsCount={3} />
+      case 'description':
+        const { navigation } = this.props
+        const { description } = navigation.getParam('course')
+        return (
+          <View style={{padding: 20}}>
+            <Text style={{color: colors.whiteTwo, fontSize: 14}}>{description}</Text>
+          </View>
+        )
+      case 'videos':
+        const { videos } = this.state
+        return <Videos videos={videos} />
+      default:
+        return null
+    }
+  };
+
+  // renderScene = SceneMap({
+  //   comments: this.getComments,
+  //   description: this.getDescription,
+  //   videos: this.getVideos
+  // });
 
   onBack = () => {
     this.props.navigation.dispatch(NavigationActions.back())
   }
 
-  render () {
-    return (
-      <Container>
+  getPlayer () {
+    const { selectedVideo, videos } = this.state
+    if (Number.isInteger(selectedVideo)) {
+      const video = videos[selectedVideo]
+      return (
         <YouTube
-          videoId='STWuPMcwwbw'
+          videoId={video.youtubeId}
           play={false}
           loop={false}
           showinfo={false}
@@ -79,6 +124,17 @@ export default class Course extends Component {
           onChangeQuality={e => this.setState({ quality: e.quality })}
           onError={e => this.setState({ error: e.error })}
           style={styles.video} />
+      )
+    } else {
+      return <View style={styles.video} />
+    }
+  }
+
+  render () {
+    const { isLoading } = this.state
+    return (
+      <Container isLoading={isLoading}>
+        {this.getPlayer()}
         <TouchableHighlight style={styles.backContainer} onPress={this.onBack}>
           <Image style={styles.back} source={require('../../assets/video_back.png')} />
         </TouchableHighlight>

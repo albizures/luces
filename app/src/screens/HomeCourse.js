@@ -31,12 +31,12 @@ export default class CourseHome extends Component {
 
   startCourse = async () => {
     const { navigation } = this.props
-    const course = navigation.getParam('course', {})
+    const course = navigation.getParam('course')
     try {
       await AsyncStorage.setItem(`course-${course.id}`, 'started')
       this.props.navigation.navigate('Course', { course })
     } catch (error) {
-      alert('No se pudo comenzar el curso intentelo de nuevo')
+      alert('No se pudo comenzar el curso, intentelo de nuevo')
     }
   }
 
