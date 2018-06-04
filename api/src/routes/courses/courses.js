@@ -7,6 +7,7 @@ router.get('/highlights', controller.getHighlights)
 router.get('/:id/videos', controller.getVideos)
 
 router.post('/', controller.post)
+router.post('/:id/comment', controller.postComment)
 
 router.put('/:id', controller.put)
 router.put('/:id/videos', controller.putVideos)

@@ -1,3 +1,4 @@
+import 'dayjs/locale/es'
 import React, { Component } from 'react'
 import { StatusBar, View, AsyncStorage } from 'react-native'
 import { StackNavigator, TabNavigator } from 'react-navigation'

@@ -1,45 +1,71 @@
 import React, { PureComponent } from 'react'
 import { View, Text, TextInput, Image, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
+// import dayjs from 'dayjs'
 
 import colors from '../../utils/colors'
+import http from '../../utils/http'
 
 export default class Comments extends PureComponent {
   static propTypes = {
-    commentsCount: PropTypes.number.isRequired
+    courseId: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ])
   }
 
   state = {
-    comments: [
-      {
-        id: 1,
-        userName: 'Lorena Enriquez',
-        liked: true,
-        date: '17 junio, 2018',
-        text: '¡Me encantó el curso! aprendí nuevas técnicas que no había visto antes.',
-        likesCount: 13
-      },
-      {
-        id: 2,
-        userName: 'Lorena Enriquez',
-        liked: false,
-        date: '17 junio, 2018',
-        text: '¡Me encantó el curso! aprendí nuevas técnicas que no había visto antes.',
-        likesCount: 13
-      },
-      {
-        id: 3,
-        userName: 'Lorena Enriquez',
-        liked: false,
-        date: '17 junio, 2018',
-        text: '¡Me encantó el curso! aprendí nuevas técnicas que no había visto antes.',
-        likesCount: 13
-      }
-    ]
+    comments: []
   }
 
-  onSubmit = () => {
-    alert('lalal')
+  async componentDidMount () {
+    // const { courseId } = this.props
+    // this.setState({
+    //   com
+    // })
+  }
+
+  // state = {
+  //   comments: [
+  //     {
+  //       id: 1,
+  //       userName: 'Lorena Enriquez',
+  //       liked: true,
+  //       date: '17 junio, 2018',
+  //       text: '¡Me encantó el curso! aprendí nuevas técnicas que no había visto antes.',
+  //       likesCount: 13
+  //     },
+  //     {
+  //       id: 2,
+  //       userName: 'Lorena Enriquez',
+  //       liked: false,
+  //       date: '17 junio, 2018',
+  //       text: '¡Me encantó el curso! aprendí nuevas técnicas que no había visto antes.',
+  //       likesCount: 13
+  //     },
+  //     {
+  //       id: 3,
+  //       userName: 'Lorena Enriquez',
+  //       liked: false,
+  //       date: '17 junio, 2018',
+  //       text: '¡Me encantó el curso! aprendí nuevas técnicas que no había visto antes.',
+  //       likesCount: 13
+  //     }
+  //   ]
+  // }
+
+  onSubmit = async (evt) => {
+    const { text: comment, comments } = this.state
+    const { courseId } = this.props
+    try {
+      const newComment = await http.post(`courses/${courseId}/comment`, { comment })
+      this.setState({
+        text: '',
+        comments: [newComment].concat(comments)
+      })
+    } catch (error) {
+      alert('Algo salio mal, intentelo de nuevo')
+    }
   }
 
   getComment (comment) {
@@ -55,7 +81,7 @@ export default class Comments extends PureComponent {
               <Text style={styles.date}>{date}</Text>
             </View>
             <View style={styles.likesContainer}>
-              <Text style={styles.likesCount} >{likesCount} me gusta</Text>
+              <Text style={styles.likesCount} >{likesCount || 0} me gusta</Text>
               <Image style={styles.like} source={liked ? require('../../assets/like_active.png') : require('../../assets/like.png')} />
             </View>
           </View>
@@ -65,14 +91,15 @@ export default class Comments extends PureComponent {
   }
 
   render () {
-    const { commentsCount } = this.props
     const { comments } = this.state
     return (
       <ScrollView style={{paddingBottom: 100}}>
         <View style={styles.inputContainer}>
-          <Text style={styles.commentsCount}>{commentsCount} comentarios</Text>
+          <Text style={styles.commentsCount}>{comments.length} comentarios</Text>
           <TextInput
             onSubmitEditing={this.onSubmit}
+            onChangeText={(text) => this.setState({text})}
+            value={this.state.text}
             placeholderTextColor={colors.whiteTwo}
             placeholder='Escribe un comentario…'
             style={styles.input}

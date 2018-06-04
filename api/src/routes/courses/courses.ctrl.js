@@ -11,6 +11,7 @@ exports.getAll = asyncHandler(async (req, res) => {
       description: 'courses.description',
       image: 'courses.image_url',
       idCategory: 'categories.id',
+      categoryName: 'categories.name',
       icon: 'categories.icon',
       author: 'courses.author',
       videos: knex.raw('COUNT(course_videos.id_course)')
@@ -74,6 +75,36 @@ exports.getVideos = asyncHandler(async (req, res) => {
     })
 
   res.json(videos)
+})
+
+exports.postComment = asyncHandler(async (req, res) => {
+  const { id: id_course } = req.params
+  const { id_user } = req.user
+  const { comment } = req.body
+
+  const [id] = await knex('comments')
+    .returning('id')
+    .insert({
+      id_course,
+      id_user,
+      comment
+    })
+
+  const newComment = await knex('comments')
+    .select({
+      id: 'comments.id',
+      comment: 'comments.name',
+      date: 'comments.created_at',
+      userName: 'users.name',
+      cover: 'users.cover'
+    })
+    .join('users', 'users.id_user', 'comments.id_user')
+    .where({
+      'users.deleted': false,
+      'comments.deleted': false,
+      'comments.id': id
+    })
+  res.json(newComment)
 })
 
 const createVideo = (course, trx) => async (data) => {

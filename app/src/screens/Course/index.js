@@ -1,9 +1,9 @@
-import React, { Component, PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import YouTube from 'react-native-youtube'
-import { NavigationActions } from 'react-navigation'
-import { View, Text, Dimensions, Image, TouchableHighlight } from 'react-native'
+import { View, Text, Dimensions, Image, TouchableHighlight, Platform } from 'react-native'
 import { TabViewAnimated, TabBar } from 'react-native-tab-view'
+import React, { Component, PureComponent } from 'react'
+import { NavigationActions } from 'react-navigation'
+import YouTube from 'react-native-youtube'
+import PropTypes from 'prop-types'
 
 import colors from '../../utils/colors'
 import http from '../../utils/http'
@@ -72,19 +72,19 @@ export default class Course extends Component {
     try {
       const { data: videos } = await http.get(`courses/${course.id}/videos`)
       this.setState({ isLoading: false, videos, selectedVideo: 0 })
-      alert(videos.length)
     } catch (error) {
       alert('No se pudieron cargar los videos')
     }
   }
 
   renderScene = ({ route }) => {
+    const { navigation } = this.props
+    const { description, id } = navigation.getParam('course')
+
     switch (route.key) {
       case 'comments':
-        return <Comments commentsCount={3} />
+        return <Comments courseId={id} />
       case 'description':
-        const { navigation } = this.props
-        const { description } = navigation.getParam('course')
         return (
           <View style={{padding: 20}}>
             <Text style={{color: colors.whiteTwo, fontSize: 14}}>{description}</Text>
@@ -98,12 +98,6 @@ export default class Course extends Component {
     }
   };
 
-  // renderScene = SceneMap({
-  //   comments: this.getComments,
-  //   description: this.getDescription,
-  //   videos: this.getVideos
-  // });
-
   onBack = () => {
     this.props.navigation.dispatch(NavigationActions.back())
   }
@@ -116,9 +110,11 @@ export default class Course extends Component {
         <YouTube
           videoId={video.youtubeId}
           play={false}
+          controls={Platform.OS === 'ios' ? 1 : 2}
           loop={false}
+          rel={false}
           showinfo={false}
-          modestbranding
+          modestbranding={false}
           onReady={e => this.setState({ isReady: true })}
           onChangeState={e => this.setState({ status: e.state })}
           onChangeQuality={e => this.setState({ quality: e.quality })}
@@ -131,6 +127,8 @@ export default class Course extends Component {
   }
 
   render () {
+    const { navigation } = this.props
+    const { name } = navigation.getParam('course')
     const { isLoading } = this.state
     return (
       <Container isLoading={isLoading}>
@@ -139,7 +137,7 @@ export default class Course extends Component {
           <Image style={styles.back} source={require('../../assets/video_back.png')} />
         </TouchableHighlight>
         <View style={styles.container2}>
-          <Text style={styles.title}>Curso Uñas</Text>
+          <Text style={styles.title}>{name}</Text>
           <FavoritesButton />
         </View>
         <TabViewAnimated
