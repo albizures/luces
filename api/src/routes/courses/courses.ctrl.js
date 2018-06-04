@@ -77,6 +77,29 @@ exports.getVideos = asyncHandler(async (req, res) => {
   res.json(videos)
 })
 
+exports.getComments = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const comments = await knex('comments')
+    .select({
+      id: 'comments.id',
+      comment: 'comments.comment',
+      date: 'comments.created_at',
+      userName: 'users.name',
+      cover: 'users.cover'
+    })
+    .join('courses', 'comments.id_course', 'courses.id')
+    .join('users', 'comments.id_user', 'users.id_user')
+    .orderBy('comments.created_at', 'desc')
+    .where({
+      'courses.id': id,
+      'users.deleted': false,
+      'courses.deleted': false,
+      'comments.deleted': false
+    })
+
+  res.json(comments)
+})
+
 exports.postComment = asyncHandler(async (req, res) => {
   const { id: id_course } = req.params
   const { id_user } = req.user
@@ -90,10 +113,10 @@ exports.postComment = asyncHandler(async (req, res) => {
       comment
     })
 
-  const newComment = await knex('comments')
+  const [newComment] = await knex('comments')
     .select({
       id: 'comments.id',
-      comment: 'comments.name',
+      comment: 'comments.comment',
       date: 'comments.created_at',
       userName: 'users.name',
       cover: 'users.cover'
@@ -104,6 +127,7 @@ exports.postComment = asyncHandler(async (req, res) => {
       'comments.deleted': false,
       'comments.id': id
     })
+
   res.json(newComment)
 })
 

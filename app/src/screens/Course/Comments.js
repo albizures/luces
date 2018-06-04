@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { View, Text, TextInput, Image, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
-// import dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 import colors from '../../utils/colors'
 import http from '../../utils/http'
@@ -19,10 +19,13 @@ export default class Comments extends PureComponent {
   }
 
   async componentDidMount () {
-    // const { courseId } = this.props
-    // this.setState({
-    //   com
-    // })
+    const { courseId } = this.props
+    try {
+      const { data: comments } = await http.get(`courses/${courseId}/comments`)
+      this.setState({ comments })
+    } catch (error) {
+      alert('Algo salio mal, intentelo mas tarde')
+    }
   }
 
   // state = {
@@ -58,7 +61,9 @@ export default class Comments extends PureComponent {
     const { text: comment, comments } = this.state
     const { courseId } = this.props
     try {
-      const newComment = await http.post(`courses/${courseId}/comment`, { comment })
+      const {data: newComment} = await http.post(`courses/${courseId}/comment`, { comment })
+      console.log(newComment)
+
       this.setState({
         text: '',
         comments: [newComment].concat(comments)
@@ -69,7 +74,7 @@ export default class Comments extends PureComponent {
   }
 
   getComment (comment) {
-    const { text, userName, liked, date, likesCount, id } = comment
+    const { comment: text, userName, liked, date, likesCount, id } = comment
     return (
       <View key={id} style={styles.comment}>
         <Image style={styles.photo} source={require('../../assets/300x300.png')} />
@@ -78,7 +83,7 @@ export default class Comments extends PureComponent {
           <Text style={styles.text}>{text}</Text>
           <View style={styles.commentBottom}>
             <View style={styles.dateContainer}>
-              <Text style={styles.date}>{date}</Text>
+              <Text style={styles.date}>{dayjs(date).format('D MMMM, YYYY')}</Text>
             </View>
             <View style={styles.likesContainer}>
               <Text style={styles.likesCount} >{likesCount || 0} me gusta</Text>

@@ -5,6 +5,7 @@ const controller = require('./courses.ctrl')
 router.get('/', controller.getAll)
 router.get('/highlights', controller.getHighlights)
 router.get('/:id/videos', controller.getVideos)
+router.get('/:id/comments', controller.getComments)
 
 router.post('/', controller.post)
 router.post('/:id/comment', controller.postComment)

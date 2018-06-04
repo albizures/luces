@@ -14,10 +14,13 @@ import Profile from './screens/Profile'
 import Notifications from './screens/Notifications'
 import InterestsAccount from './screens/InterestsAccount'
 import Course from './screens/Course/index'
+import dayjs from 'dayjs'
 
 import { Provider as UserProvider, getValue } from './components/UserContext'
 import { Provider as CategoryProvider, getValue as getCategoryValue } from './components/CategoriesContext'
 import http, { instance } from './utils/http'
+
+dayjs.locale('es')
 
 const OnboardingStack = StackNavigator({
   Onboarding: {
