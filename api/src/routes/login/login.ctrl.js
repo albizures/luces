@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler')
+const bcrypt = require('bcrypt')
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
 
@@ -17,6 +18,7 @@ async function getUser (response) {
       id_user: 'id_user',
       name: 'name'
     }).where({
+      deleted: false,
       facebook_id
     })
 
@@ -48,4 +50,30 @@ exports.login = asyncHandler(async (req, res) => {
   const token = jwt.sign(user, SECRET_KEY)
 
   res.json({ token, user })
+})
+
+exports.loginPassword = asyncHandler(async (req, res) => {
+  const { email, password } = req.body
+
+  const [{password: hash, id_user, name}] = await knex('users')
+    .select({
+      email: 'email',
+      password: 'password',
+      id_user: 'id_user',
+      name: 'name'
+    }).where({
+      email,
+      deleted: false,
+      admin: true
+    })
+
+  const isEqual = await bcrypt.compare(password, hash)
+
+  if (isEqual) {
+    const user = { id_user, name }
+    const token = jwt.sign(user, SECRET_KEY)
+    res.json({ token, user })
+  } else {
+    res.status(401).json({ message: 'error' })
+  }
 })
