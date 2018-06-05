@@ -71,7 +71,8 @@ export default class Courses extends Component {
     ]
   }
 
-  static async getInitialProps () {
+  static async getInitialProps ({ req }) {
+    api.server(req)
     const {data: categories} = await api.categories.getAll()
     const {data: courses} = await api.courses.getAll()
     const categoriesMap = categories.reduce((map, category) => ({

@@ -63,7 +63,19 @@ export const youtube = {
   }
 }
 
+export const login = (email, password) => {
+  return api.post('/login/password', { email, password })
+}
+
+export const server = (req) => {
+  if (req && req.cookies) {
+    api.defaults.headers.common['Authorization'] = 'Bearer ' + req.cookies.id_token
+  }
+}
+
 export default {
+  server,
+  login,
   youtube,
   categories,
   courses,

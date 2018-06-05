@@ -1,8 +1,12 @@
-const isProd = process.env.NODE_ENV === 'production'
 const express = require('express')
-const port = 80
+const jwt = require('express-jwt')
+
+const isProd = process.env.NODE_ENV === 'production'
+const port = process.env.PORT || 80
 
 require('./config/connection')
+
+const isNotPublicRoute = (url) => ['_next', 'login'].every(path => !url.includes(path))
 
 const { handle, app } = require('./config/next')
 const routes = require('./routes')
@@ -23,6 +27,13 @@ app.then(() => {
       require('./routes')(req, res, next)
     })
   }
+
+  server.use(jwt({ secret: process.env.SECRET_KEY, credentialsRequired: false }), (req, res, next) => {
+    if (!req.user && isNotPublicRoute(req.url)) {
+      return res.redirect('/login')
+    }
+    next()
+  })
 
   server.get('*', handle)
 

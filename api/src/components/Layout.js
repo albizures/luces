@@ -6,6 +6,14 @@ import { Layout, Menu } from 'antd'
 const { Header, Content, Footer } = Layout
 const { Item } = Menu
 
+function logout ({ key }) {
+  if (key !== '3') {
+    return
+  }
+  document.cookie = 'id_token=; expires=Thu, 18 Dec 2020 12:00:00 UTC'
+  document.location.pathname = '/login'
+}
+
 export default ({children}) => (
   <div>
     <Head>
@@ -17,6 +25,7 @@ export default ({children}) => (
         <Menu
           theme='dark'
           mode='horizontal'
+          onClick={logout}
           style={{ lineHeight: '64px' }}>
           <Item key='1'>
             <Link href='/courses'>
@@ -28,7 +37,7 @@ export default ({children}) => (
               <a>Categorias</a>
             </Link>
           </Item>
-          <Item key='3'>nav 3</Item>
+          <Item style={{float: 'right'}} key='3'>Salir</Item>
         </Menu>
       </Header>
       <Content style={{ padding: '0 50px' }}>

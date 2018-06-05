@@ -57,7 +57,8 @@ export default class Categories extends Component {
     })
   }
 
-  static async getInitialProps () {
+  static async getInitialProps ({ req }) {
+    api.server(req)
     const {data: categories} = await api.categories.getAll()
 
     return { categories }
