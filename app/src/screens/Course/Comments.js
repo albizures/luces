@@ -62,7 +62,6 @@ export default class Comments extends PureComponent {
     const { courseId } = this.props
     try {
       const {data: newComment} = await http.post(`courses/${courseId}/comment`, { comment })
-      console.log(newComment)
 
       this.setState({
         text: '',

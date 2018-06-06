@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, ImageBackground, AsyncStorage } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import { PORT, HOST } from 'react-native-dotenv'
 
 import ButtonCTA from '../components/ButtonCTA'
 import TopBar from '../components/TopBar'
 import TabIcon from '../components/TabIcon'
 import Container from '../components/Container'
 import colors from '../utils/colors'
+import createUrl from '../utils/createUrl'
 import icons from '../utils/icons'
 export default class CourseHome extends Component {
   static navigationOptions = {
@@ -56,7 +56,7 @@ export default class CourseHome extends Component {
         {/* <View style={styles.header}>
           <Text>{title}</Text>
         </View> */}
-        <ImageBackground elevation={20} style={styles.cover} source={{uri: `http://${HOST}:${PORT}/${image}`}} imageStyle={styles.imageBackground} >
+        <ImageBackground elevation={20} style={styles.cover} source={{uri: createUrl(image)}} imageStyle={styles.imageBackground} >
           <LinearGradient colors={['transparent', colors.black]} style={styles.gradient}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.subTitle}>{subTitle}</Text>

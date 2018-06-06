@@ -84,8 +84,6 @@ class Home extends Component {
   }
 
   async checkUser () {
-    console.log('ulala', this.props.user)
-
     if (this.props.user === null) {
       return this.props.navigation.navigate('Onboarding')
     } else if (this.props.user) {
@@ -97,8 +95,6 @@ class Home extends Component {
     }
 
     try {
-      console.log(this.props.user)
-
       const [
         {data: courses},
         {data: highlights}
@@ -106,8 +102,6 @@ class Home extends Component {
         http.get('courses'),
         http.get('courses/highlights')
       ])
-
-      console.log(courses, highlights)
 
       this.setState({courses, highlights})
     } catch (e) {
@@ -152,6 +146,7 @@ class Home extends Component {
         this.props.navigation.navigate('HomeCourse', { course })
       }
     } catch (error) {
+      console.log('Home', error)
       alert('algo malo paso')
     }
   }

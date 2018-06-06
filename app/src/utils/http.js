@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { PORT, HOST } from 'react-native-dotenv'
+import createUrl from './createUrl'
 
 export const instance = axios.create({
-  baseURL: `http://${HOST}:${PORT}/api`
+  baseURL: createUrl('api')
 })
 
 export default {

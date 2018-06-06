@@ -80,7 +80,6 @@ export default class Interest extends Component {
   getImage () {
     const { icon, checked } = this.props
 
-    console.log(icon, icons)
 
     return icons[icon][checked ? 'checked' : 'unchecked']
   }

@@ -138,7 +138,6 @@ const createVideo = (course, trx) => async (data) => {
   if (download) {
     console.warn('I NEED TO DOWLOAD THE IMAGE!!!')
   }
-  console.log(order, name)
 
   const [videoId] = await trx('videos')
     .returning('id')

@@ -146,6 +146,7 @@ export default class App extends Component {
         })
       }
     } catch (error) {
+      console.log('index', error)
       alert('Algo malo paso')
     }
   }

@@ -63,7 +63,7 @@ class Interests extends Component {
       this.props.changeUser({...this.props.user, interests: true})
       this.props.navigation.dispatch(NavigationActions.back())
     } catch (error) {
-      console.log(error)
+      console.log('Interest', error)
       alert('Algo malo paso')
     }
   }

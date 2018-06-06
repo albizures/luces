@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { TouchableHighlight, Text, ImageBackground } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import { PORT, HOST } from 'react-native-dotenv'
+
+import createUrl from '../../utils/createUrl'
 
 const Highlight = (props) => {
   const { course, title, subTitle } = props
   return (
     <TouchableHighlight {...props} onPress={() => props.onPress(course)} elevation={10} style={styles.box}>
-      <ImageBackground source={{ uri: `http://${HOST}:${PORT}/${props.image}` }} style={styles.container} imageStyle={styles.imageBackground}>
+      <ImageBackground source={{ uri: createUrl(props.image) }} style={styles.container} imageStyle={styles.imageBackground}>
         <LinearGradient colors={['transparent', '#252525']} style={styles.gradient}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subTitle}>{subTitle}</Text>
