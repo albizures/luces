@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { View, Text, TextInput, Image, ScrollView } from 'react-native'
+import { View, Text, TextInput, Image, ScrollView, TouchableHighlight } from 'react-native'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
@@ -72,7 +72,21 @@ export default class Comments extends PureComponent {
     }
   }
 
-  getComment (comment) {
+  async toggleLike (id, liked) {
+    try {
+      if (liked) {
+        await http.del(`comments/${id}/like`)
+      } else {
+        const { data: comment } = await http.post(`comments/${id}/like`)
+        console.log(JSON.stringify(comment))
+      }
+    } catch (error) {
+      alert('No se puedo guardar la reaccion')
+      console.log('Comments', error)
+    }
+  }
+
+  getComment = (comment) => {
     const { comment: text, userName, liked, date, likesCount, id } = comment
     return (
       <View key={id} style={styles.comment}>
@@ -86,7 +100,9 @@ export default class Comments extends PureComponent {
             </View>
             <View style={styles.likesContainer}>
               <Text style={styles.likesCount} >{likesCount || 0} me gusta</Text>
-              <Image style={styles.like} source={liked ? require('../../assets/like_active.png') : require('../../assets/like.png')} />
+              <TouchableHighlight style={styles.like} onPress={() => this.toggleLike(id, liked)}>
+                <Image style={styles.like} source={liked ? require('../../assets/like_active.png') : require('../../assets/like.png')} />
+              </TouchableHighlight>
             </View>
           </View>
         </View>

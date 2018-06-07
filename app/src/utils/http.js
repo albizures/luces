@@ -9,6 +9,9 @@ export default {
   get (url) {
     return instance.get(url)
   },
+  del (url) {
+    return instance.delete(url)
+  },
   post (url, body) {
     return instance.post(url, body)
   },
