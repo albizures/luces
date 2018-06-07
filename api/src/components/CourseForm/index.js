@@ -91,7 +91,7 @@ export default class Course extends Component {
     }
 
     notification.success(messages.edited)
-    this.props.onUpdate(/* shouldUnselecte */ true)
+    this.props.onUpdate(/* shouldUnselect */ true)
   }
 
   getLastOrder () {
@@ -273,23 +273,25 @@ export default class Course extends Component {
   }
 
   render () {
-    const { selectedVideo, videosData } = this.state
+    const { selectedVideo, videosData, videos } = this.state
     const { categories, course } = this.props
     return (
       <Fragment>
-        <CourseForm onSubmit={this.onSubmitCourse} course={course} categories={categories} cancelEdit={this.courseCancelEdit} />
-        <VideosForm onSubmit={this.onSubmitVideo} video={videosData[selectedVideo]} />
-        <div className='ant-row ant-form-item'>
-          <div className='ant-col-offset-4 ant-col-xs-20 ant-col-sm-20'>
-            <br />
-            <br />
-            <List
-              bordered
-              itemLayout='vertical'
-              dataSource={this.state.videos}
-              renderItem={this.getListItem} />
+        <CourseForm onSubmit={this.onSubmitCourse} videos={videos} course={course} categories={categories} cancelEdit={this.courseCancelEdit}>
+          <div>
+            <VideosForm onSubmit={this.onSubmitVideo} video={videosData[selectedVideo]} />
           </div>
-        </div>
+          <div className='ant-row ant-form-item'>
+            <div className='ant-col-offset-4 ant-col-xs-20 ant-col-sm-20'>
+              <List
+                bordered
+                locale={{emptyText: 'No hay ningun video'}}
+                itemLayout='vertical'
+                dataSource={videos}
+                renderItem={this.getListItem} />
+            </div>
+          </div>
+        </CourseForm>
       </Fragment>
     )
   }

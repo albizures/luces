@@ -101,6 +101,7 @@ class VideosForm extends Component {
 
   onSubmit = (evt) => {
     evt.preventDefault()
+    evt.stopPropagation()
     this.props.form.validateFields((err, values) => {
       if (err) {
         return console.error(err)
@@ -116,7 +117,7 @@ class VideosForm extends Component {
     const { form, video } = this.props
     const { getFieldDecorator } = form
     return (
-      <Form onSubmit={this.onSubmit}>
+      <div>
         <FormItem {...formItemLayout} label='Link'>
           {getFieldDecorator('link', {
             rules: [{ required: true, transform: this.transformUrl }]
@@ -145,8 +146,8 @@ class VideosForm extends Component {
           )}
         </FormItem>
         <FormItem wrapperCol={{ span: formItemLayout.wrapperCol.span, offset: formItemLayout.labelCol.span }}>
-          <Button style={{float: 'left'}} type='primary' htmlType='submit'>
-            {video ? 'Editar' : 'Agregar'}
+          <Button style={{float: 'left'}} type='primary' onClick={this.onSubmit}>
+            {video ? 'Guardar video' : 'Agregar video'}
           </Button>
           {video && (
             <Button style={{float: 'right'}} onClick={this.onCancel}>
@@ -154,7 +155,7 @@ class VideosForm extends Component {
             </Button>
           )}
         </FormItem>
-      </Form>
+      </div>
     )
   }
 }

@@ -27,12 +27,8 @@ class CourseForm extends Component {
     course: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
-    cancelEdit: PropTypes.func.isRequired
-  }
-
-  state = {
-    videos: [],
-    videosData: {}
+    cancelEdit: PropTypes.func.isRequired,
+    videos: PropTypes.array.isRequired
   }
 
   componentWillReceiveProps (props) {
@@ -77,10 +73,13 @@ class CourseForm extends Component {
   }
 
   render () {
-    const { categories, course, form } = this.props
+    const { categories, course, form, children, videos } = this.props
     const { getFieldDecorator } = form
     return (
       <Form onSubmit={this.onSubmit}>
+        <div className='ant-col-xs-20 ant-col-sm-20 ant-col-offset-4'>
+          <Divider>Curso</Divider>
+        </div>
         <FormItem {...formItemLayout} label='Nombre'>
           {getFieldDecorator('name', {
             rules: [{ required: true }]
@@ -120,9 +119,17 @@ class CourseForm extends Component {
           label='Imagen'
           name='image'
           form={form} />
+        <div className='ant-col-xs-20 ant-col-sm-20 ant-col-offset-4'>
+          <Divider>Videos</Divider>
+        </div>
+        {/* <div className='ant-row ant-form-item'>
+          <div className='ant-col-offset-4 ant-col-xs-20 ant-col-sm-20'> */}
+        {children}
+        {/* </div>
+        </div> */}
         <FormItem wrapperCol={{ span: formItemLayout.wrapperCol.span, offset: formItemLayout.labelCol.span }}>
-          <Button style={{float: 'left'}} type='primary' htmlType='submit'>
-            {course ? 'Editar' : 'Agregar'}
+          <Button style={{float: 'left'}} type='primary' htmlType='submit' disabled={!videos.length}>
+            {course ? 'Guardar curso' : 'Agregar curso'}
           </Button>
           {course && (
             <Button style={{float: 'right'}} onClick={this.onCancel}>
@@ -130,9 +137,6 @@ class CourseForm extends Component {
             </Button>
           )}
         </FormItem>
-        <div className='ant-col-xs-20 ant-col-sm-20 ant-col-offset-4'>
-          <Divider>Videos</Divider>
-        </div>
       </Form>
     )
   }

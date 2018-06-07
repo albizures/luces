@@ -28,7 +28,7 @@ export default ({children}) => (
           onClick={logout}
           style={{ lineHeight: '64px' }}>
           <Item key='1'>
-            <Link href='/courses'>
+            <Link href='/'>
               <a>Cursos</a>
             </Link>
           </Item>
