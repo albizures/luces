@@ -87,7 +87,7 @@ export default class Comments extends PureComponent {
   }
 
   getComment = (comment) => {
-    const { comment: text, userName, liked, date, likesCount, id } = comment
+    const { comment: text, userName, liked, date, likes, id } = comment
     return (
       <View key={id} style={styles.comment}>
         <Image style={styles.photo} source={require('../../assets/300x300.png')} />
@@ -99,7 +99,7 @@ export default class Comments extends PureComponent {
               <Text style={styles.date}>{dayjs(date).format('D MMMM, YYYY')}</Text>
             </View>
             <View style={styles.likesContainer}>
-              <Text style={styles.likesCount} >{likesCount || 0} me gusta</Text>
+              <Text style={styles.likesCount} >{likes || 0} me gusta</Text>
               <TouchableHighlight style={styles.like} onPress={() => this.toggleLike(id, liked)}>
                 <Image style={styles.like} source={liked ? require('../../assets/like_active.png') : require('../../assets/like.png')} />
               </TouchableHighlight>

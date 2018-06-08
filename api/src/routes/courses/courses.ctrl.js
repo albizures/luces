@@ -79,14 +79,35 @@ exports.getVideos = asyncHandler(async (req, res) => {
 
 exports.getComments = asyncHandler(async (req, res) => {
   const { id } = req.params
+  const { id_user } = req.user
+
   const comments = await knex('comments')
     .select({
       id: 'comments.id',
       comment: 'comments.comment',
       date: 'comments.created_at',
       userName: 'users.name',
-      cover: 'users.cover'
+      cover: 'users.cover',
+      liked: 'likes.id_user'
     })
+    .select(knex.raw('IFNULL(likeCounter.likesCount, 0) as likes'))
+    .leftJoin(
+      knex('likes')
+        .select({
+          id_comment: 'likes.id_comment'
+        })
+        .count('likes.id_comment as likesCount')
+        .where({
+          'likes.deleted': false
+        })
+        .groupBy('likes.id_comment')
+        .as('likeCounter'),
+      'comments.id',
+      '=',
+      'likeCounter.id_comment',
+      'LEFT'
+    )
+    .leftJoin(knex.raw(`likes as likes on likes.id_user = ${id_user} and comments.id = likes.id_comment and likes.deleted = 0`))
     .join('courses', 'comments.id_course', 'courses.id')
     .join('users', 'comments.id_user', 'users.id_user')
     .orderBy('comments.created_at', 'desc')
