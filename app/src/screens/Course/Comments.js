@@ -72,13 +72,25 @@ export default class Comments extends PureComponent {
     }
   }
 
-  async toggleLike (id, liked) {
+  setCommentState (comment, likes, liked, index) {
+    const { comments } = this.state
+    this.setState({
+      comments: Object.assign(
+        comments.concat(),
+        { [index]: Object.assign({}, comment, {likes: likes, liked: liked}) }
+      )
+    })
+  }
+
+  async toggleLike (comment, index) {
+    const { id, liked } = comment
     try {
       if (liked) {
-        await http.del(`comments/${id}/like`)
+        const { data: { likes } } = await http.del(`comments/${id}/like`)
+        this.setCommentState(comment, likes, !liked, index)
       } else {
-        const { data: comment } = await http.post(`comments/${id}/like`)
-        console.log(JSON.stringify(comment))
+        const { data: { likes } } = await http.post(`comments/${id}/like`)
+        this.setCommentState(comment, likes, !liked, index)
       }
     } catch (error) {
       alert('No se puedo guardar la reaccion')
@@ -86,7 +98,7 @@ export default class Comments extends PureComponent {
     }
   }
 
-  getComment = (comment) => {
+  getComment = (comment, index) => {
     const { comment: text, userName, liked, date, likes, id } = comment
     return (
       <View key={id} style={styles.comment}>
@@ -100,7 +112,7 @@ export default class Comments extends PureComponent {
             </View>
             <View style={styles.likesContainer}>
               <Text style={styles.likesCount} >{likes || 0} me gusta</Text>
-              <TouchableHighlight style={styles.like} onPress={() => this.toggleLike(id, liked)}>
+              <TouchableHighlight style={styles.like} onPress={() => this.toggleLike(comment, index)}>
                 <Image style={styles.like} source={liked ? require('../../assets/like_active.png') : require('../../assets/like.png')} />
               </TouchableHighlight>
             </View>
