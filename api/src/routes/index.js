@@ -10,6 +10,7 @@ router.use('/', jwt({ secret: process.env.SECRET_KEY }).unless({path: [
 ]}))
 router.use('/login', require('./login/login'))
 router.use('/videos', require('./videos/videos'))
+router.use('/favorites', require('./favorites/favorites'))
 router.use('/comments', require('./comments/comments'))
 router.use('/categories', require('./categories/categories'))
 router.use('/courses', require('./courses/courses'))

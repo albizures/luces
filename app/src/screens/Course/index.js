@@ -56,6 +56,7 @@ export default class Course extends Component {
   }
 
   state = {
+    course: {},
     videos: [],
     index: 0,
     routes: oneVideoConfig
@@ -81,18 +82,21 @@ export default class Course extends Component {
 
   async componentDidMount () {
     const { navigation } = this.props
-    const course = navigation.getParam('course')
+    const { id } = navigation.getParam('course')
     this.setState({ isLoading: true })
     try {
-      const { data: videos } = await http.get(`courses/${course.id}/videos`)
+      const { data: course } = await http.get(`courses/${id}`)
+      const { data: videos } = await http.get(`courses/${id}/videos`)
       this.setState({
+        course,
         isLoading: false,
         videos,
         selectedVideo: 0,
         routes: videos.length > 1 ? moreThanOneVideoConfig : oneVideoConfig
       })
     } catch (error) {
-      alert('No se pudieron cargar los videos')
+      console.log(error)
+      alert('No se pudo carga el curso')
     }
   }
 
@@ -102,9 +106,31 @@ export default class Course extends Component {
     })
   }
 
+  toggleFavorite = async () => {
+    const { course } = this.state
+    const { id, favorite } = course
+    this.setState({ isLoading: true })
+    try {
+      if (favorite) {
+        await http.del(`favorites/${id}`)
+        this.setState({
+          course: Object.assign({}, course, { favorite: false })
+        })
+      } else {
+        await http.post('favorites', { id })
+        this.setState({
+          course: Object.assign({}, course, { favorite: true })
+        })
+      }
+      this.setState({ isLoading: false })
+    } catch (error) {
+      console.log(error)
+      alert('No se pudo agregar a favoritos')
+    }
+  }
+
   renderScene = ({ route }) => {
-    const { navigation } = this.props
-    const { description, id } = navigation.getParam('course')
+    const { description, id } = this.state.course
 
     switch (route.key) {
       case 'comments':
@@ -152,16 +178,16 @@ export default class Course extends Component {
   }
 
   render () {
-    const { navigation } = this.props
-    const { name } = navigation.getParam('course')
     const { isLoading } = this.state
+    const { name, favorite } = this.state.course
+
     return (
       <Container isLoading={isLoading}>
         <TopBar text='Video' modal onBack={this.onBack} />
         {this.getPlayer()}
         <View style={styles.container2}>
           <Text style={styles.title}>{name}</Text>
-          <Heart style={styles.like} onPress={() => alert()} />
+          <Heart style={styles.like} active={!!favorite} onPress={this.toggleFavorite} />
         </View>
         <TabView
           style={{flex: 1}}

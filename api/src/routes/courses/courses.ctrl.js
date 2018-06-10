@@ -3,7 +3,42 @@ const Promise = require('bluebird')
 
 const knex = require('../../config/connection')
 
+exports.get = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const { id_user } = req.user
+  const [course] = await knex('courses')
+    .select({
+      id: 'courses.id',
+      name: 'courses.name',
+      description: 'courses.description',
+      image: 'courses.image_url',
+      // idCategory: 'categories.id',
+      // categoryName: 'categories.name',
+      // icon: 'categories.icon',
+      author: 'courses.author',
+      // videos: knex.raw('COUNT(course_videos.id_course)'),
+      favorite: 'favorites.id_course'
+    })
+    // .join('categories', 'courses.id_category', 'categories.id')
+    // .leftJoin('course_videos', 'courses.id', 'course_videos.id_course')
+    .leftJoin(
+      knex.raw(`
+        favorites as favorites
+        on favorites.id_user = ${id_user}
+          and courses.id = favorites.id_course 
+          and favorites.deleted = 0`)
+    )
+    .where({
+      'courses.deleted': false,
+      'courses.id': id
+      // 'course_videos.deleted': true
+    })
+
+  res.json(course)
+})
+
 exports.getAll = asyncHandler(async (req, res) => {
+  const { id_user } = req.user
   const courses = await knex('courses')
     .select({
       id: 'courses.id',
@@ -14,10 +49,18 @@ exports.getAll = asyncHandler(async (req, res) => {
       categoryName: 'categories.name',
       icon: 'categories.icon',
       author: 'courses.author',
-      videos: knex.raw('COUNT(course_videos.id_course)')
+      videos: knex.raw('COUNT(course_videos.id_course)'),
+      favorite: 'favorites.id_course'
     })
     .join('categories', 'courses.id_category', 'categories.id')
     .leftJoin('course_videos', 'courses.id', 'course_videos.id_course')
+    .leftJoin(
+      knex.raw(`
+        favorites as favorites
+        on favorites.id_user = ${id_user}
+          and courses.id = favorites.id_course 
+          and favorites.deleted = 0`)
+    )
     .whereNot({
       'courses.deleted': true,
       'course_videos.deleted': true
@@ -39,17 +82,23 @@ exports.getHighlights = asyncHandler(async (req, res) => {
       idCategory: 'categories.id',
       categoryName: 'categories.name',
       icon: 'categories.icon',
-      author: 'courses.author'
+      author: 'courses.author',
+      favorite: 'favorites.id_course'
     })
     .join('courses', 'courses.id_category', 'interests.id_category')
     .join('categories', 'categories.id', 'interests.id_category')
+    .leftJoin(
+      knex.raw(`
+        favorites as favorites
+        on favorites.id_user = ${id_user}
+          and courses.id = favorites.id_course 
+          and favorites.deleted = 0`)
+    )
     .where({
-      'interests.id_user': id_user
-    })
-    .whereNot({
-      'courses.deleted': true,
-      'interests.deleted': true,
-      'categories.deleted': true
+      'interests.id_user': id_user,
+      'courses.deleted': false,
+      'interests.deleted': false,
+      'categories.deleted': false
     })
     .orderBy('courses.created_at', 'desc')
   res.json(courses)

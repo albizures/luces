@@ -19,7 +19,7 @@ export default class Comments extends PureComponent {
     comments: []
   }
 
-  async componentDidMount () {
+  async getComments () {
     const { courseId } = this.props
     try {
       const { data: comments } = await http.get(`courses/${courseId}/comments`)
@@ -27,6 +27,17 @@ export default class Comments extends PureComponent {
     } catch (error) {
       alert('Algo salio mal, intentelo mas tarde')
     }
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.props.courseId && prevProps.courseId !== this.props.courseId) {
+      this.getComments()
+    }
+  }
+
+  async componentDidMount () {
+    const { courseId } = this.props
+    if (courseId) this.getComments()
   }
 
   // state = {
