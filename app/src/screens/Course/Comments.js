@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react'
-import { View, Text, TextInput, Image, ScrollView, TouchableHighlight } from 'react-native'
+import { View, Text, TextInput, Image, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
+import Heart from '../../components/Heart'
 import colors from '../../utils/colors'
 import http from '../../utils/http'
 
@@ -112,9 +113,7 @@ export default class Comments extends PureComponent {
             </View>
             <View style={styles.likesContainer}>
               <Text style={styles.likesCount} >{likes || 0} me gusta</Text>
-              <TouchableHighlight style={styles.like} onPress={() => this.toggleLike(comment, index)}>
-                <Image style={styles.like} source={liked ? require('../../assets/like_active.png') : require('../../assets/like.png')} />
-              </TouchableHighlight>
+              <Heart style={styles.like} active={!!liked} onPress={() => this.toggleLike(comment, index)} />
             </View>
           </View>
         </View>

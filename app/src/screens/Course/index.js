@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 import colors from '../../utils/colors'
 import http from '../../utils/http'
-import FavoritesButton from '../../components/FavoritesButton'
+import Heart from '../../components/Heart'
 import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
 import CardCourse from '../../components/Course'
@@ -161,7 +161,7 @@ export default class Course extends Component {
         {this.getPlayer()}
         <View style={styles.container2}>
           <Text style={styles.title}>{name}</Text>
-          <FavoritesButton />
+          <Heart style={styles.like} onPress={() => alert()} />
         </View>
         <TabView
           style={{flex: 1}}
@@ -176,6 +176,11 @@ export default class Course extends Component {
 }
 
 const styles = {
+  like: {
+    marginTop: 10,
+    width: 20,
+    height: 20
+  },
   video: {
     alignSelf: 'stretch',
     height: 224,
