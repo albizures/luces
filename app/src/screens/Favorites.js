@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import { ImageBackground, Alert } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
 
-import colors from '../utils/colors'
+import createUrl from '../utils/createUrl'
+import http from '../utils/http'
 import TopBar from '../components/TopBar'
 import { tabBarIcon } from '../components/TabIcon'
 import Course from '../components/Course'
@@ -17,32 +17,79 @@ export default class Favorites extends Component {
       inactive: require('../assets/tabs/favorites.png')
     })
   }
+  state = {
+    courses: [],
+    refreshing: false
+  }
 
-  onRemove = () => {
+  async getCourses () {
+    this.setState({
+      isLoading: true
+    })
+    try {
+      const { data: courses } = await http.get('favorites')
+      this.setState({
+        courses,
+        isLoading: false
+      })
+    } catch (error) {
+      console.log(error)
+      alert('No se pudieron cargar los favoritos')
+      this.setState({
+        isLoading: false
+      })
+    }
+  }
+
+  componentDidMount () {
+    this.getCourses()
+  }
+
+  async remove (id) {
+    try {
+      await http.del(`favorites/${id}`)
+      this.getCourses()
+    } catch (error) {
+      alert('No se pudo eliminar el curso de tus favoritos')
+    }
+  }
+
+  onRefresh = async () => {
+    this.setState({refreshing: true})
+    try {
+      await this.getCourses()
+    } catch (error) {
+      alert('No se pudieron actualizar los favoritos')
+    }
+    this.setState({refreshing: false})
+  }
+
+  onRemove = (id) => {
     Alert.alert(
       'Quitar de Favoritos',
       'Estas a punto de quitar "Curso" de tus cursos Favoritos. Lo puedes volver a listar acá cuando quieras',
       [
         {text: 'No Quitar', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'Quitar', onPress: () => console.log('OK Pressed')}
+        {text: 'Quitar', onPress: () => this.remove(id)}
       ],
       { cancelable: false }
     )
   }
 
   render () {
+    const { isLoading, courses, refreshing } = this.state
+    const topBar = (
+      <TopBar
+        icon={require('../assets/favorites.png')}
+        text='Favoritos' />
+    )
     return (
-      <Container>
-        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
-          <TopBar
-            icon={require('../assets/favorites.png')}
-            text='Favoritos' />
-          <ImageBackground source={require('../assets/logo.png')} style={styles.resultsContainer} imageStyle={styles.imageBackground}>
-            <Course image={require('../assets/photos/learn.jpg')} title='Balayage' description='¡No necesitas un salón!' onRemove={this.onRemove} />
-            <Course image={require('../assets/photos/login.jpg')} title='Balayage' description='¡No necesitas un salón!' onRemove={this.onRemove} />
-            <Course image={require('../assets/photos/share.jpg')} title='Balayage' description='¡No necesitas un salón!' onRemove={this.onRemove} />
-          </ImageBackground>
-        </LinearGradient>
+      <Container isLoading={isLoading} scroll gradient topBar={topBar} onRefresh={this.onRefresh} refreshing={refreshing}>
+        <ImageBackground source={require('../assets/logo.png')} style={styles.resultsContainer} imageStyle={styles.imageBackground}>
+          {courses.map(({image, name, description, id}, index) => (
+            <Course key={id} image={{uri: createUrl(image)}} title={name} description={description} onRemove={() => this.onRemove(id, index)} />
+          ))}
+        </ImageBackground>
       </Container>
     )
   }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, View, ScrollView, Image, AsyncStorage } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
 
 import { withUser } from '../../components/UserContext'
 import Container from '../../components/Container'
@@ -69,7 +68,8 @@ class Home extends Component {
   state = {
     courses: [],
     highlights: [],
-    enabled: true
+    enabled: true,
+    refreshing: false
   }
 
   async checkUser () {
@@ -141,33 +141,40 @@ class Home extends Component {
     }
   }
 
+  onRefresh = async () => {
+    this.setState({refreshing: true})
+    try {
+      await this.checkUser()
+    } catch (error) {
+      alert('No se pudieron actualizar los cursos')
+    }
+    this.setState({refreshing: false})
+  }
+
   render () {
-    const { courses, highlights } = this.state
+    const { courses, highlights, refreshing } = this.state
+    const topBar = (
+      <View style={styles.header}>
+        <Image height={55} style={styles.headerLogo} source={require('../../assets/logo.png')} />
+      </View>
+    )
     return (
-      <Container>
-        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
-          <ScrollView
-            style={{flex: 1}}>
-            <View style={styles.header}>
-              <Image height={55} style={styles.headerLogo} source={require('../../assets/logo.png')} />
-            </View>
-            <View style={styles.highlights}>
-              <Text style={styles.title}>Cursos Beautiful</Text>
-              <Text style={styles.subTitle}>Destacados</Text>
-            </View>
-            <ScrollView horizontal style={styles.scrollView} >
-              {highlights.map(course => (
-                <Highlight key={course.id} course={course} title={course.categoryName} onPress={this.onClickCourse} subTitle={course.name} image={course.image} />
-              ))}
-            </ScrollView>
-            <View style={styles.courses}>
-              <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos</Text>
-              {courses.map((course, index) => (
-                <Course key={course.id} index={index} icon={icons[course.icon].checked} onPress={this.onClickCourse} course={course} />
-              ))}
-            </View>
-          </ScrollView>
-        </LinearGradient>
+      <Container scroll gradient topBar={topBar} onRefresh={this.onRefresh} refreshing={refreshing}>
+        <View style={styles.highlights}>
+          <Text style={styles.title}>Cursos Beautiful</Text>
+          <Text style={styles.subTitle}>Destacados</Text>
+        </View>
+        <ScrollView horizontal style={styles.scrollView} >
+          {highlights.map(course => (
+            <Highlight key={course.id} course={course} title={course.categoryName} onPress={this.onClickCourse} subTitle={course.name} image={course.image} />
+          ))}
+        </ScrollView>
+        <View style={styles.courses}>
+          <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos</Text>
+          {courses.map((course, index) => (
+            <Course key={course.id} index={index} icon={icons[course.icon].checked} onPress={this.onClickCourse} course={course} />
+          ))}
+        </View>
       </Container>
     )
   }

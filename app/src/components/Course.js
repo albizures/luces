@@ -15,7 +15,7 @@ const Course = ({ onRemove, title, description, image, onPress }) => {
         <Image source={require('../assets/play.png')} style={styles.play} />
       </ImageBackground >
       <View style={styles.textContainer}>
-        <Text style={styles.title}>{title}</Text>
+        <Text numberOfLines={1} style={styles.title}>{title}</Text>
         <Text style={styles.description}>{description}</Text>
         {remove}
       </View>
