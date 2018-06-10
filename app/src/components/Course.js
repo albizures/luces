@@ -4,11 +4,12 @@ import PropTypes from 'prop-types'
 
 import colors from '../utils/colors'
 
-const Course = ({ onRemove, title, description, image }) => {
-  const remove = onRemove ? <TouchableHighlight onPress={onRemove}>
+const Course = ({ onRemove, title, description, image, onPress }) => {
+  const remove = (onRemove && !onPress) ? <TouchableHighlight onPress={onRemove}>
     <Text style={styles.remove}>Quitar</Text>
   </TouchableHighlight> : null
-  return (
+
+  const course = (
     <View style={styles.container} elevation={10}>
       <ImageBackground source={image} style={styles.imageContainer} imageStyle={styles.image}>
         <Image source={require('../assets/play.png')} style={styles.play} />
@@ -20,10 +21,21 @@ const Course = ({ onRemove, title, description, image }) => {
       </View>
     </View>
   )
+
+  if (onPress) {
+    return (
+      <TouchableHighlight onPress={onPress}>
+        {course}
+      </TouchableHighlight>
+    )
+  }
+
+  return course
 }
 
 Course.propTypes = {
   onRemove: PropTypes.func,
+  onPress: PropTypes.func,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   image: PropTypes.oneOfType([

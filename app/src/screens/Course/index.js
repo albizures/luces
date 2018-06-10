@@ -19,14 +19,21 @@ const initialLayout = {
 
 class Videos extends PureComponent {
   static propTypes = {
-    videos: PropTypes.array.isRequired
+    videos: PropTypes.array.isRequired,
+    onSelect: PropTypes.func.isRequired
   }
 
   render () {
     const { videos } = this.props
     return <View style={{padding: 20}}>
-      {videos.map(video => (
-        <CardCourse key={video.id} image={{uri: video.url}} title={video.name} description={video.description} />
+      {videos.map((video, index) => (
+        <CardCourse
+          key={video.id}
+          id={video.id}
+          onPress={() => this.props.onSelect(index)}
+          image={{uri: video.url}}
+          title={video.name}
+          description={video.description} />
       ))}
     </View>
   }
@@ -88,6 +95,12 @@ export default class Course extends Component {
     }
   }
 
+  onSelect = (index) => {
+    this.setState({
+      selectedVideo: index
+    })
+  }
+
   renderScene = ({ route }) => {
     const { navigation } = this.props
     const { description, id } = navigation.getParam('course')
@@ -103,7 +116,7 @@ export default class Course extends Component {
         )
       case 'videos':
         const { videos } = this.state
-        return <Videos videos={videos} />
+        return <Videos videos={videos} onSelect={this.onSelect} />
       default:
         return null
     }
