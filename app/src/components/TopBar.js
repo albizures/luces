@@ -5,12 +5,18 @@ import PropTypes from 'prop-types'
 import colors from '../utils/colors'
 import CircleImage from './CircleImage'
 
-const Dot = ({ icon, text, onBack }) => {
+const TopBar = ({ icon, text, onBack, modal }) => {
+  const styleModal = modal ? {
+    transform: [{
+      rotate: '-90deg'
+    }]
+  } : {}
+
   return (
     <View
       style={styles.container}>
       {onBack ? (
-        <TouchableHighlight onPress={onBack} style={styles.containerBack}>
+        <TouchableHighlight onPress={onBack} style={[styles.containerBack, styleModal]}>
           <Image source={require('../assets/prev.png')} style={styles.back} />
         </TouchableHighlight>
       ) : null}
@@ -20,8 +26,9 @@ const Dot = ({ icon, text, onBack }) => {
   )
 }
 
-Dot.propTypes = {
-  icon: PropTypes.number.isRequired,
+TopBar.propTypes = {
+  icon: PropTypes.number,
+  modal: PropTypes.bool,
   onBack: PropTypes.func,
   text: PropTypes.string.isRequired
 }
@@ -55,4 +62,4 @@ const styles = {
   }
 }
 
-export default Dot
+export default TopBar

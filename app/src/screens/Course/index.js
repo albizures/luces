@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, Image, TouchableHighlight, Platform } from 'react-native'
+import { View, Text, Dimensions, Platform } from 'react-native'
 import { TabView, TabBar } from 'react-native-tab-view'
 import React, { Component, PureComponent } from 'react'
 import { NavigationActions } from 'react-navigation'
@@ -9,6 +9,7 @@ import colors from '../../utils/colors'
 import http from '../../utils/http'
 import FavoritesButton from '../../components/FavoritesButton'
 import Container from '../../components/Container'
+import TopBar from '../../components/TopBar'
 import CardCourse from '../../components/Course'
 import Comments from './Comments'
 
@@ -156,10 +157,8 @@ export default class Course extends Component {
     const { isLoading } = this.state
     return (
       <Container isLoading={isLoading}>
+        <TopBar text='Video' modal onBack={this.onBack} />
         {this.getPlayer()}
-        <TouchableHighlight style={styles.backContainer} onPress={this.onBack}>
-          <Image style={styles.back} source={require('../../assets/video_back.png')} />
-        </TouchableHighlight>
         <View style={styles.container2}>
           <Text style={styles.title}>{name}</Text>
           <FavoritesButton />
