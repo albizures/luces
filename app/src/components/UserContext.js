@@ -7,7 +7,7 @@ const { Consumer, Provider } = UserContext
 function withUser (Component) {
   const ComponentWithUser = props => (
     <Consumer>
-      {data => <Component {...props} user={data.user} changeUser={data.onChangeUser} />}
+      {data => <Component {...props} user={data.user} changeUser={data.changeUser} logout={data.logout} />}
     </Consumer>
   )
   ComponentWithUser.navigationOptions = Component.navigationOptions
@@ -15,7 +15,7 @@ function withUser (Component) {
   return ComponentWithUser
 }
 
-const getValue = (user, onChangeUser) => ({ user, onChangeUser })
+const getValue = (user, {changeUser, logout}) => ({ user, changeUser, logout })
 
 export {
   withUser,

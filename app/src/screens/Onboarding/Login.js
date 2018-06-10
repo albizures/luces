@@ -5,7 +5,7 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk'
 
 import { withUser } from '../../components/UserContext'
 import ButtonCTA from '../../components/ButtonCTA'
-import http from '../../utils/http'
+import http, { instance } from '../../utils/http'
 
 const { width, height } = Dimensions.get('window')
 const potrait = height > width
@@ -33,10 +33,16 @@ class Login extends Component {
       const { accessToken } = await AccessToken.getCurrentAccessToken()
 
       const { data: { token, user } } = await http.login(accessToken.toString())
+
+      instance.defaults.headers.common['Authorization'] = 'Bearer ' + token
+
+      const { data: interests } = await http.get('interests/user')
       this.props.changeUser({
         ...user,
+        interests: Array.isArray(interests) && interests.length > 0,
         token
       })
+
       this.props.navigation()
     } catch (error) {
       this.props.setLoaderStatus(false)

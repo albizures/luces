@@ -173,6 +173,11 @@ export default class App extends Component {
     // user: { interests: false }
   }
 
+  onLogout = async () => {
+    await AsyncStorage.clear()
+    this.setState({ user: null })
+  }
+
   onChangeUser = async (user) => {
     if (user.token) {
       await AsyncStorage.setItem('token', user.token)
@@ -189,7 +194,10 @@ export default class App extends Component {
       instance.defaults.headers.common['Authorization'] = 'Bearer ' + user.token
     }
 
-    const contextValue = getValue(user, this.onChangeUser)
+    const contextValue = getValue(user, {
+      changeUser: this.onChangeUser,
+      logout: this.onLogout
+    })
     return (
       <View style={{flex: 1}}>
         <StatusBar barStyle='light-content' />

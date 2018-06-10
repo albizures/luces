@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
-import { Text, View, Image } from 'react-native'
+import { Text, View, Image, TouchableHighlight } from 'react-native'
 import PropTypes from 'prop-types'
 import colors from '../../utils/colors'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { tabBarIcon } from '../../components/TabIcon'
+import { withUser } from '../../components/UserContext'
 import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
 import Option from './Option'
 
-export default class Account extends Component {
+class Account extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired
   }
 
   static navigationOptions = {
@@ -20,6 +22,12 @@ export default class Account extends Component {
       active: require('../../assets/tabs/account_active.png'),
       inactive: require('../../assets/tabs/account.png')
     })
+  }
+
+  onLogout = async () => {
+    const { logout, navigation } = this.props
+    navigation.navigate('Home')
+    logout()
   }
 
   render () {
@@ -34,10 +42,12 @@ export default class Account extends Component {
           <Option onPress={() => navigation.navigate('Notifications')} title='Notificationes' icon={require('../../assets/account/notifications.png')} />
           <Option onPress={() => navigation.navigate('InterestsAccount')} title='Intereses' icon={require('../../assets/account/interests.png')} />
           <View style={styles.logoutAbout}>
-            <View style={styles.logout}>
-              <Image style={styles.logoutIcon} source={require('../../assets/account/logout.png')} />
-              <Text style={styles.logoutText}>Cerrar Sesión</Text>
-            </View>
+            <TouchableHighlight onPress={this.onLogout}>
+              <View style={styles.logout}>
+                <Image style={styles.logoutIcon} source={require('../../assets/account/logout.png')} />
+                <Text style={styles.logoutText}>Cerrar Sesión</Text>
+              </View>
+            </TouchableHighlight>
             <View style={styles.about}>
               <Image style={styles.aboutIcon} source={require('../../assets/account/about.png')} />
               <Text style={styles.aboutText}>Luces Beautiful App 2018 {'\n'} Made with ❤ by Minimo</Text>
@@ -49,6 +59,8 @@ export default class Account extends Component {
     )
   }
 }
+
+export default withUser(Account)
 
 const styles = {
   logoutIcon: {
