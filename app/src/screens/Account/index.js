@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import colors from '../../utils/colors'
 import LinearGradient from 'react-native-linear-gradient'
 
-import TabIcon from '../../components/TabIcon'
+import { tabBarIcon } from '../../components/TabIcon'
 import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
 import Option from './Option'
@@ -16,12 +16,10 @@ export default class Account extends Component {
 
   static navigationOptions = {
     title: 'Cuenta',
-    tabBarIcon: ({focused}) => {
-      return <TabIcon
-        activeSrc={require('../../assets/tabs/account_active.png')}
-        src={require('../../assets/tabs/account.png')}
-        focused={focused} />
-    }
+    tabBarIcon: tabBarIcon({
+      active: require('../../assets/tabs/account_active.png'),
+      inactive: require('../../assets/tabs/account.png')
+    })
   }
 
   render () {

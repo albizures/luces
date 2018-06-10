@@ -68,7 +68,7 @@ export default class Comments extends PureComponent {
         comments: [newComment].concat(comments)
       })
     } catch (error) {
-      alert('Algo salio mal, intentelo de nuevo')
+      alert('No se pudo agregar el comentario')
     }
   }
 

@@ -1,7 +1,7 @@
 import 'dayjs/locale/es'
 import React, { Component } from 'react'
 import { StatusBar, View, AsyncStorage } from 'react-native'
-import { StackNavigator, TabNavigator } from 'react-navigation'
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 
 import Onboarding from './screens/Onboarding'
 import Interests from './screens/Interests'
@@ -19,10 +19,11 @@ import dayjs from 'dayjs'
 import { Provider as UserProvider, getValue } from './components/UserContext'
 import { Provider as CategoryProvider, getValue as getCategoryValue } from './components/CategoriesContext'
 import http, { instance } from './utils/http'
+import { tabBarIcon } from './components/TabIcon'
 
 dayjs.locale('es')
 
-const OnboardingStack = StackNavigator({
+const OnboardingStack = createStackNavigator({
   Onboarding: {
     screen: Onboarding
   }
@@ -31,7 +32,7 @@ const OnboardingStack = StackNavigator({
   initialRouteName: 'Onboarding'
 })
 
-const AccountStack = StackNavigator({
+const AccountStack = createStackNavigator({
   HomeAccount: {
     screen: Account
   },
@@ -49,7 +50,15 @@ const AccountStack = StackNavigator({
   initialRouteName: 'HomeAccount'
 })
 
-const CoursesStack = StackNavigator({
+AccountStack.navigationOptions = {
+  title: 'Cuenta',
+  tabBarIcon: tabBarIcon({
+    active: require('./assets/tabs/account_active.png'),
+    inactive: require('./assets/tabs/account.png')
+  })
+}
+
+const CoursesStack = createStackNavigator({
   HomeCourses: {
     screen: Home
   },
@@ -61,7 +70,15 @@ const CoursesStack = StackNavigator({
   headerMode: 'none'
 })
 
-const MainTab = TabNavigator({
+CoursesStack.navigationOptions = {
+  title: 'Cursos',
+  tabBarIcon: tabBarIcon({
+    active: require('./assets/tabs/courses_active.png'),
+    inactive: require('./assets/tabs/courses.png')
+  })
+}
+
+const MainTab = createBottomTabNavigator({
   Home: {
     screen: CoursesStack
   },
@@ -91,7 +108,7 @@ const MainTab = TabNavigator({
   swipeEnabled: true
 })
 
-const RootStack = StackNavigator({
+const RootStack = createStackNavigator({
   Onboarding: {
     screen: OnboardingStack
   },
@@ -147,7 +164,7 @@ export default class App extends Component {
       }
     } catch (error) {
       console.log('index', error)
-      alert('Algo malo paso')
+      alert('Ocurrio un error cargando el usuario')
     }
   }
 

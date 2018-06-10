@@ -44,20 +44,6 @@ class Login extends Component {
     }
   }
 
-  onLoginFinished = (error, result) => {
-    if (error) {
-      alert('login has error: ' + result.error)
-    } else if (result.isCancelled) {
-      alert('login is cancelled.')
-    } else {
-      AccessToken.getCurrentAccessToken().then(
-        (data) => {
-          alert(data.accessToken.toString())
-        }
-      )
-    }
-  }
-
   render () {
     return (
       <View style={[styles.container, { width, height }]}>

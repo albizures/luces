@@ -1,5 +1,5 @@
 import { View, Text, Dimensions, Image, TouchableHighlight, Platform } from 'react-native'
-import { TabViewAnimated, TabBar } from 'react-native-tab-view'
+import { TabView, TabBar } from 'react-native-tab-view'
 import React, { Component, PureComponent } from 'react'
 import { NavigationActions } from 'react-navigation'
 import YouTube from 'react-native-youtube'
@@ -32,6 +32,16 @@ class Videos extends PureComponent {
   }
 }
 
+const moreThanOneVideoConfig = [
+  { key: 'comments', title: 'Comentarios' },
+  { key: 'videos', title: 'Videos' },
+  { key: 'description', title: 'Descripción' }
+]
+const oneVideoConfig = [
+  { key: 'comments', title: 'Comentarios' },
+  { key: 'description', title: 'Descripción' }
+]
+
 export default class Course extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired
@@ -40,11 +50,7 @@ export default class Course extends Component {
   state = {
     videos: [],
     index: 0,
-    routes: [
-      { key: 'comments', title: 'Comentarios' },
-      { key: 'videos', title: 'Videos' },
-      { key: 'description', title: 'Descripción' }
-    ]
+    routes: oneVideoConfig
   }
 
   onIndexChange = index => this.setState({ index });
@@ -71,7 +77,12 @@ export default class Course extends Component {
     this.setState({ isLoading: true })
     try {
       const { data: videos } = await http.get(`courses/${course.id}/videos`)
-      this.setState({ isLoading: false, videos, selectedVideo: 0 })
+      this.setState({
+        isLoading: false,
+        videos,
+        selectedVideo: 0,
+        routes: videos.length > 1 ? moreThanOneVideoConfig : oneVideoConfig
+      })
     } catch (error) {
       alert('No se pudieron cargar los videos')
     }
@@ -140,11 +151,11 @@ export default class Course extends Component {
           <Text style={styles.title}>{name}</Text>
           <FavoritesButton />
         </View>
-        <TabViewAnimated
+        <TabView
           style={{flex: 1}}
           navigationState={this.state}
           renderScene={this.renderScene}
-          renderHeader={this.getTabBar}
+          renderTabBar={this.getTabBar}
           onIndexChange={this.onIndexChange}
           initialLayout={initialLayout} />
       </Container>

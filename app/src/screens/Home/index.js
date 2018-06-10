@@ -4,7 +4,6 @@ import { Text, View, ScrollView, Image, AsyncStorage } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { withUser } from '../../components/UserContext'
-import TabIcon from '../../components/TabIcon'
 import Container from '../../components/Container'
 import Highlight from './Highlight'
 import Course from './Course'
@@ -62,16 +61,6 @@ const styles = {
 }
 
 class Home extends Component {
-  static navigationOptions = {
-    title: 'Cursos',
-    tabBarIcon: ({focused, ...rest}) => {
-      return <TabIcon
-        activeSrc={require('../../assets/tabs/courses_active.png')}
-        src={require('../../assets/tabs/courses.png')}
-        focused={focused} />
-    }
-  };
-
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     user: PropTypes.object
@@ -140,6 +129,7 @@ class Home extends Component {
   onClickCourse = async (course) => {
     try {
       const started = await AsyncStorage.getItem(`course-${course.id}`)
+      console.log('lelelelele', started)
       if (started === 'started') {
         this.props.navigation.navigate('Course', { course })
       } else {
@@ -147,7 +137,7 @@ class Home extends Component {
       }
     } catch (error) {
       console.log('Home', error)
-      alert('algo malo paso')
+      alert('No se pudo carga el curso')
     }
   }
 

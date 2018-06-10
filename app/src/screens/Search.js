@@ -4,7 +4,7 @@ import { View, Text, TextInput, Image, ImageBackground } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import colors from '../utils/colors'
 
-import TabIcon from '../components/TabIcon'
+import { tabBarIcon } from '../components/TabIcon'
 import Course from '../components/Course'
 import Container from '../components/Container'
 
@@ -14,12 +14,10 @@ export default class Search extends Component {
   }
   static navigationOptions = {
     title: 'Buscar',
-    tabBarIcon: ({focused}) => {
-      return <TabIcon
-        activeSrc={require('../assets/tabs/search_active.png')}
-        src={require('../assets/tabs/search.png')}
-        focused={focused} />
-    }
+    tabBarIcon: tabBarIcon({
+      active: require('../assets/tabs/search_active.png'),
+      inactive: require('../assets/tabs/search.png')
+    })
   }
 
   mapResult () {

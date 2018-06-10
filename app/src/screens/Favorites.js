@@ -5,19 +5,17 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import colors from '../utils/colors'
 import TopBar from '../components/TopBar'
-import TabIcon from '../components/TabIcon'
+import { tabBarIcon } from '../components/TabIcon'
 import Course from '../components/Course'
 import Container from '../components/Container'
 
 export default class Favorites extends Component {
   static navigationOptions = {
     title: 'Favoritos',
-    tabBarIcon: ({focused}) => {
-      return <TabIcon
-        activeSrc={require('../assets/tabs/favorites_active.png')}
-        src={require('../assets/tabs/favorites.png')}
-        focused={focused} />
-    }
+    tabBarIcon: tabBarIcon({
+      active: require('../assets/tabs/favorites_active.png'),
+      inactive: require('../assets/tabs/favorites.png')
+    })
   }
 
   onRemove = () => {

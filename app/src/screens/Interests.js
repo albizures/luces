@@ -64,7 +64,7 @@ class Interests extends Component {
       this.props.navigation.dispatch(NavigationActions.back())
     } catch (error) {
       console.log('Interest', error)
-      alert('Algo malo paso')
+      alert('No se pudieron cargar tus intereses')
     }
   }
 
