@@ -203,7 +203,7 @@ export default class Course extends Component {
 
 const styles = {
   like: {
-    marginTop: 10,
+    marginTop: 5,
     width: 20,
     height: 20
   },
@@ -243,7 +243,7 @@ const styles = {
     fontWeight: 'bold'
   },
   container2: {
-    paddingVertical: 28,
+    paddingVertical: 10,
     paddingHorizontal: 20,
     height: 80,
     flexDirection: 'row',
