@@ -5,4 +5,11 @@ if (PORT) {
   baseURL += `:${PORT}`
 }
 
-export default (url = '') => baseURL + '/' + url
+const isRelative = (url) => !url.startsWith('http')
+
+export default (url = '') => {
+  if (isRelative(url)) {
+    return baseURL + '/' + url
+  }
+  return url
+}

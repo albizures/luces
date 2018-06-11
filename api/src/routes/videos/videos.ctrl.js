@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler')
 const axios = require('axios')
 
 const knex = require('../../config/connection')
+const downloadFile = require('../../utils/downloadFile')
 
 exports.getAll = asyncHandler(async (req, res) => {
   const videos = await knex
@@ -37,11 +38,14 @@ exports.post = asyncHandler(async (req, res) => {
 exports.put = asyncHandler(async (req, res) => {
   const { id } = req.params
   const { name, description, id: id_youtube, image, author } = req.body
-  const { url: image_url, download } = image
+  const { url, download } = image
 
+  let image_url = url
   if (download) {
-    console.warn('I NEED TO DOWLOAD THE IMAGE!!!')
+    image_url = await downloadFile(url)
   }
+
+  console.log('put', url, image_url, download)
 
   await knex('videos')
     .where({ id })

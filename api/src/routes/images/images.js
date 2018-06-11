@@ -10,7 +10,7 @@ var storage = multer.diskStorage({
     cb(null, './uploads/')
   },
   filename: function (req, file, cb) {
-    crypto.pseudoRandomBytes(16, (err, raw) => {
+    crypto.pseudoRandomBytes(5, (err, raw) => {
       if (err) return cb(err)
       cb(null, raw.toString('hex') + Date.now() + path.extname(file.originalname))
     })

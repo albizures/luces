@@ -111,10 +111,10 @@ export default class Comments extends PureComponent {
   }
 
   getComment = (comment, index) => {
-    const { comment: text, userName, liked, date, likes, id } = comment
+    const { comment: text, userName, liked, date, likes, id, cover } = comment
     return (
       <View key={id} style={styles.comment}>
-        <Image style={styles.photo} source={require('../../assets/300x300.png')} />
+        <Image style={styles.photo} source={{ uri: cover }} />
         <View style={styles.commentContainer}>
           <Text style={styles.userName}>{userName}</Text>
           <Text style={styles.text}>{text}</Text>

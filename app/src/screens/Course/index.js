@@ -6,6 +6,7 @@ import YouTube from 'react-native-youtube'
 import PropTypes from 'prop-types'
 
 import colors from '../../utils/colors'
+import createUrl from '../../utils/createUrl'
 import http from '../../utils/http'
 import Heart from '../../components/Heart'
 import Container from '../../components/Container'
@@ -32,7 +33,7 @@ class Videos extends PureComponent {
           key={video.id}
           id={video.id}
           onPress={() => this.props.onSelect(index)}
-          image={{uri: video.url}}
+          image={{uri: createUrl(video.url)}}
           title={video.name}
           description={video.description} />
       ))}

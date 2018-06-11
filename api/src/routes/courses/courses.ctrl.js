@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler')
 const Promise = require('bluebird')
 
 const knex = require('../../config/connection')
+const downloadFile = require('../../utils/downloadFile')
 
 exports.get = asyncHandler(async (req, res) => {
   const { id } = req.params
@@ -203,11 +204,14 @@ exports.postComment = asyncHandler(async (req, res) => {
 
 const createVideo = (course, trx) => async (data) => {
   const { name, description, id: id_youtube, image, order, author } = data
-  const { url: image_url, download } = image
+  const { url, download } = image
 
+  let image_url = url
   if (download) {
-    console.warn('I NEED TO DOWLOAD THE IMAGE!!!')
+    image_url = await downloadFile(url)
   }
+
+  console.log('createVideo', url, image_url, download)
 
   const [videoId] = await trx('videos')
     .returning('id')
