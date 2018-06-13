@@ -12,6 +12,10 @@ import api from '../utils/api'
 
 const { Item: FormItem } = Form
 
+const expiryDate = new Date()
+
+expiryDate.setMonth(expiryDate.getMonth() + 1)
+
 class Login extends Component {
   state = {}
   onSubmit = (evt) => {
@@ -23,7 +27,7 @@ class Login extends Component {
       if (!err) {
         api.login(values.email, values.password)
           .then(({ data: { token } }) => {
-            document.cookie = `id_token=${token}; expires=Thu, 18 Dec 2020 12:00:00 UTC`
+            document.cookie = `id_token=${token}; expires=${expiryDate.toGMTString()}`
             document.location.pathname = '/'
           })
           .catch(() => {

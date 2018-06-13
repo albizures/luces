@@ -63,10 +63,10 @@ export default class Courses extends Component {
     }
     this.columns = [
       { title: 'Nombre', key: 'name', dataIndex: 'name' },
-      { title: 'Descripcion', key: 'description', dataIndex: 'description' },
-      { title: 'Autor', key: 'author', dataIndex: 'author' },
+      // { title: 'Descripcion', key: 'description', dataIndex: 'description' },
+      // { title: 'Autor', key: 'author', dataIndex: 'author' },
       { title: 'Categoria', key: 'idCategory', dataIndex: '', render: this.renderCategory },
-      { title: 'No. Videos', key: 'videos', dataIndex: 'videos' },
+      // { title: 'No. Videos', key: 'videos', dataIndex: 'videos' },
       { title: 'Acciones', dataIndex: '', key: 'x', render: this.renderRow, width: '180px' }
     ]
   }
@@ -87,7 +87,9 @@ export default class Courses extends Component {
     return <div style={styleExpandable}>
       <div style={{flex: 1}}>
         <h4>{course.name}</h4>
-        <p>{course.description}</p>
+        <p><strong>Descripcion:</strong>{course.description}</p>
+        <p><strong>Autor:</strong>{course.author}</p>
+        <p><strong>No. Videos:</strong>{course.videos}</p>
       </div>
       <div>
         <img height='204' src={course.image} alt={course.name} />
