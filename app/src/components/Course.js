@@ -16,7 +16,7 @@ const Course = ({ onRemove, title, description, image, onPress }) => {
       </ImageBackground >
       <View style={styles.textContainer}>
         <Text numberOfLines={1} style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <Text numberOfLines={1} style={styles.description}>{description}</Text>
         {remove}
       </View>
     </View>

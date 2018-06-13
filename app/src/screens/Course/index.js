@@ -131,19 +131,24 @@ export default class Course extends Component {
   }
 
   renderScene = ({ route }) => {
-    const { description, id } = this.state.course
+    const { selectedVideo, videos, course } = this.state
+    const { id } = course
 
     switch (route.key) {
       case 'comments':
         return <Comments courseId={id} />
       case 'description':
+        if (!Number.isInteger(selectedVideo)) {
+          return null
+        }
+        const video = videos[selectedVideo]
+
         return (
           <View style={{padding: 20}}>
-            <Text style={{color: colors.whiteTwo, fontSize: 14}}>{description}</Text>
+            <Text style={{color: colors.whiteTwo, fontSize: 14}}>{video.description}</Text>
           </View>
         )
       case 'videos':
-        const { videos } = this.state
         return <Videos videos={videos} onSelect={this.onSelect} />
       default:
         return null

@@ -52,7 +52,7 @@ export default class CourseHome extends Component {
         <TopBar
           onBack={this.onBack}
           icon={icon}
-          text={title} />
+          text='Curso' />
         {/* <View style={styles.header}>
           <Text>{title}</Text>
         </View> */}

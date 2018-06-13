@@ -12,7 +12,7 @@ const Course = (props) => {
       <View style={styles.container}>
         <CircleImage size={30} source={icon} style={styles.icon} />
         <View style={styles.text}>
-          <Text style={styles.title}>{course.name}</Text>
+          <Text style={styles.title} numberOfLines={1}>{course.name}</Text>
           <Text style={styles.subTitle}>{index === 0 ? 'NUEVO -' : '' } Por {course.author}</Text>
         </View>
         <Image style={styles.arrow} source={require('../../assets/next.png')} />
