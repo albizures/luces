@@ -10,12 +10,13 @@ const knex = require('../../config/connection')
 const { SECRET_KEY } = process.env
 
 const getFacebookFields = (token) => `https://graph.facebook.com/v2.8/me?fields=id,gender,name,email,picture&access_token=${token}`
+const getFacebookPicture = (id) => `https://graph.facebook.com/${id}/picture?type=large`
 
 async function getUser (response) {
-  const { name, email, gender, picture: { data: { url } } } = response.data
+  const { name, email, gender, id } = response.data
   const facebook_id = response.data.id
 
-  const cover = await downloadFile(url)
+  const cover = await downloadFile(getFacebookPicture(id), '.png')
 
   const [user] = await knex('users')
     .select({

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
 import Heart from '../../components/Heart'
+import createUrl from '../../utils/createUrl'
 import colors from '../../utils/colors'
 import http from '../../utils/http'
 
@@ -114,7 +115,7 @@ export default class Comments extends PureComponent {
     const { comment: text, userName, liked, date, likes, id, cover } = comment
     return (
       <View key={id} style={styles.comment}>
-        <Image style={styles.photo} source={{ uri: cover }} />
+        <Image style={styles.photo} source={{ uri: createUrl(cover) }} />
         <View style={styles.commentContainer}>
           <Text style={styles.userName}>{userName}</Text>
           <Text style={styles.text}>{text}</Text>
