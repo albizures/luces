@@ -334,3 +334,30 @@ exports.deleteVideo = asyncHandler(async (req, res) => {
 
   res.json({ id })
 })
+
+exports.search = asyncHandler(async (req, res) => {
+  const { search } = req.params
+  const courses = await knex('courses')
+    .select({
+      id: 'courses.id',
+      name: 'courses.name',
+      description: 'courses.description',
+      image: 'courses.image_url',
+      author: 'courses.author'
+    })
+    .join('categories', 'courses.id_category', 'categories.id')
+    .where({
+      'courses.deleted': false,
+      'categories.deleted': false
+    })
+    .andWhere(function () {
+      this
+        .where('courses.name', 'like', `%${search}%`)
+        .orWhere('courses.description', 'like', `%${search}%`)
+        .orWhere('courses.author', 'like', `%${search}%`)
+        .orWhere('categories.name', 'like', `%${search}%`)
+    })
+    .orderBy('courses.created_at', 'desc')
+
+  res.json(courses)
+})

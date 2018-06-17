@@ -81,3 +81,19 @@ exports.loginPassword = asyncHandler(async (req, res) => {
     res.status(401).json({ message: 'error' })
   }
 })
+
+exports.getProfile = asyncHandler(async (req, res) => {
+  const { id_user } = req.user
+  const [user] = await knex('users')
+    .select({
+      email: 'email',
+      id: 'id_user',
+      name: 'name',
+      cover: 'cover'
+    }).where({
+      id_user,
+      deleted: false
+    })
+
+  res.json(user)
+})

@@ -1,17 +1,24 @@
 import React, { Component } from 'react'
+import debounce from 'lodash.debounce'
 // import PropTypes from 'prop-types'
 import { View, Text, TextInput, Image, ImageBackground } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import colors from '../utils/colors'
 
 import { tabBarIcon } from '../components/TabIcon'
+import createUrl from '../utils/createUrl'
 import Course from '../components/Course'
 import Container from '../components/Container'
+import http from '../utils/http'
 
 export default class Search extends Component {
-  state = {
-    results: []
+  constructor () {
+    super()
+    this.search = debounce(this.search, 400)
   }
+
+  state = {}
+
   static navigationOptions = {
     title: 'Buscar',
     tabBarIcon: tabBarIcon({
@@ -20,20 +27,34 @@ export default class Search extends Component {
     })
   }
 
-  mapResult () {
-    return this.state.results.map((course, index) => (
-      <Course key={index} image={course.image} title={course.title} description={course.description} />
+  mapResults () {
+    const { results } = this.state
+    if (!Array.isArray(results)) {
+      return null
+    }
+    if (results.length === 0) {
+      return <Text style={{color: colors.whiteTwo}}>No se encontro ningun resultado</Text>
+    }
+    return results.map((course, index) => (
+      <Course key={index} image={{uri: createUrl(course.image)}} title={course.name} description={course.description} />
     ))
   }
 
-  onChange = (text) => {
+  search = async (text) => {
+    if (!text) {
+      return this.setState({
+        results: undefined
+      })
+    }
+    const { data: results } = await http.get('courses/search/' + text)
+    console.log(results)
     this.setState({
-      results: [
-        {image: require('../assets/photos/learn.jpg'), title: 'Curso de cabello', description: '¡No necesitas un salón!'},
-        {image: require('../assets/photos/login.jpg'), title: 'Curso de brochas', description: '¡No necesitas un salón!'},
-        {image: require('../assets/photos/share.jpg'), title: 'Curso de sombras', description: 'Estilo natural, nunca falla'}
-      ]
+      results: results
     })
+  }
+
+  onChange = (text) => {
+    this.search(text)
   }
 
   render () {
@@ -48,7 +69,7 @@ export default class Search extends Component {
           </View>
           <ImageBackground source={require('../assets/logo.png')} style={styles.resultsContainer} imageStyle={styles.imageBackground}>
             <Text style={styles.results}>Resultados</Text>
-            {this.mapResult()}
+            {this.mapResults()}
           </ImageBackground>
         </LinearGradient>
       </Container>
