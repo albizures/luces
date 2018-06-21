@@ -18,7 +18,10 @@ const CircleImage = ({ size, style, source, ...rest }) => {
 }
 
 CircleImage.propTypes = {
-  source: PropTypes.number.isRequired,
+  source: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object
+  ]).isRequired,
   size: PropTypes.number.isRequired,
   style: ViewPropTypes.style
 }

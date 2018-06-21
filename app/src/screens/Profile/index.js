@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, View, ScrollView } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import { Text, View } from 'react-native'
 import ElevatedView from 'react-native-elevated-view'
 
 import colors from '../../utils/colors'
+import http from '../../utils/http'
+import createUrl from '../../utils/createUrl'
 
 import TabIcon from '../../components/TabIcon'
 import Container from '../../components/Container'
@@ -27,34 +28,45 @@ export default class Profile extends Component {
     }
   }
 
+  state = {
+    loading: true
+  }
+
+  async componentDidMount () {
+    const { data } = await http.get('login/me')
+    this.setState({
+      ...data,
+      loading: false
+    })
+  }
+
   onBack = () => {
     this.props.navigation.goBack()
   }
 
   render () {
+    const { name, cover, loading } = this.state
+    const topBar = (
+      <TopBar
+        onBack={this.onBack}
+        icon={require('../../assets/account.png')}
+        text='Mi perfil' />
+    )
     return (
-      <Container>
-        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
-          <TopBar
-            onBack={this.onBack}
-            icon={require('../../assets/account.png')}
-            text='Mi perfil' />
-          <ScrollView>
-            <View style={styles.profile}>
-              <ElevatedView style={{height: 130, width: 130, borderRadius: 65}} elevation={2}>
-                <CircleImage size={130} style={styles.photo} source={require('../../assets/300x300.png')} />
-              </ElevatedView>
-              <Text style={styles.name}>Lorena Enriquez</Text>
-              <Text style={styles.info}>Guatemala - 27 años</Text>
-            </View>
-            <View style={styles.courses}>
-              <Text style={styles.coursesTitle}>Mis cursos</Text>
-              <Course title='Ondas naturales en cabello' icon={require('../../assets/categories/hair.png')} />
-              <Course title='Sombras de ojos nude' icon={require('../../assets/categories/eyes.png')} />
-              <Course title='Curso de uñas' icon={require('../../assets/categories/nail.png')} />
-            </View>
-          </ScrollView>
-        </LinearGradient>
+      <Container gradient topBar={topBar} scroll loading={loading}>
+        <View style={styles.profile}>
+          <ElevatedView style={{height: 130, width: 130, borderRadius: 65}} elevation={2}>
+            {cover && <CircleImage size={130} style={styles.photo} source={{uri: createUrl(cover)}} />}
+          </ElevatedView>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.info}>Guatemala - 27 años</Text>
+        </View>
+        <View style={styles.courses}>
+          <Text style={styles.coursesTitle}>Mis cursos</Text>
+          <Course title='Ondas naturales en cabello' icon={require('../../assets/categories/hair.png')} />
+          <Course title='Sombras de ojos nude' icon={require('../../assets/categories/eyes.png')} />
+          <Course title='Curso de uñas' icon={require('../../assets/categories/nail.png')} />
+        </View>
       </Container>
     )
   }
@@ -69,7 +81,7 @@ const styles = {
   },
   courses: {
     width: '100%',
-    paddingTop: 50,
+    paddingTop: 30,
     paddingHorizontal: 20,
     flex: 1
   },
@@ -77,6 +89,7 @@ const styles = {
     fontSize: 24,
     color: colors.darkTan,
     marginBottom: 5,
+    marginTop: 20,
     fontWeight: 'bold'
   },
   info: {
