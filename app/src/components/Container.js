@@ -1,79 +1,91 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import LinearGradient from 'react-native-linear-gradient'
-import { View, ViewPropTypes, Platform, ScrollView, RefreshControl } from 'react-native'
+import { View, ViewPropTypes, Platform, ScrollView, RefreshControl, ImageBackground } from 'react-native'
 
 import Loading from './Loading'
 import colors from '../utils/colors'
 
 const top = Platform.OS === 'ios' ? 20 : 0
 
-// eslint-disable-next-line react/prop-types
-const withWrapper = ({scroll, children, style, topBar, onRefresh, refreshing}) => {
-  let Wrapper = scroll ? ScrollView : View
-  let elements = children
+const ConditionalRender = ({component, props, condition, children}) => {
+  const Component = component
+  console.log(component.name, 'test', condition)
+  return condition ? (
+    <Component {...props}>{children}</Component>
+  ) : children
+}
 
+ConditionalRender.propTypes = {
+  component: PropTypes.func.isRequired,
+  condition: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  props: PropTypes.object
+}
+
+const Container = ({scroll, isLoading, children, style, gradient, topBar, onRefresh, refreshing, backgroundImage}) => {
   const refreshControl = scroll && onRefresh && refreshing !== undefined ? (
     <RefreshControl
       refreshing={refreshing}
       onRefresh={onRefresh}
     />
   ) : undefined
-  if (topBar) {
-    return (
-      <View style={styles.container}>
-        {topBar}
-        <Wrapper style={[{flex: 1}, style]} refreshControl={refreshControl}>
-          {elements}
-        </Wrapper>
-      </View>
-    )
+
+  const gradientProps = {
+    colors: colors.blackGradientBackground,
+    style: styles.flex
   }
+
+  const ImageBackgroundProps = {
+    source: require('../assets/logo.png'),
+    style: styles.flex,
+    imageStyle: styles.imageBackground
+  }
+
+  const ScrollViewProps = {
+    refreshControl,
+    style: styles.flex
+  }
+
   return (
-    <Wrapper style={[style, styles.container]} refreshControl={refreshControl}>
-      {children}
-    </Wrapper>
+    <View style={styles.container}>
+      <Loading top={top} isLoading={isLoading}>
+        {topBar}
+        <ConditionalRender component={LinearGradient} condition={gradient} props={gradientProps}>
+          <ConditionalRender component={ImageBackground} condition={backgroundImage} props={ImageBackgroundProps}>
+            <ConditionalRender component={ScrollView} condition={scroll} props={ScrollViewProps}>
+              {children}
+            </ConditionalRender>
+          </ConditionalRender>
+        </ConditionalRender>
+      </Loading>
+    </View>
   )
-}
-
-const Container = ({scroll, isLoading, children, style, gradient, topBar, onRefresh, refreshing}) => {
-  let elements = (
-    <Loading top={top} isLoading={isLoading}>
-      {children}
-    </Loading>
-  )
-
-  if (gradient) {
-    elements = (
-      <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
-        {children}
-      </LinearGradient>
-    )
-  }
-
-  let screen = withWrapper({
-    scroll,
-    children: elements,
-    style,
-    topBar,
-    refreshing,
-    onRefresh
-  })
-  return screen
 }
 
 Container.propTypes = {
   onRefresh: PropTypes.func,
   refreshing: PropTypes.bool,
+  backgroundImage: PropTypes.bool,
   gradient: PropTypes.bool,
   children: PropTypes.node.isRequired,
+  topBar: PropTypes.node,
   isLoading: PropTypes.bool,
   style: ViewPropTypes.style,
   scroll: PropTypes.bool
 }
 
 const styles = {
-  gradient: {
+  imageBackground: {
+    height: 100,
+    width: 140,
+    opacity: 0.16,
+    top: '50%',
+    left: '50%',
+    marginTop: -50,
+    marginLeft: -70
+  },
+  flex: {
     flex: 1
   },
   container: {

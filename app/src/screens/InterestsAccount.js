@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, Image, View } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-
-import colors from '../utils/colors'
 
 import TabIcon from '../components/TabIcon'
 import TopBar from '../components/TopBar'
@@ -42,18 +39,16 @@ export default class InterestsAccount extends Component {
 
   render () {
     return (
-      <Container style={styles.container}>
-        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
-          <TopBar
-            onBack={this.onBack}
-            icon={require('../assets/favorites.png')}
-            text='Intereses' />
-          <View style={styles.container2}>
-            <Image style={styles.logo} source={require('../assets/logo.png')} />
-            <Text style={styles.description}>Selecciona las categorías que más te gusten y así sabremos que cursos recomendarte.</Text>
-            <ListInterests interests={this.state.interests} />
-          </View>
-        </LinearGradient>
+      <Container gradient>
+        <TopBar
+          onBack={this.onBack}
+          icon={require('../assets/favorites.png')}
+          text='Intereses' />
+        <View style={styles.container2}>
+          <Image style={styles.logo} source={require('../assets/logo.png')} />
+          <Text style={styles.description}>Selecciona las categorías que más te gusten y así sabremos que cursos recomendarte.</Text>
+          <ListInterests interests={this.state.interests} />
+        </View>
       </Container>
     )
   }

@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, Image } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
 import { NavigationActions } from 'react-navigation'
 
 import { withUser } from '../components/UserContext'
 import { withCategories } from '../components/CategoriesContext'
 
 import ButtonCTA from '../components/ButtonCTA'
-import colors from '../utils/colors'
 import ListInterests from '../components/ListInterests'
 import Container from '../components/Container'
 
@@ -70,16 +68,14 @@ class Interests extends Component {
 
   render () {
     return (
-      <Container>
-        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
-          <Image style={styles.image} source={require('../assets/logo.png')} />
-          <Text style={styles.title}>Conozcámonos</Text>
-          <Text style={styles.description}>
-            Selecciona los temas que te gustaría aprender con <Text style={styles.description2}>Luces Beautiful</Text>
-          </Text>
-          <ListInterests ref={this.interests} categories={this.props.categories} />
-          <ButtonCTA title='CONTINUAR' style={{marginTop: 20}} onPress={this.onDone} />
-        </LinearGradient>
+      <Container gradient>
+        <Image style={styles.image} source={require('../assets/logo.png')} />
+        <Text style={styles.title}>Conozcámonos</Text>
+        <Text style={styles.description}>
+          Selecciona los temas que te gustaría aprender con <Text style={styles.description2}>Luces Beautiful</Text>
+        </Text>
+        <ListInterests ref={this.interests} categories={this.props.categories} />
+        <ButtonCTA title='CONTINUAR' style={{marginTop: 20}} onPress={this.onDone} />
       </Container>
     )
   }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
-import { ImageBackground, Alert } from 'react-native'
+import { Alert, View } from 'react-native'
 
 import createUrl from '../utils/createUrl'
 import http from '../utils/http'
@@ -84,33 +84,28 @@ export default class Favorites extends Component {
         text='Favoritos' />
     )
     return (
-      <Container isLoading={isLoading} scroll gradient topBar={topBar} onRefresh={this.onRefresh} refreshing={refreshing}>
-        <ImageBackground source={require('../assets/logo.png')} style={styles.resultsContainer} imageStyle={styles.imageBackground}>
+      <Container
+        isLoading={isLoading}
+        scroll
+        gradient
+        backgroundImage
+        topBar={topBar}
+        onRefresh={this.onRefresh}
+        refreshing={refreshing}>
+        <View style={styles.resultsContainer}>
           {courses.map(({image, name, description, id}, index) => (
             <Course key={id} image={{uri: createUrl(image)}} title={name} description={description} onRemove={() => this.onRemove(id, index)} />
           ))}
-        </ImageBackground>
+        </View>
       </Container>
     )
   }
 }
 
 const styles = {
-  imageBackground: {
-    height: 100,
-    width: 140,
-    opacity: 0.16,
-    top: '50%',
-    left: '50%',
-    marginTop: -50,
-    marginLeft: -70
-  },
   resultsContainer: {
     flex: 1,
     marginHorizontal: 15,
     marginVertical: 30
-  },
-  gradient: {
-    flex: 1
   }
 }
