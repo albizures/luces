@@ -5,8 +5,11 @@ import Input from 'antd/lib/input'
 import Select from 'antd/lib/select'
 import Button from 'antd/lib/button'
 import Divider from 'antd/lib/divider'
+import notification from 'antd/lib/notification'
 
 import UploadImage from '../UploadImage'
+import api from '../../utils/api'
+import messages from '../../messages/courses'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -31,17 +34,26 @@ class CourseForm extends Component {
     videos: PropTypes.array.isRequired
   }
 
-  componentWillReceiveProps (props) {
-    if (props.course && (props.course !== this.props.course)) {
+  state = {
+    subcategories: []
+  }
+
+  async componentWillReceiveProps (props) {
+    if (props && props.course && (props.course !== this.props.course)) {
+      const { name, idCategory, description, image } = props.course
+      const { data: courseSubcategories } = await api.courses.getSubcategories(props.course.id)
+      const { data: subcategories } = await api.categories.getSubcategories(idCategory)
+      this.setState({ subcategories })
       this.props.form.setFieldsValue({
-        name: props.course.name,
-        category: props.course.idCategory,
-        description: props.course.description,
+        name,
+        category: idCategory,
+        description,
+        subcategories: courseSubcategories,
         image: [{
           uid: 1,
           status: 'done',
-          url: props.course.image,
-          thumbUrl: props.course.image
+          url: image,
+          thumbUrl: image
         }]
       })
     }
@@ -56,6 +68,23 @@ class CourseForm extends Component {
     return Object.assign(values, {
       image: values.image[0]
     })
+  }
+
+  async getSubcategories (category) {
+    try {
+      const { data: subcategories } = await api.categories.getSubcategories(category)
+      this.setState({ subcategories })
+      this.props.form.setFieldsValue({
+        subcategory: []
+      })
+    } catch (error) {
+      console.log(error)
+      notification.error(messages.getSubcategories)
+    }
+  }
+
+  onChangeCategory = (value) => {
+    this.getSubcategories(value)
   }
 
   onSubmit = (evt) => {
@@ -73,6 +102,7 @@ class CourseForm extends Component {
   }
 
   render () {
+    const { subcategories } = this.state
     const { categories, course, form, children, videos } = this.props
     const { getFieldDecorator } = form
     return (
@@ -93,9 +123,25 @@ class CourseForm extends Component {
           })(
             <Select
               style={{ width: '100%' }}
+              onChange={this.onChangeCategory}
               placeholder='Categoria del curso'>
               {categories.map(category => (
                 <Option value={category.id} key={category.id}>{category.name}</Option>
+              ))}
+            </Select>
+          )}
+        </FormItem>
+        <FormItem {...formItemLayout} label='Subcategoria'>
+          {getFieldDecorator('subcategories', {
+            rules: [{ required: false }]
+          })(
+            <Select
+              mode='multiple'
+              disabled={subcategories.length === 0}
+              style={{ width: '100%' }}
+              placeholder='Categoria del curso'>
+              {subcategories.map(subcategory => (
+                <Option value={subcategory.id} key={subcategory.id}>{subcategory.name}</Option>
               ))}
             </Select>
           )}

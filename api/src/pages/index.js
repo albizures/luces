@@ -87,9 +87,9 @@ export default class Courses extends Component {
     return <div style={styleExpandable}>
       <div style={{flex: 1}}>
         <h4>{course.name}</h4>
-        <p><strong>Descripcion:</strong>{course.description}</p>
-        <p><strong>Autor:</strong>{course.author}</p>
-        <p><strong>No. Videos:</strong>{course.videos}</p>
+        <p><strong>Descripcion: </strong> {course.description}</p>
+        <p><strong>Autor: </strong>{course.author}</p>
+        <p><strong>No. Videos: </strong>{course.videos}</p>
       </div>
       <div>
         <img height='204' src={course.image} alt={course.name} />
@@ -104,7 +104,6 @@ export default class Courses extends Component {
   render () {
     const { selectedCourse, courses } = this.state
     const { categories } = this.props
-
     return (
       <Layout>
         <h1>Cursos</h1>

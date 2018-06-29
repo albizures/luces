@@ -35,10 +35,14 @@ const createAPI = (route) => {
   }
 }
 
-export const categories = createAPI('/categories/')
+export const categories = {
+  ...createAPI('/categories/'),
+  getSubcategories: (category) => api.get(`/categories/${category}/subcategories`)
+}
 export const courses = {
   ...createAPI('/courses/'),
   getVideos: (id = isRequired('id')) => api.get(`/courses/${encode(id)}/videos`),
+  getSubcategories: (id = isRequired('id')) => api.get(`/courses/${encode(id)}/subcategories`),
   putVideos: (id = isRequired('id'), data = isRequired('data')) => api.put(`/courses/${encode(id)}/videos`, data),
   putVideosOrder: (id = isRequired('id'), data = isRequired('videos')) => api.put(`/courses/${encode(id)}/videos/order`, data),
   removeVideo: (
