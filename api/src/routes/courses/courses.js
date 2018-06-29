@@ -7,6 +7,7 @@ router.get('/highlights', controller.getHighlights)
 router.get('/search/:search', controller.search)
 router.get('/:id', controller.get)
 router.get('/:id/videos', controller.getVideos)
+router.get('/:id/subcategories', controller.getSubcategories)
 router.get('/:id/comments', controller.getComments)
 
 router.post('/', controller.post)

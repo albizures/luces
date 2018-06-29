@@ -16,6 +16,21 @@ exports.getAll = asyncHandler(async (req, res) => {
   res.json(categories)
 })
 
+exports.getSubcategories = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const subcategories = await knex('subcategories')
+    .select({
+      id: 'id',
+      name: 'name'
+    })
+    .where({
+      id_category: id,
+      deleted: false
+    })
+
+  res.json(subcategories)
+})
+
 exports.post = asyncHandler(async (req, res) => {
   const { name } = req.body
 

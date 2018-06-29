@@ -26,5 +26,9 @@ export default {
   videoEdited: {
     message: 'Video editado',
     description: 'El video ha sido editado correctamente'
+  },
+  getSubcategories: {
+    message: 'Error',
+    description: 'Ocurrio un error consultando las subcategorias'
   }
 }

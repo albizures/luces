@@ -127,6 +127,22 @@ exports.getVideos = asyncHandler(async (req, res) => {
   res.json(videos)
 })
 
+exports.getSubcategories = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const subcategories = await knex('course_subcategories')
+    .select({
+      id_subcategory: 'id_subcategory'
+    })
+    .where({
+      'course_subcategories.id_course': id,
+      'course_subcategories.deleted': false
+    })
+
+  const arraySubcategoriesId = subcategories.map(subcategory => subcategory.id_subcategory)
+
+  res.json(arraySubcategoriesId)
+})
+
 exports.getComments = asyncHandler(async (req, res) => {
   const { id } = req.params
   const { id_user } = req.user
@@ -211,8 +227,6 @@ const createVideo = (course, trx) => async (data) => {
     image_url = await downloadFile(url)
   }
 
-  console.log('createVideo', url, image_url, download)
-
   const [videoId] = await trx('videos')
     .returning('id')
     .insert({
@@ -231,6 +245,14 @@ const createVideo = (course, trx) => async (data) => {
     })
   return videoId
 }
+const createSubcategory = (course, trx) => async (subcategoryId) => {
+  console.log('adding tiest', course, subcategoryId)
+  await trx('course_subcategories')
+    .insert({
+      id_subcategory: subcategoryId,
+      id_course: course
+    })
+}
 
 const beginTransaction = (body) => async (trx) => {
   const {
@@ -239,9 +261,10 @@ const beginTransaction = (body) => async (trx) => {
     description,
     image: image_url,
     author,
-    videos
+    videos,
+    subcategories = []
   } = body
-
+  console.log('subcategories', subcategories)
   const [courseId] = await trx('courses')
     .returning('id')
     .insert({
@@ -253,8 +276,13 @@ const beginTransaction = (body) => async (trx) => {
     })
 
   const videoCreator = createVideo(courseId, trx)
+  const subcategoryCreator = createSubcategory(courseId, trx)
 
-  await Promise.all(videos.map(videoCreator))
+  await Promise.all(
+    videos
+      .map(videoCreator)
+      .concat(subcategories.map(subcategoryCreator))
+  )
   return courseId
 }
 
