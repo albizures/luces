@@ -44,6 +44,7 @@ export const courses = {
   getVideos: (id = isRequired('id')) => api.get(`/courses/${encode(id)}/videos`),
   getSubcategories: (id = isRequired('id')) => api.get(`/courses/${encode(id)}/subcategories`),
   putVideos: (id = isRequired('id'), data = isRequired('data')) => api.put(`/courses/${encode(id)}/videos`, data),
+  putSubcategories: (id = isRequired('id'), data = isRequired('data')) => api.put(`/courses/${encode(id)}/subcategories`, data),
   putVideosOrder: (id = isRequired('id'), data = isRequired('videos')) => api.put(`/courses/${encode(id)}/videos/order`, data),
   removeVideo: (
     courseId = isRequired('courseId'),

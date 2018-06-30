@@ -342,6 +342,47 @@ exports.putVideosOrder = asyncHandler(async (req, res) => {
   res.json({ id })
 })
 
+exports.putSubcategories = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const subcategoriesUpdate = req.body
+
+  const subcategoriesSelect = await knex('course_subcategories')
+    .select({
+      'id_subcategory': 'id_subcategory'
+    })
+    .where({
+      'deleted': false
+    })
+
+  const subcategoriesIds = subcategoriesSelect.map(subcategory => subcategory.id_subcategory)
+
+  await Promise.all(subcategoriesUpdate.map(({id_subcategory, add}) => {
+    if (add) {
+      if (subcategoriesIds.includes(id_subcategory)) {
+        return Promise.resolve()
+      }
+
+      return knex('course_subcategories')
+        .insert({
+          id_subcategory: id_subcategory,
+          id_course: id
+        })
+    } else {
+      if (subcategoriesIds.includes(id_subcategory)) {
+        return knex('course_subcategories')
+          .where({
+            id_subcategory: id_subcategory,
+            id_course: id
+          })
+          .update('deleted', true)
+      }
+      return Promise.resolve()
+    }
+  }))
+
+  res.json({ id })
+})
+
 exports.delete = asyncHandler(async (req, res) => {
   const { id } = req.params
   await knex('courses')

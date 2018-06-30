@@ -6,6 +6,7 @@ import Select from 'antd/lib/select'
 import Button from 'antd/lib/button'
 import Divider from 'antd/lib/divider'
 import notification from 'antd/lib/notification'
+import difference from 'lodash.difference'
 
 import UploadImage from '../UploadImage'
 import api from '../../utils/api'
@@ -24,6 +25,8 @@ const formItemLayout = {
     span: 20
   }
 }
+
+const mapSubcategoriesChanges = (add) => (id_subcategory) => ({ add, id_subcategory })
 
 class CourseForm extends Component {
   static propTypes = {
@@ -87,6 +90,21 @@ class CourseForm extends Component {
     this.getSubcategories(value)
   }
 
+  onChangeSubcategories = (subcategories) => {
+    const { course } = this.props
+    if (!course) {
+      return
+    }
+
+    const currentSubcategories = this.props.form.getFieldValue('subcategories')
+    const removedSubcategories = difference(currentSubcategories, subcategories)
+      .map(mapSubcategoriesChanges(false))
+    const addedSubcategories = difference(subcategories, currentSubcategories)
+      .map(mapSubcategoriesChanges(true))
+
+    api.courses.putSubcategories(course.id, addedSubcategories.concat(removedSubcategories))
+  }
+
   onSubmit = (evt) => {
     evt.preventDefault()
     this.props.form.validateFields((err, values) => {
@@ -139,6 +157,7 @@ class CourseForm extends Component {
               mode='multiple'
               disabled={subcategories.length === 0}
               style={{ width: '100%' }}
+              onChange={this.onChangeSubcategories}
               placeholder='Categoria del curso'>
               {subcategories.map(subcategory => (
                 <Option value={subcategory.id} key={subcategory.id}>{subcategory.name}</Option>
