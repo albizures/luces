@@ -1,4 +1,5 @@
 import 'dayjs/locale/es'
+import dayjs from 'dayjs'
 import React, { Component } from 'react'
 import { StatusBar, View, AsyncStorage } from 'react-native'
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
@@ -13,8 +14,9 @@ import Account from './screens/Account'
 import Profile from './screens/Profile'
 import Notifications from './screens/Notifications'
 import InterestsAccount from './screens/InterestsAccount'
-import Course from './screens/Course/index'
-import dayjs from 'dayjs'
+import Course from './screens/Course'
+import Category from './screens/Category'
+import Subcategory from './screens/Subcategory'
 
 import { Provider as UserProvider, getValue } from './components/UserContext'
 import { Provider as CategoryProvider, getValue as getCategoryValue } from './components/CategoriesContext'
@@ -64,6 +66,12 @@ const CoursesStack = createStackNavigator({
   },
   HomeCourse: {
     screen: HomeCourse
+  },
+  Category: {
+    screen: Category
+  },
+  Subcategory: {
+    screen: Subcategory
   }
 }, {
   initialRouteName: 'HomeCourses',

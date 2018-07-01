@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import { TouchableHighlight, Text, ImageBackground } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
-import createUrl from '../../utils/createUrl'
+import createUrl from '../utils/createUrl'
 
 const Highlight = (props) => {
-  const { course, title, subTitle } = props
+  const { data, title, subTitle } = props
   return (
-    <TouchableHighlight {...props} onPress={() => props.onPress(course)} elevation={10} style={styles.box}>
+    <TouchableHighlight {...props} onPress={() => props.onPress(data)} elevation={10} style={styles.box}>
       <ImageBackground source={{ uri: createUrl(props.image) }} style={styles.container} imageStyle={styles.imageBackground}>
         <LinearGradient colors={['transparent', '#252525']} style={styles.gradient}>
           <Text style={styles.title}>{title}</Text>
@@ -22,7 +22,7 @@ const Highlight = (props) => {
 Highlight.propTypes = {
   onPress: PropTypes.func.isRequired,
   subTitle: PropTypes.string.isRequired,
-  course: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired
 }

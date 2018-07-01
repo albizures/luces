@@ -45,10 +45,7 @@ export default class Search extends Component {
       })
     }
     const { data: results } = await http.get('courses/search/' + text)
-    console.log(results)
-    this.setState({
-      results: results
-    })
+    this.setState({ results })
   }
 
   onChange = (text) => {

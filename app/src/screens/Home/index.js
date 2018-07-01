@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, View, ScrollView, Image, AsyncStorage } from 'react-native'
 
+import { withCategories } from '../../components/CategoriesContext'
 import { withUser } from '../../components/UserContext'
 import Container from '../../components/Container'
-import Highlight from './Highlight'
+import Highlight from '../../components/Highlight'
 import Course from './Course'
+import Category from './Category'
 import colors from '../../utils/colors'
 import http from '../../utils/http'
 import icons from '../../utils/icons'
@@ -46,7 +48,7 @@ const styles = {
     color: '#b98a56',
     fontWeight: '500'
   },
-  courses: {
+  section: {
     backgroundColor: '#252525',
     paddingTop: 20,
     paddingHorizontal: 10,
@@ -62,7 +64,8 @@ const styles = {
 class Home extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    user: PropTypes.object
+    user: PropTypes.object,
+    categories: PropTypes.object.isRequired
   }
 
   state = {
@@ -106,12 +109,6 @@ class Home extends Component {
 
   componentDidMount = () => {
     this.checkUser()
-    // Navigation.showModal({
-    //   screen: 'Onboarding',
-    //   title: 'Onboarding',
-    //   animationType: 'slide-up',
-    //   navigatorButtons: {}
-    // })
   }
 
   onTouchStart = () => {
@@ -129,7 +126,6 @@ class Home extends Component {
   onClickCourse = async (course) => {
     try {
       const started = await AsyncStorage.getItem(`course-${course.id}`)
-      console.log('lelelelele', started)
       if (started === 'started') {
         this.props.navigation.navigate('Course', { course })
       } else {
@@ -139,6 +135,10 @@ class Home extends Component {
       console.log('Home', error)
       alert('No se pudo carga el curso')
     }
+  }
+
+  onClickCategory = (category) => {
+    this.props.navigation.navigate('Category', { category })
   }
 
   onRefresh = async () => {
@@ -153,6 +153,8 @@ class Home extends Component {
 
   render () {
     const { courses, highlights, refreshing } = this.state
+    const { categories } = this.props
+
     const topBar = (
       <View style={styles.header}>
         <Image height={55} style={styles.headerLogo} source={require('../../assets/logo.png')} />
@@ -166,18 +168,27 @@ class Home extends Component {
         </View>
         <ScrollView horizontal style={styles.scrollView} >
           {highlights.map(course => (
-            <Highlight key={course.id} course={course} title={course.categoryName} onPress={this.onClickCourse} subTitle={course.name} image={course.image} />
+            <Highlight key={course.id} data={course} title={course.categoryName} onPress={this.onClickCourse} subTitle={course.name} image={course.image} />
           ))}
         </ScrollView>
-        <View style={styles.courses}>
-          <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Todos los cursos</Text>
+        <View style={styles.section}>
+          <Text style={[styles.title, {marginBottom: 20}]}>Todos los cursos</Text>
           {courses.map((course, index) => (
             <Course key={course.id} index={index} icon={icons[course.icon].checked} onPress={this.onClickCourse} course={course} />
           ))}
+        </View>
+        <View style={[styles.section, { borderTopColor: colors.gunmetal, borderTopWidth: 1 }]}>
+          <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Categorías</Text>
+          {Object.keys(categories).map((categoryId, index, arr) => {
+            const category = categories[categoryId]
+            return (
+              <Category last={arr.length - 1 === index} key={categoryId} icon={icons[category.icon].checked} onPress={this.onClickCategory} category={category} />
+            )
+          })}
         </View>
       </Container>
     )
   }
 }
 
-export default withUser(Home)
+export default withCategories(withUser(Home))

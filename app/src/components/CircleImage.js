@@ -11,7 +11,7 @@ const CircleImage = ({ size, style, source, ...rest }) => {
     height: size
   }
   return (
-    <View {...rest} style={[style, styles.container, container]}>
+    <View {...rest} style={[style, styles.container, container, image]}>
       <Image source={source} style={image} />
     </View>
   )

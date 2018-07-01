@@ -10,7 +10,6 @@ const top = Platform.OS === 'ios' ? 20 : 0
 
 const ConditionalRender = ({component, props, condition, children}) => {
   const Component = component
-  console.log(component.name, 'test', condition)
   return condition ? (
     <Component {...props}>{children}</Component>
   ) : children
