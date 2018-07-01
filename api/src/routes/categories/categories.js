@@ -3,6 +3,7 @@ const controller = require('./categories.ctrl')
 
 router.get('/', controller.getAll)
 router.get('/:id/subcategories', controller.getSubcategories)
+router.get('/:id/highlights', controller.getHighlights)
 
 router.post('/', controller.post)
 

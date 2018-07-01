@@ -101,6 +101,7 @@ exports.getHighlights = asyncHandler(async (req, res) => {
       'interests.deleted': false,
       'categories.deleted': false
     })
+    .limit(5)
     .orderBy('courses.created_at', 'desc')
   res.json(courses)
 })
@@ -246,7 +247,6 @@ const createVideo = (course, trx) => async (data) => {
   return videoId
 }
 const createSubcategory = (course, trx) => async (subcategoryId) => {
-  console.log('adding tiest', course, subcategoryId)
   await trx('course_subcategories')
     .insert({
       id_subcategory: subcategoryId,
@@ -264,7 +264,7 @@ const beginTransaction = (body) => async (trx) => {
     videos,
     subcategories = []
   } = body
-  console.log('subcategories', subcategories)
+
   const [courseId] = await trx('courses')
     .returning('id')
     .insert({

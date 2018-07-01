@@ -16,6 +16,33 @@ exports.getAll = asyncHandler(async (req, res) => {
   res.json(categories)
 })
 
+exports.getHighlights = asyncHandler(async (req, res) => {
+  const { id } = req.params
+
+  const courses = await knex('categories')
+    .select({
+      id: 'courses.id',
+      name: 'courses.name',
+      description: 'courses.description',
+      image: 'courses.image_url',
+      idCategory: 'categories.id',
+      categoryName: 'categories.name',
+      icon: 'categories.icon',
+      author: 'courses.author'
+    })
+    .join('courses', 'courses.id_category', 'categories.id')
+    .where({
+      'categories.id': id,
+      'courses.deleted': false,
+      'categories.deleted': false
+    })
+    .limit(5)
+    .orderBy('courses.created_at', 'desc')
+
+  console.log('test', courses)
+  res.json(courses)
+})
+
 exports.getSubcategories = asyncHandler(async (req, res) => {
   const { id } = req.params
   const subcategories = await knex('subcategories')
@@ -28,6 +55,7 @@ exports.getSubcategories = asyncHandler(async (req, res) => {
       deleted: false
     })
 
+  console.log('test', subcategories)
   res.json(subcategories)
 })
 
