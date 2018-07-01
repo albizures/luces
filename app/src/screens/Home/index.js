@@ -10,7 +10,7 @@ import Course from './Course'
 import Category from './Category'
 import colors from '../../utils/colors'
 import http from '../../utils/http'
-import icons from '../../utils/icons'
+import { getIcon } from '../../utils/icons'
 
 const styles = {
   container: {
@@ -174,7 +174,7 @@ class Home extends Component {
         <View style={styles.section}>
           <Text style={[styles.title, {marginBottom: 20}]}>Todos los cursos</Text>
           {courses.map((course, index) => (
-            <Course key={course.id} index={index} icon={icons[course.icon].checked} onPress={this.onClickCourse} course={course} />
+            <Course key={course.id} index={index} icon={getIcon(course.icon).checked} onPress={this.onClickCourse} course={course} />
           ))}
         </View>
         <View style={[styles.section, { borderTopColor: colors.gunmetal, borderTopWidth: 1 }]}>
@@ -182,7 +182,7 @@ class Home extends Component {
           {Object.keys(categories).map((categoryId, index, arr) => {
             const category = categories[categoryId]
             return (
-              <Category last={arr.length - 1 === index} key={categoryId} icon={icons[category.icon].checked} onPress={this.onClickCategory} category={category} />
+              <Category last={arr.length - 1 === index} key={categoryId} icon={getIcon(category.icon).checked} onPress={this.onClickCategory} category={category} />
             )
           })}
         </View>

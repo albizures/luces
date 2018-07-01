@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import colors from '../utils/colors'
 
 const Course = ({ onRemove, title, description, image, onPress }) => {
-  const remove = (onRemove && !onPress) ? <TouchableHighlight onPress={onRemove}>
+  const remove = onRemove ? <TouchableHighlight onPress={onRemove}>
     <Text style={styles.remove}>Quitar</Text>
   </TouchableHighlight> : null
 

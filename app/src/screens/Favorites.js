@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
-import { Alert, View } from 'react-native'
+import PropTypes from 'prop-types'
+import { Alert, View, AsyncStorage } from 'react-native'
 
 import createUrl from '../utils/createUrl'
 import http from '../utils/http'
@@ -10,6 +10,10 @@ import Course from '../components/Course'
 import Container from '../components/Container'
 
 export default class Favorites extends Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired
+  }
+
   static navigationOptions = {
     title: 'Favoritos',
     tabBarIcon: tabBarIcon({
@@ -17,6 +21,7 @@ export default class Favorites extends Component {
       inactive: require('../assets/tabs/favorites.png')
     })
   }
+
   state = {
     courses: [],
     refreshing: false
@@ -64,6 +69,21 @@ export default class Favorites extends Component {
     this.setState({refreshing: false})
   }
 
+  onClickCourse = async (course) => {
+    const { navigation } = this.props
+    try {
+      const started = await AsyncStorage.getItem(`course-${course.id}`)
+      if (started === 'started') {
+        navigation.navigate('Course', { course })
+      } else {
+        navigation.navigate('HomeCourse', { course })
+      }
+    } catch (error) {
+      console.log('Home', error)
+      alert('No se pudo carga el curso')
+    }
+  }
+
   onRemove = (id) => {
     Alert.alert(
       'Quitar de Favoritos',
@@ -83,6 +103,7 @@ export default class Favorites extends Component {
         icon={require('../assets/favorites.png')}
         text='Favoritos' />
     )
+
     return (
       <Container
         isLoading={isLoading}
@@ -93,9 +114,18 @@ export default class Favorites extends Component {
         onRefresh={this.onRefresh}
         refreshing={refreshing}>
         <View style={styles.resultsContainer}>
-          {courses.map(({image, name, description, id}, index) => (
-            <Course key={id} image={{uri: createUrl(image)}} title={name} description={description} onRemove={() => this.onRemove(id, index)} />
-          ))}
+          {courses.map((course, index) => {
+            const {image, name, description, id} = course
+            return (
+              <Course
+                key={id}
+                image={{uri: createUrl(image)}}
+                title={name}
+                description={description}
+                onPress={() => this.onClickCourse(course)}
+                onRemove={() => this.onRemove(id, index)} />
+            )
+          })}
         </View>
       </Container>
     )

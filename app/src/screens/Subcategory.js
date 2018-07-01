@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
+import { View, AsyncStorage } from 'react-native'
 
 import createUrl from '../utils/createUrl'
 import http from '../utils/http'
@@ -52,6 +52,21 @@ export default class Favorites extends Component {
     this.setState({refreshing: false})
   }
 
+  onClickCourse = async (course) => {
+    const { navigation } = this.props
+    try {
+      const started = await AsyncStorage.getItem(`course-${course.id}`)
+      if (started === 'started') {
+        navigation.navigate('Course', { course })
+      } else {
+        navigation.navigate('HomeCourse', { course })
+      }
+    } catch (error) {
+      console.log('Home', error)
+      alert('No se pudo carga el curso')
+    }
+  }
+
   onBack = () => {
     this.props.navigation.goBack()
   }
@@ -75,9 +90,12 @@ export default class Favorites extends Component {
         onRefresh={this.onRefresh}
         refreshing={refreshing}>
         <View style={styles.resultsContainer}>
-          {courses.map(({image, name, description, id}) => (
-            <Course key={id} image={{uri: createUrl(image)}} title={name} description={description} />
-          ))}
+          {courses.map((course) => {
+            const {image, name, description, id} = course
+            return (
+              <Course key={id} image={{uri: createUrl(image)}} onPress={() => this.onClickCourse(course)} title={name} description={description} />
+            )
+          })}
         </View>
       </Container>
     )

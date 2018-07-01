@@ -9,7 +9,8 @@ import TabIcon from '../components/TabIcon'
 import Container from '../components/Container'
 import colors from '../utils/colors'
 import createUrl from '../utils/createUrl'
-import icons from '../utils/icons'
+import { getIcon } from '../utils/icons'
+
 export default class CourseHome extends Component {
   static navigationOptions = {
     title: 'Cursos',
@@ -44,8 +45,10 @@ export default class CourseHome extends Component {
     const { navigation } = this.props
     const course = navigation.getParam('course', {})
 
+    console.log(course)
+
     const { name: title, categoryName: subTitle, image, description, icon: iconId } = course
-    const icon = icons[iconId].checked
+    const icon = getIcon(iconId).checked
 
     return (
       <Container>

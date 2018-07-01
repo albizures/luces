@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { View, Text, TouchableHighlight } from 'react-native'
 
 import CircleImage from './CircleImage'
-import icons from '../utils/icons'
+import { getIcon } from '../utils/icons'
+
 const styles = {
   checked: {
     container: {
@@ -80,8 +81,7 @@ export default class Interest extends Component {
   getImage () {
     const { icon, checked } = this.props
 
-
-    return icons[icon][checked ? 'checked' : 'unchecked']
+    return getIcon(icon)[checked ? 'checked' : 'unchecked']
   }
 
   onPress = () => {

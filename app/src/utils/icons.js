@@ -1,5 +1,5 @@
 
-export default {
+export const icons = {
   1: {
     checked: require('../assets/categories/eyes_active.png'),
     unchecked: require('../assets/categories/eyes.png')
@@ -25,3 +25,14 @@ export default {
     unchecked: require('../assets/categories/contour.png')
   }
 }
+
+export const getIcon = (id) => {
+  const icon = icons[id]
+  if (!icon) {
+    console.warn(`${id} is a invalid icon`)
+    return icons[1]
+  }
+  return icon
+}
+
+export default icons

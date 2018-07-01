@@ -10,13 +10,13 @@ exports.getAll = asyncHandler(async (req, res) => {
       name: 'courses.name',
       description: 'courses.description',
       image: 'courses.image_url',
-      // idCategory: 'categories.id',
-      // categoryName: 'categories.name',
-      // icon: 'categories.icon',
+      idCategory: 'categories.id',
+      categoryName: 'categories.name',
+      icon: 'categories.icon',
       author: 'courses.author'
     })
     .join('courses', 'courses.id', 'favorites.id_course')
-    // .join('categories', 'courses.id_category', 'categories.id')
+    .join('categories', 'courses.id_category', 'categories.id')
     // .leftJoin('course_videos', 'courses.id', 'course_videos.id_course')
     .where({
       'favorites.id_user': id_user,

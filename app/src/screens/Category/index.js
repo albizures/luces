@@ -8,7 +8,7 @@ import Highlight from '../../components/Highlight'
 import Subcategory from './Subcategory'
 import colors from '../../utils/colors'
 import http from '../../utils/http'
-import icons from '../../utils/icons'
+import { getIcon } from '../../utils/icons'
 
 const styles = {
   container: {
@@ -127,7 +127,7 @@ class Category extends Component {
     const topBar = (
       <TopBar
         onBack={this.onBack}
-        icon={icons[icon].checked}
+        icon={getIcon(icon).checked}
         text={name} />
     )
 
