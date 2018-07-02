@@ -15,6 +15,9 @@ export default {
   post (url, body) {
     return instance.post(url, body)
   },
+  put (url, body) {
+    return instance.put(url, body)
+  },
   login (token) {
     return instance.post('login', { token })
   }

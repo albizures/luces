@@ -25,8 +25,6 @@ exports.post = asyncHandler(async (req, res) => {
   const { categories } = req.body
   const { id_user } = req.user
 
-  console.log(id_user)
-
   const promises = categories.map(category => knex('interests').insert({
     id_category: category,
     id_user: id_user
@@ -35,4 +33,41 @@ exports.post = asyncHandler(async (req, res) => {
   await Promise.all(promises)
 
   res.json({ categories })
+})
+
+exports.put = asyncHandler(async (req, res) => {
+  const categories = req.body
+  const { id_user } = req.user
+
+  const interestsList = await knex('interests')
+    .select({
+      id_category: 'id_category'
+    })
+    .where({
+      id_user,
+      deleted: false
+    })
+  const interests = interestsList.map(interest => interest.id_category)
+
+  categories.map(async ({id_category, add}) => {
+    if (add) {
+      if (!interests.includes(id_category)) {
+        await knex('interests').insert({
+          id_category,
+          id_user
+        })
+      }
+    } else {
+      if (interests.includes(id_category)) {
+        await knex('interests')
+          .where({
+            id_category,
+            id_user
+          })
+          .update('deleted', true)
+      }
+    }
+  })
+
+  res.json(categories)
 })

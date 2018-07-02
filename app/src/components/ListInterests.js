@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import PropTypes from 'prop-types'
 
 import Interest from './Interest'
+import http from '../utils/http'
 
 const Divider = (props) => {
   return (
@@ -16,6 +17,7 @@ Divider.propTypes = {
 
 class ListInterests extends Component {
   static propTypes = {
+    update: PropTypes.bool,
     categories: PropTypes.object.isRequired
   }
 
@@ -23,14 +25,40 @@ class ListInterests extends Component {
     interests: {}
   }
 
-  onPressCategory = (id) => {
+  getInterests = async () => {
+    try {
+      const { data: interests } = await http.get('interests/user')
+      this.setState({
+        interests: interests.reduce((obj, interest) => Object.assign(obj, { [interest.category]: true }), {})
+      })
+    } catch (error) {
+      alert('No se puedieron cargar los intereses')
+    }
+  }
+
+  componentDidMount () {
+    this.getInterests()
+  }
+
+  onPressCategory = async (id) => {
+    const { update } = this.props
     const { interests } = this.state
-    this.setState({
-      interests: {
-        ...interests,
-        [id]: !interests[id]
+
+    try {
+      if (update) {
+        await http.put('interests/user', [{ id_category: id, add: !interests[id] }])
       }
-    })
+
+      this.setState({
+        interests: {
+          ...interests,
+          [id]: !interests[id]
+        }
+      })
+    } catch (error) {
+      alert('No se puedo guardar')
+      console.log(error)
+    }
   }
 
   render () {

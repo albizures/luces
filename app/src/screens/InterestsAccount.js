@@ -4,12 +4,14 @@ import { Text, Image, View } from 'react-native'
 
 import TabIcon from '../components/TabIcon'
 import TopBar from '../components/TopBar'
+import { withCategories } from '../components/CategoriesContext'
 import ListInterests from '../components/ListInterests'
 import Container from '../components/Container'
 
-export default class InterestsAccount extends Component {
+class InterestsAccount extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
+    categories: PropTypes.object.isRequired
   }
 
   static navigationOptions = {
@@ -38,16 +40,18 @@ export default class InterestsAccount extends Component {
   }
 
   render () {
+    const topbar = (
+      <TopBar
+        onBack={this.onBack}
+        icon={require('../assets/favorites.png')}
+        text='Intereses' />
+    )
     return (
-      <Container gradient>
-        <TopBar
-          onBack={this.onBack}
-          icon={require('../assets/favorites.png')}
-          text='Intereses' />
+      <Container gradient scroll topBar={topbar}>
         <View style={styles.container2}>
           <Image style={styles.logo} source={require('../assets/logo.png')} />
           <Text style={styles.description}>Selecciona las categorías que más te gusten y así sabremos que cursos recomendarte.</Text>
-          <ListInterests interests={this.state.interests} />
+          <ListInterests categories={this.props.categories} update />
         </View>
       </Container>
     )
@@ -81,3 +85,5 @@ const styles = {
     alignItems: 'center'
   }
 }
+
+export default withCategories(InterestsAccount)
