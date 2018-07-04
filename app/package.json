@@ -21,6 +21,7 @@
     "react-native-gesture-handler": "^1.0.4",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-onboarding-swiper": "^0.6.0",
+    "react-native-splash-screen": "^3.0.9",
     "react-native-tab-view": "^1.0.2",
     "react-native-youtube": "^1.1.0",
     "react-navigation": "^2.2.5",

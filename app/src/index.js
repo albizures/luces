@@ -1,6 +1,7 @@
 import 'dayjs/locale/es'
 import dayjs from 'dayjs'
 import React, { Component } from 'react'
+import SplashScreen from 'react-native-splash-screen'
 import { StatusBar, View, AsyncStorage } from 'react-native'
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 
@@ -145,6 +146,7 @@ export default class App extends Component {
     return categories
   }
   async componentDidMount () {
+    SplashScreen.hide()
     try {
       const [token, categories] = await Promise.all([
         AsyncStorage.getItem('token'),

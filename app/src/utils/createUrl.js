@@ -5,6 +5,8 @@ if (PORT) {
   baseURL += `:${PORT}`
 }
 
+console.log(HOST, PORT)
+
 const isFullUrl = (url) => !url.startsWith('http')
 
 export default (url = '') => {
