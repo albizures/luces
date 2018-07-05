@@ -58,6 +58,13 @@ const styles = {
   scrollView: {
     height: 222,
     paddingHorizontal: 15
+  },
+  allCourses: {
+    marginBottom: 22,
+    textAlign: 'center',
+    color: colors.darkTan,
+    textDecorationLine: 'underline',
+    fontWeight: 'bold'
   }
 }
 
@@ -88,10 +95,10 @@ class Home extends Component {
 
     try {
       const [
-        {data: courses},
-        {data: highlights}
+        {data: courses = []},
+        {data: highlights = []}
       ] = await Promise.all([
-        http.get('courses'),
+        http.get('courses/latest'),
         http.get('courses/highlights')
       ])
 
@@ -137,6 +144,10 @@ class Home extends Component {
     }
   }
 
+  onClickAllCourses = () => {
+    this.props.navigation.navigate('Courses')
+  }
+
   onClickCategory = (category) => {
     this.props.navigation.navigate('Category', { category })
   }
@@ -172,10 +183,11 @@ class Home extends Component {
           ))}
         </ScrollView>
         <View style={styles.section}>
-          <Text style={[styles.title, {marginBottom: 20}]}>Todos los cursos</Text>
+          <Text style={[styles.title, {marginBottom: 20}]}>Los ultimos cursos</Text>
           {courses.map((course, index) => (
             <Course key={course.id} index={index} icon={getIcon(course.icon).checked} onPress={this.onClickCourse} course={course} />
           ))}
+          <Text style={styles.allCourses} onPress={this.onClickAllCourses}>Todos los cursos</Text>
         </View>
         <View style={[styles.section, { borderTopColor: colors.gunmetal, borderTopWidth: 1 }]}>
           <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Categorías</Text>

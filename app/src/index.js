@@ -16,6 +16,7 @@ import Profile from './screens/Profile'
 import Notifications from './screens/Notifications'
 import InterestsAccount from './screens/InterestsAccount'
 import Course from './screens/Course'
+import Courses from './screens/Courses'
 import Category from './screens/Category'
 import Subcategory from './screens/Subcategory'
 
@@ -64,6 +65,9 @@ AccountStack.navigationOptions = {
 const CoursesStack = createStackNavigator({
   HomeCourses: {
     screen: Home
+  },
+  Courses: {
+    screen: Courses
   },
   HomeCourse: {
     screen: HomeCourse

@@ -106,6 +106,42 @@ exports.getHighlights = asyncHandler(async (req, res) => {
   res.json(courses)
 })
 
+exports.getLatest = asyncHandler(async (req, res) => {
+  const { id_user } = req.user
+  const courses = await knex('courses')
+    .select({
+      id: 'courses.id',
+      name: 'courses.name',
+      description: 'courses.description',
+      image: 'courses.image_url',
+      idCategory: 'categories.id',
+      categoryName: 'categories.name',
+      icon: 'categories.icon',
+      author: 'courses.author',
+      videos: knex.raw('COUNT(course_videos.id_course)'),
+      favorite: 'favorites.id_course'
+    })
+    .join('categories', 'courses.id_category', 'categories.id')
+    .leftJoin('course_videos', 'courses.id', 'course_videos.id_course')
+    .leftJoin(
+      knex.raw(`
+        favorites as favorites
+        on favorites.id_user = ${id_user}
+          and courses.id = favorites.id_course 
+          and favorites.deleted = 0`)
+    )
+    .whereNot({
+      'courses.deleted': true,
+      'course_videos.deleted': true
+    })
+    .limit(5)
+    .orderBy('courses.created_at', 'desc')
+    .groupBy('courses.id')
+
+  console.log('latest', courses)
+  res.json(courses)
+})
+
 exports.getVideos = asyncHandler(async (req, res) => {
   const { id } = req.params
   const videos = await knex('course_videos')

@@ -1,27 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Alert, View, AsyncStorage } from 'react-native'
+import { View, AsyncStorage } from 'react-native'
 
 import createUrl from '../utils/createUrl'
 import http from '../utils/http'
 import TopBar from '../components/TopBar'
-import { tabBarIcon } from '../components/TabIcon'
 import Course from '../components/Course'
 import Container from '../components/Container'
 
-export default class Favorites extends Component {
+export default class Courses extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired
   }
-
-  static navigationOptions = {
-    title: 'Favoritos',
-    tabBarIcon: tabBarIcon({
-      active: require('../assets/tabs/favorites_active.png'),
-      inactive: require('../assets/tabs/favorites.png')
-    })
-  }
-
   state = {
     courses: [],
     refreshing: false
@@ -32,14 +22,14 @@ export default class Favorites extends Component {
       isLoading: true
     })
     try {
-      const { data: courses = [] } = await http.get('favorites')
+      const { data: courses = [] } = await http.get('courses')
       this.setState({
         courses,
         isLoading: false
       })
     } catch (error) {
       console.log(error)
-      alert('No se pudieron cargar los favoritos')
+      alert('No se pudieron cargar los cursos')
       this.setState({
         isLoading: false
       })
@@ -50,21 +40,12 @@ export default class Favorites extends Component {
     this.getCourses()
   }
 
-  async remove (id) {
-    try {
-      await http.del(`favorites/${id}`)
-      this.getCourses()
-    } catch (error) {
-      alert('No se pudo eliminar el curso de tus favoritos')
-    }
-  }
-
   onRefresh = async () => {
     this.setState({refreshing: true})
     try {
       await this.getCourses()
     } catch (error) {
-      alert('No se pudieron actualizar los favoritos')
+      console.log(error)
     }
     this.setState({refreshing: false})
   }
@@ -84,26 +65,17 @@ export default class Favorites extends Component {
     }
   }
 
-  onRemove = (id) => {
-    Alert.alert(
-      'Quitar de Favoritos',
-      'Estas a punto de quitar "Curso" de tus cursos Favoritos. Lo puedes volver a listar acá cuando quieras',
-      [
-        {text: 'No Quitar', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'Quitar', onPress: () => this.remove(id)}
-      ],
-      { cancelable: false }
-    )
+  onBack = () => {
+    this.props.navigation.goBack()
   }
 
   render () {
     const { isLoading, courses, refreshing } = this.state
     const topBar = (
       <TopBar
-        icon={require('../assets/favorites.png')}
-        text='Favoritos' />
+        onBack={this.onBack}
+        text='Cursos' />
     )
-
     return (
       <Container
         isLoading={isLoading}
@@ -114,16 +86,10 @@ export default class Favorites extends Component {
         onRefresh={this.onRefresh}
         refreshing={refreshing}>
         <View style={styles.resultsContainer}>
-          {courses.map((course, index) => {
+          {courses.map((course) => {
             const {image, name, description, id} = course
             return (
-              <Course
-                key={id}
-                image={{uri: createUrl(image)}}
-                title={name}
-                description={description}
-                onPress={() => this.onClickCourse(course)}
-                onRemove={() => this.onRemove(id, index)} />
+              <Course key={id} image={{uri: createUrl(image)}} onPress={() => this.onClickCourse(course)} title={name} description={description} />
             )
           })}
         </View>

@@ -24,7 +24,7 @@ export default class Favorites extends Component {
       isLoading: true
     })
     try {
-      const { data: courses } = await http.get(`subcategories/${id}/courses`)
+      const { data: courses = [] } = await http.get(`subcategories/${id}/courses`)
       this.setState({
         courses,
         isLoading: false

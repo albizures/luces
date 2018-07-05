@@ -4,6 +4,7 @@ const controller = require('./courses.ctrl')
 
 router.get('/', controller.getAll)
 router.get('/highlights', controller.getHighlights)
+router.get('/latest', controller.getLatest)
 router.get('/search/:search', controller.search)
 router.get('/:id', controller.get)
 router.get('/:id/videos', controller.getVideos)
