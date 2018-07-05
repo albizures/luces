@@ -39,7 +39,6 @@ exports.getHighlights = asyncHandler(async (req, res) => {
     .limit(5)
     .orderBy('courses.created_at', 'desc')
 
-  console.log('test', courses)
   res.json(courses)
 })
 
@@ -55,7 +54,6 @@ exports.getSubcategories = asyncHandler(async (req, res) => {
       deleted: false
     })
 
-  console.log('test', subcategories)
   res.json(subcategories)
 })
 

@@ -45,8 +45,6 @@ export default class CourseHome extends Component {
     const { navigation } = this.props
     const course = navigation.getParam('course', {})
 
-    console.log(course)
-
     const { name: title, categoryName: subTitle, image, description, icon: iconId } = course
     const icon = getIcon(iconId).checked
 

@@ -138,7 +138,6 @@ exports.getLatest = asyncHandler(async (req, res) => {
     .orderBy('courses.created_at', 'desc')
     .groupBy('courses.id')
 
-  console.log('latest', courses)
   res.json(courses)
 })
 
