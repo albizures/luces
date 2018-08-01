@@ -1,5 +1,9 @@
 
 export const icons = {
+  0: {
+    checked: require('../assets/categories/generic_active.png'),
+    unchecked: require('../assets/categories/generic.png')
+  },
   1: {
     checked: require('../assets/categories/eyes_active.png'),
     unchecked: require('../assets/categories/eyes.png')
@@ -30,7 +34,7 @@ export const getIcon = (id) => {
   const icon = icons[id]
   if (!icon) {
     console.warn(`${id} is a invalid icon`)
-    return icons[1]
+    return icons[0]
   }
   return icon
 }
