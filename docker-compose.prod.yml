@@ -1,19 +1,20 @@
-version: '2'
+version: '3.1'
 
 services:
   db:
-    image: mysql
-    restart: always
+    image: mysql:5.7
+    restart: on-failure
     environment:
-      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
   nginx:
     image: nginx
     links:
-      - "api"
+      - api
     ports:
       - "443:443"
+      - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
   api:
@@ -22,7 +23,7 @@ services:
       - ./api/:/app/
     working_dir: /app/
     restart: on-failure
-    command: npm start
+    command: bash -c "npm rebuild --update-binary bcrypt && npm run build && npm run dev"
     expose:
       - "80"
     links:
