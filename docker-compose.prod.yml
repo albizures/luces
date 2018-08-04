@@ -23,7 +23,7 @@ services:
       - ./api/:/app/
     working_dir: /app/
     restart: on-failure
-    command: bash -c "npm rebuild --update-binary bcrypt && npm run build && npm run start"
+    command: bash -c "npm install && npm run build && npm run start"
     expose:
       - "80"
     links:
