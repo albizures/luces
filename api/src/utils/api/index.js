@@ -10,7 +10,7 @@ const PORT = process.env.PORT
 const HOST = process.env.HOST
 
 const api = axios.create({
-  baseURL: `http://${HOST}:${PORT}/api`
+  baseURL: PORT ? `http://${HOST}:${PORT}/api` : `http://${HOST}/api`
 })
 
 const encode = encodeURIComponent
