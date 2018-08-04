@@ -28,12 +28,21 @@ app.then(() => {
     })
   }
 
-  server.use(jwt({ secret: process.env.SECRET_KEY, credentialsRequired: false }), (req, res, next) => {
-    if (!req.user && isNotPublicRoute(req.url)) {
-      return res.redirect('/login')
+  server.use(
+    jwt({ secret: process.env.SECRET_KEY, credentialsRequired: false }),
+    (req, res, next) => {
+      if (!req.user && isNotPublicRoute(req.url)) {
+        return res.redirect('/login')
+      }
+      next()
+    },
+    (err, req, res, next) => {
+      console.log(err)
+      if (err.name === 'UnauthorizedError') {
+        return res.redirect('/login')
+      }
     }
-    next()
-  })
+  )
 
   server.get('*', handle)
 

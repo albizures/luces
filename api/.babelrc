@@ -1,4 +1,11 @@
 {
   "presets": ["next/babel"],
-  "plugins": ["inline-dotenv"]
+  "env": {
+    "development": {
+      "plugins": ["inline-dotenv"]
+    },
+    "production": {
+      "plugins": ["transform-inline-environment-variables"]
+    }
+  }
 }

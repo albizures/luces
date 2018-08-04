@@ -24,20 +24,21 @@ class Login extends Component {
       disabled: true
     })
     this.props.form.validateFields((err, values) => {
-      if (!err) {
-        api.login(values.email, values.password)
-          .then(({ data: { token } }) => {
-            document.cookie = `id_token=${token}; expires=${expiryDate.toGMTString()}`
-            document.location.pathname = '/'
-          })
-          .catch(() => {
-            this.setState({
-              disabled: false,
-              wrongPassword: true
-            })
-            this.props.form.resetFields()
-          })
+      if (err) {
+        return console.error(err)
       }
+      api.login(values.email, values.password)
+        .then(({ data: { token } }) => {
+          document.cookie = `id_token=${token}; expires=${expiryDate.toGMTString()}`
+          document.location.pathname = '/'
+        })
+        .catch(() => {
+          this.setState({
+            disabled: false,
+            wrongPassword: true
+          })
+          this.props.form.resetFields()
+        })
     })
   }
   render () {
