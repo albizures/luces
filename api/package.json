@@ -8,6 +8,7 @@
     "build": "cd src && next build",
     "lint": "eslint ./src --fix",
     "dev": "node index.js",
+    "prestart": "knex migrate:latest && knex seed:run",
     "start": "NODE_ENV=production node index.js"
   },
   "keywords": [],
