@@ -9,8 +9,12 @@ function isRequired (paramName) {
 const PORT = process.env.PORT
 const HOST = process.env.HOST
 
-const api = axios.create({
+let api = axios.create({
   baseURL: PORT ? `http://${HOST}:${PORT}/api` : `http://${HOST}/api`
+})
+
+let serverInstace = axios.create({
+  baseURL: PORT ? `http://127.0.0.1:${PORT}/api` : `http://127.0.0.1/api`
 })
 
 const encode = encodeURIComponent
@@ -74,6 +78,7 @@ export const login = (email, password) => {
 
 export const server = (req) => {
   if (req && req.cookies) {
+    api = serverInstace
     api.defaults.headers.common['Authorization'] = 'Bearer ' + req.cookies.id_token
   }
 }
