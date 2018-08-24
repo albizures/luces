@@ -6,7 +6,9 @@ const port = process.env.PORT || 80
 
 require('./config/connection')
 
-const isNotPublicRoute = (url) => ['_next', 'login'].every(path => !url.includes(path))
+const publicRoutes = ['_next', 'login', 'privacy-policy']
+
+const isNotPublicRoute = (url) => publicRoutes.every(path => !url.includes(path))
 
 const { handle, app } = require('./config/next')
 const routes = require('./routes')

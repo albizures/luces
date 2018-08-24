@@ -14,7 +14,7 @@ function logout ({ key }) {
   document.location.pathname = '/login'
 }
 
-export default ({children}) => (
+export default ({children, withoutMenus}) => (
   <div>
     <Head>
       <link rel='stylesheet' href='https://unpkg.com/antd@3/dist/antd.min.css' />
@@ -22,23 +22,27 @@ export default ({children}) => (
     <Layout className='layout'>
       <Header>
         <div className='logo' />
-        <Menu
-          theme='dark'
-          mode='horizontal'
-          onClick={logout}
-          style={{ lineHeight: '64px' }}>
-          <Item key='1'>
-            <Link href='/'>
-              <a>Cursos</a>
-            </Link>
-          </Item>
-          <Item key='2'>
-            <Link href='/categories'>
-              <a>Categorias</a>
-            </Link>
-          </Item>
-          <Item style={{float: 'right'}} key='3'>Salir</Item>
-        </Menu>
+        {
+          !withoutMenus && (
+            <Menu
+              theme='dark'
+              mode='horizontal'
+              onClick={logout}
+              style={{ lineHeight: '64px' }}>
+              <Item key='1'>
+                <Link href='/'>
+                  <a>Cursos</a>
+                </Link>
+              </Item>
+              <Item key='2'>
+                <Link href='/categories'>
+                  <a>Categorias</a>
+                </Link>
+              </Item>
+              <Item style={{float: 'right'}} key='3'>Salir</Item>
+            </Menu>
+          )
+        }
       </Header>
       <Content style={{ padding: '0 50px' }}>
         <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
