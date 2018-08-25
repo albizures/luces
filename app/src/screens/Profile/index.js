@@ -59,7 +59,7 @@ export default class Profile extends Component {
             {cover && <CircleImage size={130} style={styles.photo} source={{uri: createUrl(cover)}} />}
           </ElevatedView>
           <Text style={styles.name}>{name}</Text>
-          <Text style={styles.info}>Guatemala - 27 años</Text>
+          {/* <Text style={styles.info}>Guatemala - 27 años</Text> */}
         </View>
         <View style={styles.courses}>
           <Text style={styles.coursesTitle}>Mis cursos</Text>

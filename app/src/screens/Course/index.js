@@ -4,6 +4,7 @@ import React, { Component, PureComponent } from 'react'
 import { NavigationActions } from 'react-navigation'
 import YouTube from 'react-native-youtube'
 import PropTypes from 'prop-types'
+import { API_KEY } from 'react-native-dotenv'
 
 import colors from '../../utils/colors'
 import createUrl from '../../utils/createUrl'
@@ -167,7 +168,8 @@ export default class Course extends Component {
         <YouTube
           videoId={video.youtubeId}
           play={false}
-          controls={Platform.OS === 'ios' ? 1 : 2}
+          apiKey={API_KEY}
+          controls={Platform.OS === 'ios' ? 1 : 1}
           loop={false}
           rel={false}
           showinfo={false}

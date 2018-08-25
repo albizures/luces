@@ -42,7 +42,7 @@ const styles = {
     flex: 1,
     marginTop: 9,
     marginBottom: 9,
-    borderBottomColor: colors.whiteTwo
+    borderBottomColor: colors.silver
     // borderBottomWidth: 1
   },
   title: {

@@ -50,7 +50,9 @@ const styles = {
   },
   back: {
     height: 20,
-    width: 10
+    width: 10,
+    marginHorizontal: 8,
+    marginVertical: 4
   },
   container: {
     width: '100%',
