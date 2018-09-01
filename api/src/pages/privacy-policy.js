@@ -8,7 +8,7 @@ export default class Name extends React.Component {
     return (
       <Layout withoutMenus>
         <Row>
-          <Col span={6} offset={9}>
+          <Col xs={{ span: 24 }} md={{ span: 9, offset: 9 }}>
             <h1>DECLARACIÓN DE PRIVACIDAD</h1>
             <h2>SECCIÓN 1 - ¿QUÉ HACEMOS CON TU INFORMACIÓN?</h2>
             <p>
