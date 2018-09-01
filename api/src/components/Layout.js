@@ -18,6 +18,7 @@ export default ({children, withoutMenus}) => (
   <div>
     <Head>
       <link rel='stylesheet' href='https://unpkg.com/antd@3/dist/antd.min.css' />
+      <meta name='viewport' content='width=device-width, initial-scale=1' />
     </Head>
     <Layout className='layout'>
       <Header>
