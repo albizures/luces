@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import React, { Component } from 'react'
 import SplashScreen from 'react-native-splash-screen'
 import { StatusBar, View, AsyncStorage } from 'react-native'
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
+import { createStackNavigator, createBottomTabNavigator, NavigationActions } from 'react-navigation'
 
 import Onboarding from './screens/Onboarding'
 import Interests from './screens/Interests'
@@ -144,6 +144,7 @@ const RootStack = createStackNavigator({
 })
 
 export default class App extends Component {
+  rootStackRef = React.createRef()
   async getCategories () {
     const { data: categories } = await http.get('categories')
 
@@ -177,8 +178,16 @@ export default class App extends Component {
         })
       }
     } catch (error) {
+      const { current: container } = this.rootStackRef
       console.log('index', error)
       alert('Ocurrio un error cargando el usuario')
+      this.onLogout()
+      container.dispatch(
+        NavigationActions.navigate({
+          type: 'Navigation/NAVIGATE',
+          routeName: 'Home'
+        })
+      )
     }
   }
 
@@ -217,7 +226,7 @@ export default class App extends Component {
         <StatusBar barStyle='light-content' />
         <CategoryProvider value={this.state.categories}>
           <UserProvider value={contextValue}>
-            <RootStack />
+            <RootStack ref={this.rootStackRef} />
           </UserProvider>
         </CategoryProvider>
       </View>

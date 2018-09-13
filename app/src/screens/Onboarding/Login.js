@@ -46,6 +46,7 @@ class Login extends Component {
       this.props.navigation()
     } catch (error) {
       this.props.setLoaderStatus(false)
+      console.log('Login', error)
       alert(error.message)
     }
   }

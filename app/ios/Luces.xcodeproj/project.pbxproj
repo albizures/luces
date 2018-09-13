@@ -1466,6 +1466,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.luces;
 				PRODUCT_NAME = Luces;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1497,6 +1498,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.luces;
 				PRODUCT_NAME = Luces;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

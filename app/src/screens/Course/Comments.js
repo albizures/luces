@@ -17,7 +17,8 @@ export default class Comments extends PureComponent {
   }
 
   state = {
-    comments: []
+    comments: [],
+    text: ''
   }
 
   async getComments () {
@@ -73,8 +74,11 @@ export default class Comments extends PureComponent {
   onSubmit = async (evt) => {
     const { text: comment, comments } = this.state
     const { courseId } = this.props
+    if (!comment || (comment.trim().length === 0)) {
+      return
+    }
     try {
-      const {data: newComment} = await http.post(`courses/${courseId}/comment`, { comment })
+      const {data: newComment} = await http.post(`courses/${courseId}/comment`, { comment: comment.trim() })
 
       this.setState({
         text: '',
@@ -134,7 +138,7 @@ export default class Comments extends PureComponent {
   }
 
   render () {
-    const { comments } = this.state
+    const { comments, text } = this.state
     return (
       <ScrollView style={{paddingBottom: 100}}>
         <View style={styles.inputContainer}>
@@ -142,7 +146,7 @@ export default class Comments extends PureComponent {
           <TextInput
             onSubmitEditing={this.onSubmit}
             onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
+            value={text}
             placeholderTextColor={colors.whiteTwo}
             placeholder='Escribe un comentario…'
             style={styles.input}

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import colors from '../../utils/colors'
 import LinearGradient from 'react-native-linear-gradient'
 
+import { version } from '../../../package.json'
 import { tabBarIcon } from '../../components/TabIcon'
 import { withUser } from '../../components/UserContext'
 import Container from '../../components/Container'
@@ -51,6 +52,7 @@ class Account extends Component {
             <View style={styles.about}>
               <Image style={styles.aboutIcon} source={require('../../assets/account/about.png')} />
               <Text style={styles.aboutText}>Luces Beautiful App 2018 {'\n'} Made with ❤ by Minimo</Text>
+              <Text style={styles.aboutText}>Version: {version}</Text>
               <Image style={styles.logo} source={require('../../assets/logo.png')} />
             </View>
           </View>

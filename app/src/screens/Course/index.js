@@ -15,9 +15,11 @@ import TopBar from '../../components/TopBar'
 import CardCourse from '../../components/Course'
 import Comments from './Comments'
 
+const { width } = Dimensions.get('window')
+
 const initialLayout = {
   height: 0,
-  width: Dimensions.get('window').width
+  width
 }
 
 class Videos extends PureComponent {
