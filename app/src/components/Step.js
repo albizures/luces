@@ -71,16 +71,16 @@ const styles = {
     backgroundColor: '#252525'
   },
   imageContainer: {
-    paddingBottom: potrait ? 60 : 10,
+    paddingBottom: potrait ? 30 : 10,
     width: '100%',
-    flex: 14,
+    flex: 10,
     alignContent: 'center',
     alignItems: 'center'
   },
   textContainer: {
     flex: 6,
     marginTop: 75,
-    paddingHorizontal: 60
+    paddingHorizontal: 30
   },
   imageBackground: {
     resizeMode: 'cover'
@@ -100,7 +100,7 @@ const styles = {
     width: sizeIcon,
     height: sizeIcon,
     borderRadius: borderRadiusIcon,
-    top: '105%'
+    top: '95%'
   },
   icon: {
     borderRadius: borderRadiusIcon,

@@ -75,9 +75,9 @@ const styles = {
     backgroundColor: '#252525'
   },
   imageContainer: {
-    paddingBottom: potrait ? 60 : 10,
+    paddingBottom: potrait ? 30 : 10,
     width: '100%',
-    flex: 14,
+    flex: 9,
     alignContent: 'center',
     alignItems: 'center'
   },
