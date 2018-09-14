@@ -28,11 +28,13 @@ class ListInterests extends Component {
   getInterests = async () => {
     try {
       const { data: interests } = await http.get('interests/user')
+      console.log(interests)
       this.setState({
         interests: interests.reduce((obj, interest) => Object.assign(obj, { [interest.category]: true }), {})
       })
     } catch (error) {
-      alert('No se puedieron cargar los intereses')
+      console.log('ListInterests', error)
+      alert('No se pudieron cargar los intereses')
     }
   }
 

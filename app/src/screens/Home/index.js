@@ -71,7 +71,7 @@ const styles = {
 class Home extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    user: PropTypes.object,
+    user: PropTypes.object.isRequired,
     categories: PropTypes.object.isRequired
   }
 
@@ -83,14 +83,10 @@ class Home extends Component {
   }
 
   async checkUser () {
-    if (this.props.user === null) {
-      return this.props.navigation.navigate('Onboarding')
-    } else if (this.props.user) {
-      if (!this.props.user.interests) {
-        return this.props.navigation.navigate('Interests')
-      }
-    } else if (this.props.user === undefined) {
-      return
+    const { user, navigation } = this.props
+    console.log('user in Home', user)
+    if (!user.interests) {
+      return navigation.navigate('Interests')
     }
 
     try {

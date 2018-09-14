@@ -1,9 +1,9 @@
 import 'dayjs/locale/es'
 import dayjs from 'dayjs'
 import React, { Component } from 'react'
-import SplashScreen from 'react-native-splash-screen'
+
 import { StatusBar, View, AsyncStorage } from 'react-native'
-import { createStackNavigator, createBottomTabNavigator, NavigationActions } from 'react-navigation'
+import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation'
 
 import Onboarding from './screens/Onboarding'
 import Interests from './screens/Interests'
@@ -19,10 +19,11 @@ import Course from './screens/Course'
 import Courses from './screens/Courses'
 import Category from './screens/Category'
 import Subcategory from './screens/Subcategory'
+import AppLoader from './screens/AppLoader'
 
 import { Provider as UserProvider, getValue } from './components/UserContext'
-import { Provider as CategoryProvider, getValue as getCategoryValue } from './components/CategoriesContext'
-import http, { instance } from './utils/http'
+import { Provider as CategoryProvider } from './components/CategoriesContext'
+import { instance } from './utils/http'
 import { tabBarIcon } from './components/TabIcon'
 
 dayjs.locale('es')
@@ -121,10 +122,7 @@ const MainTab = createBottomTabNavigator({
   swipeEnabled: true
 })
 
-const RootStack = createStackNavigator({
-  Onboarding: {
-    screen: OnboardingStack
-  },
+const AppStack = createStackNavigator({
   Interests: {
     screen: Interests
   },
@@ -135,61 +133,27 @@ const RootStack = createStackNavigator({
     screen: Course
   }
 }, {
-  navigationOptions: {
-    gesturesEnabled: false
-  },
-  initialRouteName: 'Main',
   mode: 'modal',
+  initialRouteName: 'Main',
   headerMode: 'none'
+})
+
+const RootStack = createSwitchNavigator({
+  Onboarding: {
+    screen: OnboardingStack
+  },
+  AppLoader: {
+    screen: AppLoader
+  },
+  App: {
+    screen: AppStack
+  }
+}, {
+  initialRouteName: 'AppLoader'
 })
 
 export default class App extends Component {
   rootStackRef = React.createRef()
-  async getCategories () {
-    const { data: categories } = await http.get('categories')
-
-    return categories
-  }
-  async componentDidMount () {
-    SplashScreen.hide()
-    try {
-      const [token, categories] = await Promise.all([
-        AsyncStorage.getItem('token'),
-        this.getCategories()
-      ])
-
-      if (Array.isArray(categories)) {
-        this.setState({
-          categories: getCategoryValue(categories)
-        })
-      }
-
-      if (token) {
-        const interests = await AsyncStorage.getItem('interests')
-        this.setState({
-          user: {
-            token,
-            interests: Boolean(interests)
-          }
-        })
-      } else {
-        this.setState({
-          user: null
-        })
-      }
-    } catch (error) {
-      const { current: container } = this.rootStackRef
-      console.log('index', error)
-      alert('Ocurrio un error cargando el usuario')
-      this.onLogout()
-      container.dispatch(
-        NavigationActions.navigate({
-          type: 'Navigation/NAVIGATE',
-          routeName: 'Home'
-        })
-      )
-    }
-  }
 
   state = {
     categories: {}
@@ -202,6 +166,7 @@ export default class App extends Component {
   }
 
   onChangeUser = async (user) => {
+    console.log('user', user)
     if (user.token) {
       await AsyncStorage.setItem('token', user.token)
     }
@@ -211,8 +176,13 @@ export default class App extends Component {
     this.setState({ user })
   }
 
+  setCategories = (categories) => {
+    this.setState({ categories })
+  }
+
   render () {
-    const { user } = this.state
+    const { user, categories } = this.state
+    console.log('user in reder', user)
     if (user && user.token) {
       instance.defaults.headers.common['Authorization'] = 'Bearer ' + user.token
     }
@@ -224,7 +194,7 @@ export default class App extends Component {
     return (
       <View style={{flex: 1}}>
         <StatusBar barStyle='light-content' />
-        <CategoryProvider value={this.state.categories}>
+        <CategoryProvider value={{categories, setCategories: this.setCategories}}>
           <UserProvider value={contextValue}>
             <RootStack ref={this.rootStackRef} />
           </UserProvider>

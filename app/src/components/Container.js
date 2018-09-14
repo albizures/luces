@@ -53,7 +53,9 @@ const Container = ({scroll, isLoading, children, style, gradient, topBar, onRefr
         <ConditionalRender component={LinearGradient} condition={gradient} props={gradientProps}>
           <ConditionalRender component={ImageBackground} condition={backgroundImage} props={ImageBackgroundProps}>
             <ConditionalRender component={ScrollView} condition={scroll} props={ScrollViewProps}>
-              {children}
+              <View style={[styles.flex, style]}>
+                {children}
+              </View>
             </ConditionalRender>
           </ConditionalRender>
         </ConditionalRender>

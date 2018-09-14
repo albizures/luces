@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, Image } from 'react-native'
+import { Text, Image, StyleSheet } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 
 import { withUser } from '../components/UserContext'
@@ -12,12 +12,11 @@ import Container from '../components/Container'
 
 import http from '../utils/http'
 
-const styles = {
-  gradient: {
-    alignItems: 'center',
-    flex: 1,
+const styles = StyleSheet.create({
+  container: {
     paddingHorizontal: 20,
-    paddingTop: 30
+    paddingTop: 30,
+    alignItems: 'center'
   },
   image: {
     width: 70,
@@ -41,7 +40,7 @@ const styles = {
   description2: {
     color: '#b98955'
   }
-}
+})
 
 class Interests extends Component {
   static propTypes = {
@@ -68,7 +67,7 @@ class Interests extends Component {
 
   render () {
     return (
-      <Container gradient>
+      <Container gradient style={styles.container}>
         <Image style={styles.image} source={require('../assets/logo.png')} />
         <Text style={styles.title}>Conozcámonos</Text>
         <Text style={styles.description}>

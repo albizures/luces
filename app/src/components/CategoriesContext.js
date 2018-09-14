@@ -7,7 +7,7 @@ const { Consumer, Provider } = CategoriesContext
 function withCategories (Component) {
   const ComponentWithUser = props => (
     <Consumer>
-      {data => <Component {...props} categories={data} />}
+      {data => <Component {...props} {...data} />}
     </Consumer>
   )
   ComponentWithUser.navigationOptions = Component.navigationOptions
