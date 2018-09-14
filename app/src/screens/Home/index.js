@@ -84,7 +84,6 @@ class Home extends Component {
 
   async checkUser () {
     const { user, navigation } = this.props
-    console.log('user in Home', user)
     if (!user.interests) {
       return navigation.navigate('Interests')
     }

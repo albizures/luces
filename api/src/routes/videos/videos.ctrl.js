@@ -45,8 +45,6 @@ exports.put = asyncHandler(async (req, res) => {
     image_url = await downloadFile(url)
   }
 
-  console.log('put', url, image_url, download)
-
   await knex('videos')
     .where({ id })
     .update({

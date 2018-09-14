@@ -166,7 +166,6 @@ export default class App extends Component {
   }
 
   onChangeUser = async (user) => {
-    console.log('user', user)
     if (user.token) {
       await AsyncStorage.setItem('token', user.token)
     }
@@ -182,7 +181,6 @@ export default class App extends Component {
 
   render () {
     const { user, categories } = this.state
-    console.log('user in reder', user)
     if (user && user.token) {
       instance.defaults.headers.common['Authorization'] = 'Bearer ' + user.token
     }

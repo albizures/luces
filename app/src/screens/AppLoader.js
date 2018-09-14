@@ -32,7 +32,6 @@ class AppLoader extends Component {
   }
 
   async bootstrap () {
-    console.log('bottstrap')
     const { changeUser, setCategories } = this.props
     try {
       const [token, categories] = await Promise.all([
