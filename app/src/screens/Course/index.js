@@ -13,7 +13,6 @@ import Heart from '../../components/Heart'
 import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
 import CardCourse from '../../components/Course'
-// import Player from '../../components/Player'
 import Comments from './Comments'
 
 const { width } = Dimensions.get('window')
@@ -169,7 +168,6 @@ export default class Course extends Component {
     if (Number.isInteger(selectedVideo)) {
       const video = videos[selectedVideo]
       return (
-        // <Player id={video.youtubeId} />
         <YouTube
           videoId={video.youtubeId}
           play={false}
