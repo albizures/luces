@@ -102,6 +102,7 @@ exports.getHighlights = asyncHandler(async (req, res) => {
       'categories.deleted': false
     })
     .limit(5)
+    .groupByRaw('categories.id, courses.id')
     .orderBy('courses.created_at', 'desc')
   res.json(courses)
 })

@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, Platform } from 'react-native'
+import { View, Text, Dimensions, PixelRatio } from 'react-native'
 import { TabView, TabBar } from 'react-native-tab-view'
 import React, { Component, PureComponent } from 'react'
 import { NavigationActions } from 'react-navigation'
@@ -13,6 +13,7 @@ import Heart from '../../components/Heart'
 import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
 import CardCourse from '../../components/Course'
+// import Player from '../../components/Player'
 import Comments from './Comments'
 
 const { width } = Dimensions.get('window')
@@ -163,15 +164,17 @@ export default class Course extends Component {
   }
 
   getPlayer () {
+    const { height } = Dimensions.get('window')
     const { selectedVideo, videos } = this.state
     if (Number.isInteger(selectedVideo)) {
       const video = videos[selectedVideo]
       return (
+        // <Player id={video.youtubeId} />
         <YouTube
           videoId={video.youtubeId}
           play={false}
           apiKey={API_KEY}
-          controls={Platform.OS === 'ios' ? 1 : 1}
+          controls={1}
           loop={false}
           rel={false}
           showinfo={false}
@@ -180,7 +183,10 @@ export default class Course extends Component {
           onChangeState={e => this.setState({ status: e.state })}
           onChangeQuality={e => this.setState({ quality: e.quality })}
           onError={e => this.setState({ error: e.error })}
-          style={styles.video} />
+          style={[
+            { height: PixelRatio.roundToNearestPixel(height / (3 / 1)) },
+            styles.video
+          ]} />
       )
     } else {
       return <View style={styles.video} />
@@ -192,7 +198,7 @@ export default class Course extends Component {
     const { name, favorite } = this.state.course
 
     return (
-      <Container isLoading={isLoading}>
+      <Container isLoading={isLoading} style={{ flex: 1 }}>
         <TopBar text='Video' modal onBack={this.onBack} />
         {this.getPlayer()}
         <View style={styles.container2}>
@@ -219,7 +225,6 @@ const styles = {
   },
   video: {
     alignSelf: 'stretch',
-    height: 224,
     backgroundColor: colors.black
   },
   backContainer: {

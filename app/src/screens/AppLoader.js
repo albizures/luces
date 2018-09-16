@@ -53,9 +53,9 @@ class AppLoader extends Component {
       this.props.navigation.navigate(token ? 'App' : 'Onboarding')
       SplashScreen.hide()
     } catch (error) {
-      const { current: container } = this.rootStackRef
-      console.log('index', error)
+      console.log('AppLoader', error)
       alert('Ocurrio un error cargando el usuario')
+      const { current: container } = this.rootStackRef
       this.onLogout()
       container.dispatch(
         NavigationActions.navigate({

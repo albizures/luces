@@ -25,10 +25,22 @@ exports.post = asyncHandler(async (req, res) => {
   const { categories } = req.body
   const { id_user } = req.user
 
-  const promises = categories.map(category => knex('interests').insert({
-    id_category: category,
-    id_user: id_user
-  }))
+  const promises = categories.map(async category => {
+    const interest = await knex('interests').select({
+      category: 'interests.id_category'
+    })
+      .join('users', 'interests.id_user', 'users.id_user')
+      .where({
+        'users.id_user': id_user,
+        'interests.deleted': false
+      })
+    if (interest.length === 0) {
+      return knex('interests').insert({
+        id_category: category,
+        id_user: id_user
+      })
+    }
+  })
 
   await Promise.all(promises)
 
