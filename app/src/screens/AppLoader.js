@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, AsyncStorage } from 'react-native'
-import { NavigationActions } from 'react-navigation'
 import SplashScreen from 'react-native-splash-screen'
 
 import { withCategories, getValue as getCategoryValue } from '../components/CategoriesContext'
@@ -14,6 +13,7 @@ class AppLoader extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     changeUser: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
     setCategories: PropTypes.func.isRequired
   }
 
@@ -32,6 +32,7 @@ class AppLoader extends Component {
   }
 
   async bootstrap () {
+    const { navigation } = this.props
     const { changeUser, setCategories } = this.props
     try {
       const [token, categories] = await Promise.all([
@@ -50,19 +51,15 @@ class AppLoader extends Component {
         })
       }
 
-      this.props.navigation.navigate(token ? 'App' : 'Onboarding')
+      navigation.navigate(token ? 'App' : 'Onboarding')
       SplashScreen.hide()
     } catch (error) {
+      const { logout } = this.props
       console.log('AppLoader', error)
+      navigation.navigate('Onboarding')
+      await logout()
       alert('Ocurrio un error cargando el usuario')
-      const { current: container } = this.rootStackRef
-      this.onLogout()
-      container.dispatch(
-        NavigationActions.navigate({
-          type: 'Navigation/NAVIGATE',
-          routeName: 'Home'
-        })
-      )
+      SplashScreen.hide()
     }
   }
 

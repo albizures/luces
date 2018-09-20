@@ -1,4 +1,4 @@
-import { Animated, Dimensions, FlatList, StatusBar } from 'react-native'
+import { Animated, Dimensions, FlatList } from 'react-native'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import tinycolor from 'tinycolor2'
@@ -95,7 +95,7 @@ class Onboarding extends Component {
     const currentPage = pages[this.state.currentPage]
     const currentBackgroundColor = currentPage.backgroundColor
     const isLight = tinycolor(currentBackgroundColor).getBrightness() > 180
-    const barStyle = isLight ? 'dark-content' : 'light-content'
+    // const barStyle = isLight ? 'dark-content' : 'light-content'
 
     let backgroundColor = currentBackgroundColor
     if (this.state.previousPage !== null) {
@@ -112,7 +112,7 @@ class Onboarding extends Component {
         onLayout={this._onLayout}
         style={{ flex: 1, backgroundColor, justifyContent: 'center', width: '100%' }}
       >
-        <StatusBar barStyle={this.state.gone ? 'default' : barStyle} />
+        {/* <StatusBar barStyle={this.state.gone ? 'default' : barStyle} /> */}
         <FlatList
           ref={list => {
             this.flatList = list
@@ -131,7 +131,7 @@ class Onboarding extends Component {
           }
         />
         <Pagination
-          gone={() => this.setState({ gone: true })}
+          gone={() => ({})}
           isLight={isLight}
           bottomBarHighlight={bottomBarHighlight}
           bottomBarHeight={bottomBarHeight}

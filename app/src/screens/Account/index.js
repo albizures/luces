@@ -27,7 +27,7 @@ class Account extends Component {
 
   onLogout = async () => {
     const { logout, navigation } = this.props
-    navigation.navigate('Home')
+    navigation.navigate('Onboarding')
     logout()
   }
 

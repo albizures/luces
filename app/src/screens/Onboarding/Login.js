@@ -1,4 +1,4 @@
-import { Dimensions, Text, View, ImageBackground } from 'react-native'
+import { Dimensions, View, ImageBackground } from 'react-native'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
@@ -37,7 +37,7 @@ class Login extends Component {
       instance.defaults.headers.common['Authorization'] = 'Bearer ' + token
 
       const { data: interests } = await http.get('interests/user')
-      this.props.changeUser({
+      await this.props.changeUser({
         ...user,
         interests: Array.isArray(interests) && interests.length > 0,
         token
@@ -45,9 +45,9 @@ class Login extends Component {
 
       this.props.navigation()
     } catch (error) {
-      this.props.setLoaderStatus(false)
       console.log('Login', error)
       alert(error.message)
+      this.props.setLoaderStatus(false)
     }
   }
 
@@ -58,7 +58,7 @@ class Login extends Component {
         <View style={styles.textContainer}>
           <ButtonCTA title='INGRESA CON FACEBOOK' onPress={this.fbAuth} />
           {/* <ButtonCTA title='INGRESA CON FACEBOOK' onPress={this.props.navigation} /> */}
-          <Text style={styles.text}>Ingresar sin registrarme</Text>
+          {/* <Text style={styles.text}>Ingresar sin registrarme</Text> */}
         </View>
       </View>
     )

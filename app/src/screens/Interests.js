@@ -57,7 +57,7 @@ class Interests extends Component {
     const categories = Object.keys(interests).map(Number)
     try {
       await http.post('/interests/user', { categories })
-      this.props.changeUser({...this.props.user, interests: true})
+      await this.props.changeUser({...this.props.user, interests: true})
       this.props.navigation.dispatch(NavigationActions.back())
     } catch (error) {
       console.log('Interest', error)
