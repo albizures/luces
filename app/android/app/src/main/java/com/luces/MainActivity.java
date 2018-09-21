@@ -1,6 +1,7 @@
 package com.luces;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import org.devio.rn.splashscreen.SplashScreen;
 import android.os.Bundle;
 import android.content.Intent;
