@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, PixelRatio } from 'react-native'
+import { View, Text, Dimensions, PixelRatio, Platform } from 'react-native'
 import { TabView, TabBar } from 'react-native-tab-view'
 import React, { Component, PureComponent } from 'react'
 import { NavigationActions } from 'react-navigation'
@@ -63,6 +63,7 @@ export default class Course extends Component {
     course: {},
     videos: [],
     index: 0,
+    playerHack: 1,
     routes: oneVideoConfig
   }
 
@@ -113,7 +114,7 @@ export default class Course extends Component {
   toggleFavorite = async () => {
     const { course } = this.state
     const { id, favorite } = course
-    this.setState({ isLoading: true })
+
     try {
       if (favorite) {
         await http.del(`favorites/${id}`)
@@ -158,13 +159,51 @@ export default class Course extends Component {
     }
   };
 
+  onError = (event) => {
+    console.log(event)
+    // alert(`onError ${JSON.stringify(event.error)}`)
+    this.setState({ error: event.error })
+  }
+
+  onChangeState = (event) => {
+    this.setStatusState(event.state)
+  }
+
+  setStatusState (stateName) {
+    this.setState((state) => ({
+      state: Object.assign({}, state.state, { [stateName]: true })
+    }))
+  }
+
+  componentWillUnmount () {
+    clearTimeout(this.timeout)
+  }
+
+  addTimeout () {
+    const { lastTimeout = 200 } = this
+    this.lastTimeout = lastTimeout * 1.5
+    this.timeout = setTimeout(() => {
+      this.setState((state) => ({
+        playerHack: state.playerHack === 0 ? 1 : 0
+      }))
+      this.addTimeout()
+    }, this.lastTimeout)
+  }
+
+  onReady = () => {
+    this.setStatusState('ready')
+    if (Platform.OS === 'android') {
+      this.addTimeout()
+    }
+  }
+
   onBack = () => {
     this.props.navigation.dispatch(NavigationActions.back())
   }
 
   getPlayer () {
     const { height } = Dimensions.get('window')
-    const { selectedVideo, videos } = this.state
+    const { selectedVideo, videos, playerHack } = this.state
     if (Number.isInteger(selectedVideo)) {
       const video = videos[selectedVideo]
       return (
@@ -177,12 +216,12 @@ export default class Course extends Component {
           rel={false}
           showinfo={false}
           modestbranding={false}
-          onReady={e => this.setState({ isReady: true })}
-          onChangeState={e => this.setState({ status: e.state })}
+          onReady={this.onReady}
+          onChangeState={this.onChangeState}
           onChangeQuality={e => this.setState({ quality: e.quality })}
-          onError={e => this.setState({ error: e.error })}
+          onError={this.onError}
           style={[
-            { height: PixelRatio.roundToNearestPixel(height / (3 / 1)) },
+            { height: PixelRatio.roundToNearestPixel((height + playerHack) / (3 / 1)) },
             styles.video
           ]} />
       )
