@@ -48,6 +48,13 @@ export default class UploadImage extends React.Component {
     })
   }
 
+  checkSize = (rule, values, callback) => {
+    if (values && values[0] && values[0].size > 1000000) {
+      return callback('El archivo es muy grande tiene que pesar menos de 1MB') // eslint-disable-line
+    }
+    callback()
+  }
+
   render () {
     const { name, form } = this.props
     const { getFieldDecorator } = form
@@ -59,9 +66,9 @@ export default class UploadImage extends React.Component {
           getValueFromEvent: this.normFile,
           valuePropName: 'fileList',
           initialValue: [],
-          rules: [{ required: true }]
+          rules: [{ required: true, validator: this.checkSize }]
         })(
-          <Upload className='upload-list-inline' name='logo' action='/api/images' listType='picture'>
+          <Upload className='upload-list-inline' name='logo' accept='image/*' action='/api/images' listType='picture'>
             <Button>
               <Icon type='upload' /> Click para subir
             </Button>
