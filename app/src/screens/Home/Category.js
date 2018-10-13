@@ -12,7 +12,7 @@ const Category = (props) => {
       <View style={styles.container}>
         <CircleImage size={30} source={icon} style={styles.icon} />
         <View style={[styles.text, {borderBottomWidth: last ? 0 : 1}]}>
-          <Text style={styles.title} numberOfLines={1}>{category.name.toUpperCase()}</Text>
+          <Text style={styles.title} numberOfLines={1}>{category.name}</Text>
         </View>
       </View>
     </TouchableHighlight>
@@ -42,17 +42,16 @@ const styles = {
     flex: 1,
     marginTop: 9,
     marginBottom: 9,
-    borderBottomColor: colors.silver
+    borderBottomColor: '#000'
     // borderBottomWidth: 1
   },
   title: {
     fontSize: 14,
-    color: colors.whiteTwo,
+    color: colors.darkTan,
     fontWeight: '500'
   },
   icon: {
-    marginRight: 15,
-    backgroundColor: colors.darkTan
+    marginRight: 15
   },
   arrow: {
     width: 12,

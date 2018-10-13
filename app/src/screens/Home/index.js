@@ -178,18 +178,18 @@ class Home extends Component {
           ))}
         </ScrollView>
         <View style={styles.section}>
-          <Text style={[styles.title, {marginBottom: 20}]}>Los ultimos cursos</Text>
+          <Text style={[styles.title, {marginBottom: 20}]}>Los últimos cursos</Text>
           {courses.map((course, index) => (
             <Course key={course.id} index={index} icon={getIcon(course.icon).checked} onPress={this.onClickCourse} course={course} />
           ))}
           <Text style={styles.allCourses} onPress={this.onClickAllCourses}>Todos los cursos</Text>
         </View>
         <View style={[styles.section, { borderTopColor: colors.gunmetal, borderTopWidth: 1 }]}>
-          <Text style={[styles.title, {marginLeft: 20, marginBottom: 20}]}>Categorías</Text>
+          <Text style={[styles.title, {marginBottom: 20}]}>Categorías</Text>
           {Object.keys(categories).map((categoryId, index, arr) => {
             const category = categories[categoryId]
             return (
-              <Category last={arr.length - 1 === index} key={categoryId} icon={getIcon(category.icon).checked} onPress={this.onClickCategory} category={category} />
+              <Category last={arr.length - 1 === index} key={categoryId} icon={getIcon(category.icon).unchecked} onPress={this.onClickCategory} category={category} />
             )
           })}
         </View>

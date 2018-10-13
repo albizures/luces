@@ -46,14 +46,14 @@ export default class Notifications extends Component {
             </View>
             <Switch style={styles.optionValue} tintColor={colors.darkTan} value thumbTintColor={colors.gunmetal} onTintColor={colors.darkTan} />
           </View>
-          <View style={styles.option}>
+          {/* <View style={styles.option}>
             <Image style={styles.optionIcon} source={require('../assets/account/email.png')} />
             <View style={styles.optionDescription}>
               <Text style={styles.optionTitle}>Email</Text>
               <Text style={styles.optionSubTitle}>Promociones</Text>
             </View>
             <Switch style={styles.optionValue} tintColor={colors.darkTan} value={false} thumbTintColor={colors.gunmetal} onTintColor={colors.darkTan} />
-          </View>
+          </View> */}
         </View>
       </Container>
     )

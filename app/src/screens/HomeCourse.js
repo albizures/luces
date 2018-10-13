@@ -66,7 +66,7 @@ export default class CourseHome extends Component {
         <View style={styles.description}>
           <Text style={styles.mainDescription}>{description}</Text>
           {/* <Text style={styles.secondaryDescription}>{secondaryDescription}</Text> */}
-          <ButtonCTA title='EMPERZAR CURSO' onPress={this.startCourse} />
+          <ButtonCTA title='EMPEZAR CURSO' onPress={this.startCourse} />
         </View>
       </Container>
     )
