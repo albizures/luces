@@ -85,7 +85,15 @@ class Home extends Component {
   async checkUser () {
     const { user, navigation } = this.props
     if (!user.interests) {
-      return navigation.navigate('Interests')
+      try {
+        const { data: interests } = await http.get('interests/user')
+
+        if (interests.length === 0) {
+          return navigation.navigate('Interests')
+        }
+      } catch (error) {
+        console.log('we couldn`t get the interests', error)
+      }
     }
 
     try {
@@ -98,8 +106,8 @@ class Home extends Component {
       ])
 
       this.setState({courses, highlights})
-    } catch (e) {
-      console.log(e)
+    } catch (error) {
+      console.log(error)
     }
   }
 
