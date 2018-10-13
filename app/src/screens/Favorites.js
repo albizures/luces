@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Alert, View, AsyncStorage } from 'react-native'
+import { Alert, View, AsyncStorage, Text } from 'react-native'
 
 import createUrl from '../utils/createUrl'
 import http from '../utils/http'
@@ -8,6 +8,7 @@ import TopBar from '../components/TopBar'
 import { tabBarIcon } from '../components/TabIcon'
 import Course from '../components/Course'
 import Container from '../components/Container'
+import colors from '../utils/colors'
 
 export default class Favorites extends Component {
   static propTypes = {
@@ -105,34 +106,44 @@ export default class Favorites extends Component {
     )
 
     return (
-      <Container
-        isLoading={isLoading}
-        scroll
-        gradient
-        backgroundImage
-        topBar={topBar}
-        onRefresh={this.onRefresh}
-        refreshing={refreshing}>
-        <View style={styles.resultsContainer}>
-          {courses.map((course, index) => {
-            const {image, name, description, id} = course
-            return (
-              <Course
-                key={id}
-                image={{uri: createUrl(image)}}
-                title={name}
-                description={description}
-                onPress={() => this.onClickCourse(course)}
-                onRemove={() => this.onRemove(id, index)} />
-            )
-          })}
-        </View>
-      </Container>
+      <View style={{ flex: 1 }}>
+        <Container
+          isLoading={isLoading}
+          style={{ flex: 1 }}
+          scroll
+          gradient
+          backgroundImage
+          topBar={topBar}
+          onRefresh={this.onRefresh}
+          refreshing={refreshing}>
+          <View style={styles.resultsContainer}>
+            {courses.map((course, index) => {
+              const {image, name, description, id} = course
+              return (
+                <Course
+                  key={id}
+                  image={{uri: createUrl(image)}}
+                  title={name}
+                  description={description}
+                  onPress={() => this.onClickCourse(course)}
+                  onRemove={() => this.onRemove(id, index)} />
+              )
+            })}
+          </View>
+        </Container>
+        <Text style={styles.text}>Deslizar hacia abajo para actualizar tus favoritos ✨</Text>
+      </View>
     )
   }
 }
 
 const styles = {
+  text: {
+    textAlign: 'center',
+    color: colors.whiteTwo,
+    backgroundColor: colors.black,
+    paddingVertical: 10
+  },
   resultsContainer: {
     flex: 1,
     marginHorizontal: 15,
