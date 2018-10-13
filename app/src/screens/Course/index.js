@@ -1,5 +1,5 @@
-import { View, Text, Dimensions, PixelRatio, Platform } from 'react-native'
-import { TabView, TabBar } from 'react-native-tab-view'
+import { KeyboardAvoidingView, View, Text, Dimensions, PixelRatio, Platform } from 'react-native'
+import { TabView, TabBar, PagerPan } from 'react-native-tab-view'
 import React, { Component, PureComponent } from 'react'
 import { NavigationActions } from 'react-navigation'
 import YouTube from 'react-native-youtube'
@@ -230,25 +230,31 @@ export default class Course extends Component {
     }
   }
 
+  renderPager = props => (
+    <PagerPan {...props} />
+  );
+
   render () {
     const { isLoading } = this.state
     const { name, favorite } = this.state.course
-
     return (
-      <Container isLoading={isLoading} style={{ flex: 1 }}>
-        <TopBar text='Video' modal onBack={this.onBack} />
-        {this.getPlayer()}
-        <View style={styles.container2}>
-          <Text style={styles.title}>{name}</Text>
-          <Heart style={styles.like} active={!!favorite} onPress={this.toggleFavorite} />
-        </View>
-        <TabView
-          style={{flex: 1}}
-          navigationState={this.state}
-          renderScene={this.renderScene}
-          renderTabBar={this.getTabBar}
-          onIndexChange={this.onIndexChange}
-          initialLayout={initialLayout} />
+      <Container scroll isLoading={isLoading} style={{ flex: 1 }}>
+        <KeyboardAvoidingView style={{flex: 1, width: '100%', height: '100%'}} enabled>
+          <TopBar text='Video' modal onBack={this.onBack} />
+          {this.getPlayer()}
+          <View style={styles.container2}>
+            <Text style={styles.title}>{name}</Text>
+            <Heart style={styles.like} active={!!favorite} onPress={this.toggleFavorite} />
+          </View>
+          <TabView
+            style={{flex: 1}}
+            navigationState={this.state}
+            renderScene={this.renderScene}
+            renderTabBar={this.getTabBar}
+            renderPager={this.renderPager}
+            onIndexChange={this.onIndexChange}
+            initialLayout={initialLayout} />
+        </KeyboardAvoidingView>
       </Container>
     )
   }

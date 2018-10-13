@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { View, Text, TextInput, Image, ScrollView } from 'react-native'
+import { View, Text, TextInput, Image } from 'react-native'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
@@ -140,21 +140,21 @@ export default class Comments extends PureComponent {
   render () {
     const { comments, text } = this.state
     return (
-      <ScrollView style={{paddingBottom: 100}}>
+      <View style={{ flex: 1 }}>
         <View style={styles.inputContainer}>
           <Text style={styles.commentsCount}>{comments.length} comentarios</Text>
           <TextInput
             onSubmitEditing={this.onSubmit}
+            blurOnSubmit
             onChangeText={(text) => this.setState({text})}
             value={text}
             placeholderTextColor={colors.whiteTwo}
             placeholder='Escribe un comentario…'
             style={styles.input}
-            multiline
             numberOfLines={4} />
         </View>
         {comments.map(this.getComment)}
-      </ScrollView>
+      </View>
     )
   }
 }
