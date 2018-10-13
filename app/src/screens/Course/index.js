@@ -292,7 +292,8 @@ const styles = {
   title: {
     fontSize: 24,
     color: colors.darkTan,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginRight: 14
   },
   container2: {
     paddingVertical: 10,
