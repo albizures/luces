@@ -37,8 +37,7 @@ const styles = {
   container: {
     flex: 1,
     flexDirection: 'row',
-    height: 30,
-    marginBottom: 18
+    height: 48
   },
   text: {
     flex: 1
