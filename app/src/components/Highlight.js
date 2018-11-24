@@ -44,7 +44,7 @@ const styles = {
       width: 0,
       height: 0
     },
-    width: 140,
+    width: 170,
     shadowRadius: 7,
     shadowOpacity: 0.7,
     marginRight: 15,
@@ -55,7 +55,7 @@ const styles = {
     justifyContent: 'flex-end',
     borderRadius: 10,
     height: 180,
-    width: 140
+    width: 170
   },
   title: {
     color: 'white',
