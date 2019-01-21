@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
 
+const { encryptPassword } = require('../../utils')
 const downloadFile = require('../../utils/downloadFile')
 
 const knex = require('../../config/connection')
@@ -12,11 +13,8 @@ const { SECRET_KEY } = process.env
 const getFacebookFields = (token) => `https://graph.facebook.com/v2.8/me?fields=id,gender,name,email,picture&access_token=${token}`
 const getFacebookPicture = (id) => `https://graph.facebook.com/${id}/picture?type=large`
 
-async function getUser (response) {
-  const { name, email, gender, id } = response.data
-  const facebook_id = response.data.id
-
-  const cover = await downloadFile(getFacebookPicture(id), '.png')
+async function getOrCreateUserByFacebook (response) {
+  const { name, email, gender, id: facebook_id } = response.data
 
   const [user] = await knex('users')
     .select({
@@ -28,6 +26,8 @@ async function getUser (response) {
     })
 
   if (!user) {
+    const cover = await downloadFile(getFacebookPicture(facebook_id), '.png')
+
     const [id_user] = await knex('users')
       .returning('id_user')
       .insert({
@@ -45,12 +45,51 @@ async function getUser (response) {
   return user
 }
 
+exports.signUp = asyncHandler(async (req, res) => {
+  const { name, email, password: rawPassword } = req.body
+  const [user] = await knex('users')
+    .select({
+      id_user: 'id_user',
+      name: 'name',
+      facebookId: 'facebook_id'
+    }).where({
+      deleted: false,
+      email
+    })
+
+  if (user) {
+    const message = user.facebookId
+      ? 'El correo que estas intentando usar ya esta registrado usando facebook'
+      : 'El correo que estas intentando usar ya esta registrado'
+
+    res.status(403)
+    return res.json({
+      message,
+      data: {
+        email
+      }
+    })
+  }
+
+  const password = await encryptPassword(rawPassword)
+  const [id_user] = await knex('users')
+    .returning('id_user')
+    .insert({
+      name,
+      password,
+      email
+    })
+
+  const token = jwt.sign({ id_user, name }, SECRET_KEY)
+  res.json({ token, user })
+})
+
 exports.login = asyncHandler(async (req, res) => {
   const { token: fbToken } = req.body
 
   const response = await axios.get(getFacebookFields(fbToken))
 
-  const user = await getUser(response)
+  const user = await getOrCreateUserByFacebook(response)
   const token = jwt.sign(user, SECRET_KEY)
 
   res.json({ token, user })

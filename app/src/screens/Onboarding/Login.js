@@ -1,4 +1,4 @@
-import { Dimensions, View, ImageBackground } from 'react-native'
+import { Dimensions, View, ImageBackground, Text } from 'react-native'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
@@ -51,6 +51,11 @@ class Login extends Component {
     }
   }
 
+  onSignUp = () => {
+     const { navigation } = this.props
+     navigation.navigate('SignUp')
+  }
+
   render () {
     return (
       <View style={[styles.container, { width, height }]}>
@@ -58,7 +63,7 @@ class Login extends Component {
         <View style={styles.textContainer}>
           <ButtonCTA title='INGRESA CON FACEBOOK' onPress={this.fbAuth} />
           {/* <ButtonCTA title='INGRESA CON FACEBOOK' onPress={this.props.navigation} /> */}
-          {/* <Text style={styles.text}>Ingresar sin registrarme</Text> */}
+          <Text onPress={this.onSignUp} style={styles.text}>Crear una cuenta</Text>
         </View>
       </View>
     )

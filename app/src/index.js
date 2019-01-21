@@ -20,6 +20,8 @@ import Courses from './screens/Courses'
 import Category from './screens/Category'
 import Subcategory from './screens/Subcategory'
 import AppLoader from './screens/AppLoader'
+import LoginAccount from './screens/LoginAccount'
+import SignUp from './screens/SignUp'
 
 import { Provider as UserProvider, getValue } from './components/UserContext'
 import { Provider as CategoryProvider } from './components/CategoriesContext'
@@ -31,7 +33,9 @@ dayjs.locale('es')
 const OnboardingStack = createStackNavigator({
   Onboarding: {
     screen: Onboarding
-  }
+  },
+  LoginAccount,
+  SignUp,
 }, {
   headerMode: 'none',
   initialRouteName: 'Onboarding'
@@ -190,9 +194,9 @@ export default class App extends Component {
       logout: this.onLogout
     })
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <StatusBar barStyle='light-content' />
-        <CategoryProvider value={{categories, setCategories: this.setCategories}}>
+        <CategoryProvider value={{ categories, setCategories: this.setCategories }}>
           <UserProvider value={contextValue}>
             <RootStack ref={this.rootStackRef} />
           </UserProvider>
