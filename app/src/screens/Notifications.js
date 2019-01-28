@@ -10,17 +10,17 @@ import Container from '../components/Container'
 
 export default class Notifications extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
   }
 
   static navigationOptions = {
     title: 'Cuenta',
-    tabBarIcon: ({focused}) => {
+    tabBarIcon: ({ focused }) => {
       return <TabIcon
         activeSrc={require('../assets/tabs/account_active.png')}
         src={require('../assets/tabs/account.png')}
         focused={focused} />
-    }
+    },
   }
 
   onBack = () => {
@@ -64,45 +64,45 @@ const styles = {
   optionIcon: {
     width: 15,
     height: 15,
-    marginRight: 15
+    marginRight: 15,
   },
   option: {
     marginTop: 35,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   optionTitle: {
     fontSize: 14,
     color: colors.whiteTwo,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   optionSubTitle: {
     fontSize: 10,
-    color: colors.slateGrey
+    color: colors.slateGrey,
   },
   optionValue: {
-    width: 55
+    width: 55,
   },
   optionDescription: {
-    flex: 1
+    flex: 1,
   },
   container2: {
     paddingTop: 30,
     paddingHorizontal: 20,
     flex: 1,
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   logo: {
     width: 70,
-    height: 50
+    height: 50,
   },
   title: {
     marginTop: 20,
     color: '#b98955',
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   description: {
     marginTop: 10,
@@ -111,11 +111,11 @@ const styles = {
     fontSize: 14,
     fontWeight: '500',
     color: 'white',
-    paddingHorizontal: 38
+    paddingHorizontal: 38,
   },
   gradient: {
     flex: 1,
     width: '100%',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 }

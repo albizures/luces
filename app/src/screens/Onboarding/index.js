@@ -16,21 +16,21 @@ import Login from './Login'
 const styles = {
   container: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   skipLabel: {
     textDecorationLine: 'underline',
     color: '#b98955',
     fontSize: 12,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   nextIconContainer: {
-    marginRight: 22
+    marginRight: 22,
   },
   nextIcon: {
     width: 10,
-    height: 20
-  }
+    height: 20,
+  },
 }
 const NextIcon = (props) => (
   <TouchableHighlight {...props} style={styles.nextIconContainer} >
@@ -40,11 +40,11 @@ const NextIcon = (props) => (
 class Onboarding extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    changeUser: PropTypes.func.isRequired
+    changeUser: PropTypes.func.isRequired,
   }
 
   state = {
-    loading: false
+    loading: false,
   }
 
   goHome = () => {
@@ -54,7 +54,7 @@ class Onboarding extends Component {
 
   setLoaderStatus = (status) => {
     this.setState({
-      loading: status
+      loading: status,
     })
   }
 
@@ -71,7 +71,7 @@ class Onboarding extends Component {
             () => <Welcome />,
             () => <Learn />,
             () => <Share />,
-            () => <Login setLoaderStatus={this.setLoaderStatus} navigation={this.goHome} />
+            () => <Login setLoaderStatus={this.setLoaderStatus} navigation={this.goHome} />,
           ]} />
       </Container>
     )

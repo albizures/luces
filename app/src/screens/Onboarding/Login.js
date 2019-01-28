@@ -16,11 +16,11 @@ class Login extends Component {
   static propTypes = {
     changeUser: PropTypes.func.isRequired,
     navigation: PropTypes.func.isRequired,
-    setLoaderStatus: PropTypes.func.isRequired
+    setLoaderStatus: PropTypes.func.isRequired,
   }
 
   state = {
-    loading: false
+    loading: false,
   }
 
   fbAuth = async () => {
@@ -40,7 +40,7 @@ class Login extends Component {
       await this.props.changeUser({
         ...user,
         interests: Array.isArray(interests) && interests.length > 0,
-        token
+        token,
       })
 
       this.props.navigation()
@@ -52,8 +52,8 @@ class Login extends Component {
   }
 
   onSignUp = () => {
-     const { navigation } = this.props
-     navigation.navigate('SignUp')
+    const { navigation } = this.props
+    navigation.navigate('SignUp')
   }
 
   render () {
@@ -77,35 +77,35 @@ const styles = {
     alignItems: 'center',
     justifyContent: potrait ? 'center' : 'flex-start',
     paddingTop: potrait ? 0 : 10,
-    backgroundColor: '#252525'
+    backgroundColor: '#252525',
   },
   imageContainer: {
     paddingBottom: potrait ? 30 : 10,
     width: '100%',
     flex: 9,
     alignContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   textContainer: {
     flex: 6,
     marginTop: 46,
     paddingHorizontal: 28,
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   imageBackground: {
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   },
   padding: {
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   text: {
     color: '#b98a56',
     fontWeight: 'bold',
     fontSize: 12,
     marginTop: 20,
-    textDecorationLine: 'underline'
-  }
+    textDecorationLine: 'underline',
+  },
 }
 
 export default withUser(Login)

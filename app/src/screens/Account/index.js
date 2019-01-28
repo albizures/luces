@@ -14,15 +14,15 @@ import Option from './Option'
 class Account extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    logout: PropTypes.func.isRequired
+    logout: PropTypes.func.isRequired,
   }
 
   static navigationOptions = {
     title: 'Cuenta',
     tabBarIcon: tabBarIcon({
       active: require('../../assets/tabs/account_active.png'),
-      inactive: require('../../assets/tabs/account.png')
-    })
+      inactive: require('../../assets/tabs/account.png'),
+    }),
   }
 
   onLogout = async () => {
@@ -68,13 +68,13 @@ const styles = {
   logoutIcon: {
     width: 18,
     height: 18,
-    marginRight: 10
+    marginRight: 10,
   },
   logoutText: {
     flex: 1,
     color: colors.darkTan,
     fontSize: 14,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   aboutText: {
     flex: 1,
@@ -82,37 +82,37 @@ const styles = {
     color: colors.gunmetal,
     fontSize: 10,
     fontWeight: '500',
-    lineHeight: 17
+    lineHeight: 17,
   },
   logo: {
     height: 35,
     width: 50,
-    opacity: 0.4
+    opacity: 0.4,
   },
   aboutIcon: {
     width: 10,
     height: 10,
     marginRight: 5,
-    marginTop: 5
+    marginTop: 5,
   },
   about: {
     flexDirection: 'row',
-    height: 35
+    height: 35,
   },
   logout: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 48
+    height: 48,
   },
   logoutAbout: {
     flex: 1,
     paddingHorizontal: 20,
     paddingBottom: 15,
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   gradient: {
-    flex: 1
-  }
+    flex: 1,
+  },
 }

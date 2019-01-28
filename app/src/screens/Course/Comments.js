@@ -12,13 +12,13 @@ export default class Comments extends PureComponent {
   static propTypes = {
     courseId: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
-    ])
+      PropTypes.number,
+    ]),
   }
 
   state = {
     comments: [],
-    text: ''
+    text: '',
   }
 
   async getComments () {
@@ -78,11 +78,11 @@ export default class Comments extends PureComponent {
       return
     }
     try {
-      const {data: newComment} = await http.post(`courses/${courseId}/comment`, { comment: comment.trim() })
+      const { data: newComment } = await http.post(`courses/${courseId}/comment`, { comment: comment.trim() })
 
       this.setState({
         text: '',
-        comments: [newComment].concat(comments)
+        comments: [newComment].concat(comments),
       })
     } catch (error) {
       alert('No se pudo agregar el comentario')
@@ -94,8 +94,8 @@ export default class Comments extends PureComponent {
     this.setState({
       comments: Object.assign(
         comments.concat(),
-        { [index]: Object.assign({}, comment, {likes: likes, liked: liked}) }
-      )
+        { [index]: Object.assign({}, comment, { likes: likes, liked: liked }) }
+      ),
     })
   }
 
@@ -146,7 +146,7 @@ export default class Comments extends PureComponent {
           <TextInput
             onSubmitEditing={this.onSubmit}
             blurOnSubmit
-            onChangeText={(text) => this.setState({text})}
+            onChangeText={(text) => this.setState({ text })}
             value={text}
             placeholderTextColor={colors.whiteTwo}
             placeholder='Escribe un comentario…'
@@ -163,58 +163,58 @@ const styles = {
   likesContainer: {
     flex: 1,
     justifyContent: 'space-between',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   dateContainer: {
     paddingRight: 10,
     marginRight: 10,
     borderRightColor: colors.slateGrey,
-    borderRightWidth: 1
+    borderRightWidth: 1,
   },
   commentsCount: {
     fontSize: 14,
     marginBottom: 18,
     fontWeight: 'bold',
-    color: colors.whiteTwo
+    color: colors.whiteTwo,
   },
   likesCount: {
     color: colors.whiteTwo,
     fontWeight: 'bold',
-    fontSize: 10
+    fontSize: 10,
   },
   date: {
     color: colors.slateGrey,
-    fontSize: 10
+    fontSize: 10,
   },
   like: {
     width: 14,
-    height: 14
+    height: 14,
   },
   userName: {
     fontSize: 14,
     color: colors.darkTan,
     fontWeight: 'bold',
-    marginBottom: 10
+    marginBottom: 10,
   },
   text: {
     fontSize: 12,
     fontWeight: '500',
     color: colors.whiteTwo,
-    marginBottom: 6
+    marginBottom: 6,
   },
   commentBottom: {
     flexDirection: 'row',
     // justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   commentContainer: {
-    flex: 1
+    flex: 1,
   },
   photo: {
     height: 40,
     width: 40,
     borderRadius: 20,
-    marginRight: 10
+    marginRight: 10,
   },
   comment: {
     flex: 1,
@@ -225,11 +225,11 @@ const styles = {
     paddingTop: 20,
     paddingBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: colors.gunmetal
+    borderBottomColor: colors.gunmetal,
   },
   inputContainer: {
     marginHorizontal: 20,
-    marginTop: 20
+    marginTop: 20,
   },
   input: {
     padding: 10,
@@ -237,6 +237,6 @@ const styles = {
     backgroundColor: colors.gunmetal,
     borderRadius: 6,
     height: 60,
-    width: '100%'
-  }
+    width: '100%',
+  },
 }

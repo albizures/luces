@@ -11,28 +11,28 @@ import Container from '../components/Container'
 class InterestsAccount extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    categories: PropTypes.object.isRequired
+    categories: PropTypes.object.isRequired,
   }
 
   static navigationOptions = {
     title: 'Cuenta',
-    tabBarIcon: ({focused}) => {
+    tabBarIcon: ({ focused }) => {
       return <TabIcon
         activeSrc={require('../assets/tabs/account_active.png')}
         src={require('../assets/tabs/account.png')}
         focused={focused} />
-    }
+    },
   }
 
   state = {
     interests: [
-      {id: 1, icon: require('../assets/categories/eyes_active.png'), text: 'Maquillaje de ojos', checked: true},
-      {id: 2, icon: require('../assets/categories/hair.png'), text: 'Peinados', checked: false},
-      {id: 3, icon: require('../assets/categories/nail.png'), text: 'Manicure', checked: false},
-      {id: 4, icon: require('../assets/categories/lips_active.png'), text: 'Maquillaje de labios', checked: true},
-      {id: 5, icon: require('../assets/categories/mask_active.png'), text: 'Mascarillas', checked: true},
-      {id: 6, icon: require('../assets/categories/contour.png'), text: 'Contornos', checked: false}
-    ]
+      { id: 1, icon: require('../assets/categories/eyes_active.png'), text: 'Maquillaje de ojos', checked: true },
+      { id: 2, icon: require('../assets/categories/hair.png'), text: 'Peinados', checked: false },
+      { id: 3, icon: require('../assets/categories/nail.png'), text: 'Manicure', checked: false },
+      { id: 4, icon: require('../assets/categories/lips_active.png'), text: 'Maquillaje de labios', checked: true },
+      { id: 5, icon: require('../assets/categories/mask_active.png'), text: 'Mascarillas', checked: true },
+      { id: 6, icon: require('../assets/categories/contour.png'), text: 'Contornos', checked: false },
+    ],
   }
 
   onBack = () => {
@@ -61,7 +61,7 @@ class InterestsAccount extends Component {
 const styles = {
   logo: {
     width: 70,
-    height: 50
+    height: 50,
   },
   description: {
     marginTop: 10,
@@ -70,20 +70,20 @@ const styles = {
     fontSize: 14,
     fontWeight: '500',
     color: 'white',
-    paddingHorizontal: 38
+    paddingHorizontal: 38,
   },
   container2: {
     paddingTop: 30,
     paddingHorizontal: 20,
     flex: 1,
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   gradient: {
     flex: 1,
     width: '100%',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 }
 
 export default withCategories(InterestsAccount)

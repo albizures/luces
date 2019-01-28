@@ -8,7 +8,7 @@ const TabIcon = ({ focused, src, activeSrc }) => {
     <Image
       style={{
         height: 18,
-        width: 30
+        width: 30,
       }}
       source={source}
     />
@@ -18,18 +18,18 @@ const TabIcon = ({ focused, src, activeSrc }) => {
 TabIcon.propTypes = {
   focused: PropTypes.bool.isRequired,
   src: PropTypes.number.isRequired,
-  activeSrc: PropTypes.number.isRequired
+  activeSrc: PropTypes.number.isRequired,
 }
 
-export const tabBarIcon = ({active, inactive}) => {
-  const Icon = ({focused}) => (
+export const tabBarIcon = ({ active, inactive }) => {
+  const Icon = ({ focused }) => (
     <TabIcon
       activeSrc={active}
       src={inactive}
       focused={focused} />
   )
   Icon.propTypes = {
-    focused: PropTypes.bool
+    focused: PropTypes.bool,
   }
 
   return Icon

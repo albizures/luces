@@ -15,22 +15,22 @@ import Course from '../../components/Course'
 
 export default class Profile extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
   }
 
   static navigationOptions = {
     title: 'Cuenta',
-    tabBarIcon: ({focused}) => {
+    tabBarIcon: ({ focused }) => {
       return <TabIcon
         activeSrc={require('../../assets/tabs/account_active.png')}
         src={require('../../assets/tabs/account.png')}
         focused={focused} />
-    }
+    },
   }
 
   state = {
     loading: true,
-    courses: []
+    courses: [],
   }
 
   async componentDidMount () {
@@ -42,7 +42,7 @@ export default class Profile extends Component {
       this.setState({
         ...data,
         courses,
-        loading: false
+        loading: false,
       })
     } catch (error) {
       console.log(error)
@@ -69,8 +69,8 @@ export default class Profile extends Component {
     return (
       <Container gradient topBar={topBar} scroll loading={loading}>
         <View style={styles.profile}>
-          <ElevatedView style={{height: 130, width: 130, borderRadius: 65}} elevation={2}>
-            {cover && <CircleImage size={130} style={styles.photo} source={{uri: createUrl(cover)}} />}
+          <ElevatedView style={{ height: 130, width: 130, borderRadius: 65 }} elevation={2}>
+            {cover && <CircleImage size={130} style={styles.photo} source={{ uri: createUrl(cover) }} />}
           </ElevatedView>
           <Text style={styles.name}>{name}</Text>
           {/* <Text style={styles.info}>Guatemala - 27 años</Text> */}
@@ -81,14 +81,14 @@ export default class Profile extends Component {
           <Course title='Sombras de ojos nude' icon={require('../../assets/categories/eyes.png')} />
           <Course title='Curso de uñas' icon={require('../../assets/categories/nail.png')} /> */}
           {courses.length === 0 && (
-            <Text style={{textAlign: 'center', fontSize: 14, color: colors.whiteTwo}}>Todavía no tienes ningún curso</Text>
+            <Text style={{ textAlign: 'center', fontSize: 14, color: colors.whiteTwo }}>Todavía no tienes ningún curso</Text>
           )}
           {courses.map((course) => {
-            const {image, name, description, id} = course
+            const { image, name, description, id } = course
             return (
               <Course
                 key={id}
-                image={{uri: createUrl(image)}}
+                image={{ uri: createUrl(image) }}
                 title={name}
                 description={description}
                 onPress={() => this.onClickCourse(course)} />
@@ -105,34 +105,34 @@ const styles = {
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.whiteTwo,
-    marginBottom: 20
+    marginBottom: 20,
   },
   courses: {
     width: '100%',
     paddingTop: 30,
     paddingHorizontal: 20,
-    flex: 1
+    flex: 1,
   },
   name: {
     fontSize: 24,
     color: colors.darkTan,
     marginBottom: 5,
     marginTop: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   info: {
     fontSize: 14,
     color: colors.slateGrey,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   photo: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   profile: {
     paddingTop: 30,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   gradient: {
-    flex: 1
-  }
+    flex: 1,
+  },
 }

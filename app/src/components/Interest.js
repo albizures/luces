@@ -13,25 +13,25 @@ const styles = {
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     icon: {
       margin: 5,
       height: 40,
       width: 40,
-      backgroundColor: '#b98a56'
+      backgroundColor: '#b98a56',
     },
     text: {
       flex: 1,
       fontSize: 16,
       marginLeft: 24,
       fontWeight: 'bold',
-      color: '#b98a56'
+      color: '#b98a56',
     },
     check: {
       backgroundColor: '#b98a56',
-      margin: 13
-    }
+      margin: 13,
+    },
   },
   unchecked: {
     container: {
@@ -39,20 +39,20 @@ const styles = {
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     icon: {
       margin: 5,
       height: 40,
       width: 40,
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
     },
     text: {
       flex: 1,
       fontSize: 16,
       fontWeight: 'bold',
       color: '#b98a56',
-      marginLeft: 24
+      marginLeft: 24,
     },
     check: {
       borderWidth: 2,
@@ -60,14 +60,14 @@ const styles = {
       borderRadius: 12,
       height: 24,
       width: 24,
-      margin: 13
-    }
-  }
+      margin: 13,
+    },
+  },
 }
 
 export default class Interest extends Component {
   static defaultProps = {
-    checked: false
+    checked: false,
   }
 
   static propTypes = {
@@ -75,7 +75,7 @@ export default class Interest extends Component {
     checked: PropTypes.bool,
     icon: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
-    onPress: PropTypes.func.isRequired
+    onPress: PropTypes.func.isRequired,
   }
 
   getImage () {
@@ -93,7 +93,7 @@ export default class Interest extends Component {
 
     const style = checked ? styles.checked : styles.unchecked
     return (
-      <TouchableHighlight style={{height: 50, width: '100%', borderRadius: 25}} onPress={this.onPress}>
+      <TouchableHighlight style={{ height: 50, width: '100%', borderRadius: 25 }} onPress={this.onPress}>
         <View style={style.container}>
           <CircleImage style={style.icon} size={40} source={this.getImage()} />
           <Text style={style.text}>{name}</Text>

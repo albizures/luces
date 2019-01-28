@@ -32,83 +32,83 @@ dayjs.locale('es')
 
 const OnboardingStack = createStackNavigator({
   Onboarding: {
-    screen: Onboarding
+    screen: Onboarding,
   },
   LoginAccount,
   SignUp,
 }, {
   headerMode: 'none',
-  initialRouteName: 'Onboarding'
+  initialRouteName: 'Onboarding',
 })
 
 const AccountStack = createStackNavigator({
   HomeAccount: {
-    screen: Account
+    screen: Account,
   },
   Profile: {
-    screen: Profile
+    screen: Profile,
   },
   Notifications: {
-    screen: Notifications
+    screen: Notifications,
   },
   InterestsAccount: {
-    screen: InterestsAccount
-  }
+    screen: InterestsAccount,
+  },
 }, {
   headerMode: 'none',
-  initialRouteName: 'HomeAccount'
+  initialRouteName: 'HomeAccount',
 })
 
 AccountStack.navigationOptions = {
   title: 'Cuenta',
   tabBarIcon: tabBarIcon({
     active: require('./assets/tabs/account_active.png'),
-    inactive: require('./assets/tabs/account.png')
-  })
+    inactive: require('./assets/tabs/account.png'),
+  }),
 }
 
 const CoursesStack = createStackNavigator({
   HomeCourses: {
-    screen: Home
+    screen: Home,
   },
   Courses: {
-    screen: Courses
+    screen: Courses,
   },
   HomeCourse: {
-    screen: HomeCourse
+    screen: HomeCourse,
   },
   Category: {
-    screen: Category
+    screen: Category,
   },
   Subcategory: {
-    screen: Subcategory
-  }
+    screen: Subcategory,
+  },
 }, {
   initialRouteName: 'HomeCourses',
-  headerMode: 'none'
+  headerMode: 'none',
 })
 
 CoursesStack.navigationOptions = {
   title: 'Cursos',
   tabBarIcon: tabBarIcon({
     active: require('./assets/tabs/courses_active.png'),
-    inactive: require('./assets/tabs/courses.png')
-  })
+    inactive: require('./assets/tabs/courses.png'),
+  }),
 }
 
 const MainTab = createBottomTabNavigator({
   Home: {
-    screen: CoursesStack
+    screen: CoursesStack,
   },
   Favorites: {
-    screen: Favorites
+    screen: Favorites,
   },
   Search: {
-    screen: Search
+    screen: Search,
   },
   Account: {
-    screen: AccountStack
-  }
+    screen: AccountStack,
+  },
 }, {
   initialRouteName: 'Home',
   tabBarPosition: 'bottom',
@@ -119,48 +119,48 @@ const MainTab = createBottomTabNavigator({
     style: {
       backgroundColor: '#252525',
       borderTopWidth: 1,
-      borderTopColor: '#656767'
-    }
+      borderTopColor: '#656767',
+    },
   },
   animationEnabled: true,
-  swipeEnabled: true
+  swipeEnabled: true,
 })
 
 const AppStack = createStackNavigator({
   Interests: {
-    screen: Interests
+    screen: Interests,
   },
   Main: {
-    screen: MainTab
+    screen: MainTab,
   },
   Course: {
-    screen: Course
-  }
+    screen: Course,
+  },
 }, {
   mode: 'modal',
   initialRouteName: 'Main',
-  headerMode: 'none'
+  headerMode: 'none',
 })
 
 const RootStack = createSwitchNavigator({
   Onboarding: {
-    screen: OnboardingStack
+    screen: OnboardingStack,
   },
   AppLoader: {
-    screen: AppLoader
+    screen: AppLoader,
   },
   App: {
-    screen: AppStack
-  }
+    screen: AppStack,
+  },
 }, {
-  initialRouteName: 'AppLoader'
+  initialRouteName: 'AppLoader',
 })
 
 export default class App extends Component {
   rootStackRef = React.createRef()
 
   state = {
-    categories: {}
+    categories: {},
     // user: { interests: false }
   }
 
@@ -191,7 +191,7 @@ export default class App extends Component {
 
     const contextValue = getValue(user, {
       changeUser: this.onChangeUser,
-      logout: this.onLogout
+      logout: this.onLogout,
     })
     return (
       <View style={{ flex: 1 }}>

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 const Heart = ({ active, onPress, style }) => {
   const imageStyle = {
     width: style.width,
-    height: style.height
+    height: style.height,
   }
   return (
     <TouchableHighlight style={style} onPress={onPress}>
@@ -17,7 +17,7 @@ const Heart = ({ active, onPress, style }) => {
 Heart.propTypes = {
   onPress: PropTypes.func.isRequired,
   active: PropTypes.bool,
-  style: ViewPropTypes.style
+  style: ViewPropTypes.style,
 }
 
 export default Heart

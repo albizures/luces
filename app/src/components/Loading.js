@@ -15,7 +15,7 @@ const Loading = ({ isLoading, children, top }) => {
 Loading.propTypes = {
   isLoading: PropTypes.bool,
   children: PropTypes.node.isRequired,
-  top: PropTypes.number
+  top: PropTypes.number,
 }
 
 const styles = {
@@ -25,8 +25,8 @@ const styles = {
     height: '100%',
     width: '100%',
     top: 0,
-    left: 0
-  }
+    left: 0,
+  },
 }
 
 export default Loading

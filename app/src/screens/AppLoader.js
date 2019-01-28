@@ -14,11 +14,11 @@ class AppLoader extends Component {
     navigation: PropTypes.object.isRequired,
     changeUser: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    setCategories: PropTypes.func.isRequired
+    setCategories: PropTypes.func.isRequired,
   }
 
   state = {
-    isLoading: false
+    isLoading: false,
   }
 
   constructor (props) {
@@ -37,7 +37,7 @@ class AppLoader extends Component {
     try {
       const [token, categories] = await Promise.all([
         AsyncStorage.getItem('token'),
-        this.getCategories()
+        this.getCategories(),
       ])
 
       if (Array.isArray(categories)) {
@@ -47,7 +47,7 @@ class AppLoader extends Component {
         const interests = await AsyncStorage.getItem('interests')
         await changeUser({
           token,
-          interests: Boolean(interests)
+          interests: Boolean(interests),
         })
       }
 

@@ -19,24 +19,24 @@ const { width } = Dimensions.get('window')
 
 const initialLayout = {
   height: 0,
-  width
+  width,
 }
 
 class Videos extends PureComponent {
   static propTypes = {
     videos: PropTypes.array.isRequired,
-    onSelect: PropTypes.func.isRequired
+    onSelect: PropTypes.func.isRequired,
   }
 
   render () {
     const { videos } = this.props
-    return <View style={{padding: 20}}>
+    return <View style={{ padding: 20 }}>
       {videos.map((video, index) => (
         <CardCourse
           key={video.id}
           id={video.id}
           onPress={() => this.props.onSelect(index)}
-          image={{uri: createUrl(video.url)}}
+          image={{ uri: createUrl(video.url) }}
           title={video.name}
           description={video.description} />
       ))}
@@ -47,16 +47,16 @@ class Videos extends PureComponent {
 const moreThanOneVideoConfig = [
   { key: 'comments', title: 'Comentarios' },
   { key: 'videos', title: 'Videos' },
-  { key: 'description', title: 'Descripción' }
+  { key: 'description', title: 'Descripción' },
 ]
 const oneVideoConfig = [
   { key: 'comments', title: 'Comentarios' },
-  { key: 'description', title: 'Descripción' }
+  { key: 'description', title: 'Descripción' },
 ]
 
 export default class Course extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
   }
 
   state = {
@@ -64,14 +64,14 @@ export default class Course extends Component {
     videos: [],
     index: 0,
     playerHack: 1,
-    routes: oneVideoConfig
+    routes: oneVideoConfig,
   }
 
   onIndexChange = index => this.setState({ index });
 
   renderLabel = (scene) => {
     const label = scene.route.title
-    return <Text style={[styles.label, {color: scene.focused ? colors.darkTan : colors.gunmetal}]} >{label}</Text>
+    return <Text style={[styles.label, { color: scene.focused ? colors.darkTan : colors.gunmetal }]} >{label}</Text>
   }
 
   getTabBar = (props) => {
@@ -97,7 +97,7 @@ export default class Course extends Component {
         isLoading: false,
         videos,
         selectedVideo: 0,
-        routes: videos.length > 1 ? moreThanOneVideoConfig : oneVideoConfig
+        routes: videos.length > 1 ? moreThanOneVideoConfig : oneVideoConfig,
       })
     } catch (error) {
       console.log(error)
@@ -107,7 +107,7 @@ export default class Course extends Component {
 
   onSelect = (index) => {
     this.setState({
-      selectedVideo: index
+      selectedVideo: index,
     })
   }
 
@@ -119,12 +119,12 @@ export default class Course extends Component {
       if (favorite) {
         await http.del(`favorites/${id}`)
         this.setState({
-          course: Object.assign({}, course, { favorite: false })
+          course: Object.assign({}, course, { favorite: false }),
         })
       } else {
         await http.post('favorites', { id })
         this.setState({
-          course: Object.assign({}, course, { favorite: true })
+          course: Object.assign({}, course, { favorite: true }),
         })
       }
       this.setState({ isLoading: false })
@@ -139,23 +139,23 @@ export default class Course extends Component {
     const { id } = course
 
     switch (route.key) {
-      case 'comments':
-        return <Comments courseId={id} />
-      case 'description':
-        if (!Number.isInteger(selectedVideo)) {
-          return null
-        }
-        const video = videos[selectedVideo]
-
-        return (
-          <View style={{padding: 20}}>
-            <Text style={{color: colors.whiteTwo, fontSize: 14}}>{video.description}</Text>
-          </View>
-        )
-      case 'videos':
-        return <Videos videos={videos} onSelect={this.onSelect} />
-      default:
+    case 'comments':
+      return <Comments courseId={id} />
+    case 'description':
+      if (!Number.isInteger(selectedVideo)) {
         return null
+      }
+      const video = videos[selectedVideo]
+
+      return (
+        <View style={{ padding: 20 }}>
+          <Text style={{ color: colors.whiteTwo, fontSize: 14 }}>{video.description}</Text>
+        </View>
+      )
+    case 'videos':
+      return <Videos videos={videos} onSelect={this.onSelect} />
+    default:
+      return null
     }
   };
 
@@ -171,7 +171,7 @@ export default class Course extends Component {
 
   setStatusState (stateName) {
     this.setState((state) => ({
-      state: Object.assign({}, state.state, { [stateName]: true })
+      state: Object.assign({}, state.state, { [stateName]: true }),
     }))
   }
 
@@ -184,7 +184,7 @@ export default class Course extends Component {
     this.lastTimeout = lastTimeout * 1.5
     this.timeout = setTimeout(() => {
       this.setState((state) => ({
-        playerHack: state.playerHack === 0 ? 1 : 0
+        playerHack: state.playerHack === 0 ? 1 : 0,
       }))
       this.addTimeout()
     }, this.lastTimeout)
@@ -222,7 +222,7 @@ export default class Course extends Component {
           onError={this.onError}
           style={[
             { height: PixelRatio.roundToNearestPixel((height + playerHack) / (3 / 1)) },
-            styles.video
+            styles.video,
           ]} />
       )
     } else {
@@ -239,7 +239,7 @@ export default class Course extends Component {
     const { name, favorite } = this.state.course
     return (
       <Container scroll isLoading={isLoading} style={{ flex: 1 }}>
-        <KeyboardAvoidingView style={{flex: 1, width: '100%', height: '100%'}} enabled>
+        <KeyboardAvoidingView style={{ flex: 1, width: '100%', height: '100%' }} enabled>
           <TopBar text='Video' modal onBack={this.onBack} />
           {this.getPlayer()}
           <View style={styles.container2}>
@@ -247,7 +247,7 @@ export default class Course extends Component {
             <Heart style={styles.like} active={!!favorite} onPress={this.toggleFavorite} />
           </View>
           <TabView
-            style={{flex: 1}}
+            style={{ flex: 1 }}
             navigationState={this.state}
             renderScene={this.renderScene}
             renderTabBar={this.getTabBar}
@@ -264,42 +264,42 @@ const styles = {
   like: {
     marginTop: 5,
     width: 20,
-    height: 20
+    height: 20,
   },
   video: {
     alignSelf: 'stretch',
-    backgroundColor: colors.black
+    backgroundColor: colors.black,
   },
   backContainer: {
     position: 'absolute',
     top: 10,
     width: 36,
     height: 36,
-    left: 10
+    left: 10,
   },
   back: {
     width: 36,
-    height: 36
+    height: 36,
   },
   label: {
     // color: colors.darkTan,
     fontSize: 18,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   indicator: {
     backgroundColor: colors.darkTan,
-    height: 3
+    height: 3,
   },
   header: {
     backgroundColor: colors.black,
     borderBottomWidth: 1,
-    borderBottomColor: colors.gunmetal
+    borderBottomColor: colors.gunmetal,
   },
   title: {
     fontSize: 24,
     color: colors.darkTan,
     fontWeight: 'bold',
-    marginRight: 14
+    marginRight: 14,
   },
   container2: {
     paddingVertical: 10,
@@ -307,6 +307,6 @@ const styles = {
     height: 80,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 }

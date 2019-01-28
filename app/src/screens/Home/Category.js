@@ -11,7 +11,7 @@ const Category = (props) => {
     <TouchableHighlight {...props} onPress={() => props.onPress(category)} style={[style, styles.touchable]}>
       <View style={styles.container}>
         <CircleImage size={30} source={icon} style={styles.icon} />
-        <View style={[styles.text, {borderBottomWidth: last ? 0 : 1}]}>
+        <View style={[styles.text, { borderBottomWidth: last ? 0 : 1 }]}>
           <Text style={styles.title} numberOfLines={1}>{category.name}</Text>
         </View>
       </View>
@@ -24,40 +24,40 @@ Category.propTypes = {
   icon: PropTypes.number.isRequired,
   style: ViewPropTypes.style,
   category: PropTypes.object.isRequired,
-  last: PropTypes.bool.isRequired
+  last: PropTypes.bool.isRequired,
 }
 
 const styles = {
   touchable: {
     flex: 1,
-    width: '100%'
+    width: '100%',
   },
   container: {
     flex: 1,
     flexDirection: 'row',
     height: 48,
-    marginRight: 14
+    marginRight: 14,
   },
   text: {
     flex: 1,
     marginTop: 9,
     marginBottom: 9,
-    borderBottomColor: '#000'
+    borderBottomColor: '#000',
     // borderBottomWidth: 1
   },
   title: {
     fontSize: 14,
     color: colors.darkTan,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   icon: {
-    marginRight: 15
+    marginRight: 15,
   },
   arrow: {
     width: 12,
     height: 24,
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 }
 
 export default Category

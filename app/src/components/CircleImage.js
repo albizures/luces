@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 
 const CircleImage = ({ size, style, source, ...rest }) => {
   const container = {
-    borderRadius: size / 2
+    borderRadius: size / 2,
   }
   const image = {
     width: size,
-    height: size
+    height: size,
   }
   return (
     <View {...rest} style={[style, styles.container, container, image]}>
@@ -20,16 +20,16 @@ const CircleImage = ({ size, style, source, ...rest }) => {
 CircleImage.propTypes = {
   source: PropTypes.oneOfType([
     PropTypes.number,
-    PropTypes.object
+    PropTypes.object,
   ]).isRequired,
   size: PropTypes.number.isRequired,
-  style: ViewPropTypes.style
+  style: ViewPropTypes.style,
 }
 
 const styles = {
   container: {
-    overflow: 'hidden'
-  }
+    overflow: 'hidden',
+  },
 }
 
 export default CircleImage

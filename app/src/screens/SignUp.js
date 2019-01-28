@@ -15,7 +15,7 @@ class SignUp extends Component {
   onLogin = () => {
     const { navigation } = this.props
     navigation.navigate('LoginAccount')
-  } 
+  }
 
   render () {
     return (
@@ -25,7 +25,7 @@ class SignUp extends Component {
         <Text style={styles.description}>
           Crea una cuenta en Luces Beautiful, para mantenerte informada de tus cursos favoritos. ¡ES GRATIS!
         </Text>
-        <ButtonCTA title='CREAR CUENTA' style={{marginTop: 20}} onPress={this.onDone} />
+        <ButtonCTA title='CREAR CUENTA' style={{ marginTop: 20 }} onPress={this.onDone} />
         <Text onPress={this.onLogin} style={styles.text}>Ya tienes cuenta? Ingresa ahora</Text>
       </Container>
     )
@@ -36,24 +36,24 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     paddingTop: 30,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   text: {
     color: '#b98a56',
     fontWeight: 'bold',
     fontSize: 12,
     marginTop: 20,
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
   },
   image: {
     width: 70,
-    height: 50
+    height: 50,
   },
   title: {
     marginTop: 20,
     color: '#b98955',
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   description: {
     marginTop: 10,
@@ -62,11 +62,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     color: 'white',
-    paddingHorizontal: 38
+    paddingHorizontal: 38,
   },
   description2: {
-    color: '#b98955'
-  }
+    color: '#b98955',
+  },
 })
 
 export default SignUp
