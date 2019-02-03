@@ -8,6 +8,8 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
+    volumes:
+      - ~/db:/var/lib/mysql
   nginx:
     image: nginx
     links:
@@ -23,8 +25,8 @@ services:
       - ./api/:/app/
     working_dir: /app/
     command: bash -c "npm rebuild --update-binary bcrypt && npm run dev"
-    ports:
-      - "4321:80"
+    # ports:
+    #   - "4321:80"
     restart: on-failure
     expose:
       - "80"
