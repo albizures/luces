@@ -4,7 +4,7 @@ const fs = require('fs')
 const request = require('request')
 const crypto = require('crypto')
 
-const pseudoRandomBytes = Promise.promisify(crypto.pseudoRandomBytes)
+const randomBytes = Promise.promisify(crypto.randomBytes)
 
 const download = (url, filename) => new Promise((resolve, reject) => {
   request.head(url, (err) => {
@@ -14,7 +14,7 @@ const download = (url, filename) => new Promise((resolve, reject) => {
 })
 
 module.exports = async (url, ext) => {
-  const raw = await pseudoRandomBytes(5)
+  const raw = await randomBytes(5)
 
   const name = raw.toString('hex') + Date.now() + (ext || path.extname(url))
   const filename = path.join('./uploads/', name)
