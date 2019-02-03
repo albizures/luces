@@ -26,6 +26,7 @@
     "express-async-handler": "^1.1.4",
     "express-jwt": "^5.3.1",
     "get-video-id": "^3.1.0",
+    "is-email-maybe": "^1.0.1",
     "is-required": "^1.0.5",
     "jsonwebtoken": "^8.4.0",
     "knex": "^0.16.3",
