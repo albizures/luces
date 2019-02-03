@@ -15,7 +15,8 @@ const permissions = ['email', 'public_profile']
 class Login extends Component {
   static propTypes = {
     changeUser: PropTypes.func.isRequired,
-    navigation: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
+    goHome: PropTypes.func.isRequired,
     setLoaderStatus: PropTypes.func.isRequired,
   }
 
@@ -24,7 +25,8 @@ class Login extends Component {
   }
 
   fbAuth = async () => {
-    this.props.setLoaderStatus(true)
+    const { setLoaderStatus, goHome } = this.props
+    setLoaderStatus(true)
     try {
       const { isCancelled } = await LoginManager.logInWithReadPermissions(permissions)
       if (isCancelled) {
@@ -43,7 +45,7 @@ class Login extends Component {
         token,
       })
 
-      this.props.navigation()
+      goHome()
     } catch (error) {
       console.log('Login', error)
       alert(error.message)

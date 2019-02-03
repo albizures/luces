@@ -23,7 +23,9 @@ class AppLoader extends Component {
 
   constructor (props) {
     super(props)
-    this.bootstrap()
+    this.bootstrap().catch((error) => {
+      console.error(error)
+    })
   }
 
   async getCategories () {
@@ -52,15 +54,14 @@ class AppLoader extends Component {
       }
 
       navigation.navigate(token ? 'App' : 'Onboarding')
-      SplashScreen.hide()
     } catch (error) {
       const { logout } = this.props
-      console.log('AppLoader', error)
+      console.error('AppLoader', error)
       navigation.navigate('Onboarding')
       await logout()
       alert('Ocurrio un error cargando el usuario')
-      SplashScreen.hide()
     }
+    SplashScreen.hide()
   }
 
   render () {

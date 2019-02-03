@@ -59,7 +59,7 @@ class Onboarding extends Component {
   }
 
   render () {
-    // onSkip={this.goHome}
+    const { navigation } = this.props
     const { loading } = this.state
     return (
       <Container style={styles.container} isLoading={loading}>
@@ -71,7 +71,7 @@ class Onboarding extends Component {
             () => <Welcome />,
             () => <Learn />,
             () => <Share />,
-            () => <Login setLoaderStatus={this.setLoaderStatus} navigation={this.goHome} />,
+            () => <Login setLoaderStatus={this.setLoaderStatus} navigation={navigation} goHome={this.goHome} />,
           ]} />
       </Container>
     )
