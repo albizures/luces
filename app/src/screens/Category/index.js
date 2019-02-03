@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, View, ScrollView, Image, AsyncStorage } from 'react-native'
+import { Text, View, ScrollView, AsyncStorage } from 'react-native'
 
 import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
@@ -29,7 +29,7 @@ const styles = {
   },
   headerLogo: {
     height: 35,
-    resizeMode: Image.resizeMode.contain,
+    resizeMode: 'contain',
   },
   highlights: {
     height: 50,

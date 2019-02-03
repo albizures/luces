@@ -31,7 +31,7 @@ const styles = {
   },
   headerLogo: {
     height: 35,
-    resizeMode: Image.resizeMode.contain,
+    resizeMode: 'contain',
   },
   highlights: {
     height: 50,
