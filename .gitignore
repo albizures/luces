@@ -111,3 +111,5 @@ api/uploads
 *.key
 
 db
+
+app/ios/Index
