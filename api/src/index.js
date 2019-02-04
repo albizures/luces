@@ -47,7 +47,7 @@ app.then(() => {
   )
 
   server.use((req, res, next) => {
-    if (req.originalUrl.indexOf('/login')) {
+    if (req.originalUrl.indexOf('/login') !== -1) {
       return next()
     }
     if (req.user && req.user.admin) {
