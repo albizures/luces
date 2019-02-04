@@ -8,7 +8,7 @@ import colors from '../utils/colors'
 
 const top = Platform.OS === 'ios' ? 20 : 0
 
-const ConditionalRender = ({component, props, condition, children}) => {
+const ConditionalRender = ({ component, props, condition, children }) => {
   const Component = component
   return condition ? (
     <Component {...props}>{children}</Component>
@@ -19,10 +19,10 @@ ConditionalRender.propTypes = {
   component: PropTypes.func.isRequired,
   condition: PropTypes.bool,
   children: PropTypes.node.isRequired,
-  props: PropTypes.object
+  props: PropTypes.object,
 }
 
-const Container = ({scroll, isLoading, children, style, gradient, topBar, onRefresh, refreshing, backgroundImage}) => {
+const Container = ({ scroll, isLoading, children, style, gradient, topBar, onRefresh, refreshing, backgroundImage }) => {
   const refreshControl = scroll && onRefresh && refreshing !== undefined ? (
     <RefreshControl
       refreshing={refreshing}
@@ -32,18 +32,18 @@ const Container = ({scroll, isLoading, children, style, gradient, topBar, onRefr
 
   const gradientProps = {
     colors: colors.blackGradientBackground,
-    style: styles.flex
+    style: styles.flex,
   }
 
   const ImageBackgroundProps = {
     source: require('../assets/logo.png'),
     style: styles.flex,
-    imageStyle: styles.imageBackground
+    imageStyle: styles.imageBackground,
   }
 
   const ScrollViewProps = {
     refreshControl,
-    style: styles.flex
+    style: styles.flex,
   }
 
   return (
@@ -73,7 +73,7 @@ Container.propTypes = {
   topBar: PropTypes.node,
   isLoading: PropTypes.bool,
   style: ViewPropTypes.style,
-  scroll: PropTypes.bool
+  scroll: PropTypes.bool,
 }
 
 const styles = {
@@ -84,16 +84,16 @@ const styles = {
     top: '50%',
     left: '50%',
     marginTop: -50,
-    marginLeft: -70
+    marginLeft: -70,
   },
   flex: {
-    flex: 1
+    flex: 1,
   },
   container: {
     backgroundColor: colors.black,
     paddingTop: top,
-    flex: 1
-  }
+    flex: 1,
+  },
 }
 
 export default Container

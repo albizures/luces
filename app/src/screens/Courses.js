@@ -10,28 +10,28 @@ import Container from '../components/Container'
 
 export default class Courses extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
   }
   state = {
     courses: [],
-    refreshing: false
+    refreshing: false,
   }
 
   async getCourses () {
     this.setState({
-      isLoading: true
+      isLoading: true,
     })
     try {
       const { data: courses = [] } = await http.get('courses')
       this.setState({
         courses,
-        isLoading: false
+        isLoading: false,
       })
     } catch (error) {
       console.log(error)
       alert('No se pudieron cargar los cursos')
       this.setState({
-        isLoading: false
+        isLoading: false,
       })
     }
   }
@@ -41,13 +41,13 @@ export default class Courses extends Component {
   }
 
   onRefresh = async () => {
-    this.setState({refreshing: true})
+    this.setState({ refreshing: true })
     try {
       await this.getCourses()
     } catch (error) {
       console.log(error)
     }
-    this.setState({refreshing: false})
+    this.setState({ refreshing: false })
   }
 
   onClickCourse = async (course) => {
@@ -87,9 +87,9 @@ export default class Courses extends Component {
         refreshing={refreshing}>
         <View style={styles.resultsContainer}>
           {courses.map((course) => {
-            const {image, name, description, id} = course
+            const { image, name, description, id } = course
             return (
-              <Course key={id} image={{uri: createUrl(image)}} onPress={() => this.onClickCourse(course)} title={name} description={description} />
+              <Course key={id} image={{ uri: createUrl(image) }} onPress={() => this.onClickCourse(course)} title={name} description={description} />
             )
           })}
         </View>
@@ -102,6 +102,6 @@ const styles = {
   resultsContainer: {
     flex: 1,
     marginHorizontal: 15,
-    marginVertical: 30
-  }
+    marginVertical: 30,
+  },
 }

@@ -19,28 +19,28 @@ const Option = ({ title, icon, onPress }) => {
 Option.propTypes = {
   title: PropTypes.string.isRequired,
   icon: PropTypes.number.isRequired,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
 }
 
 const styles = {
   nextIcon: {
     width: 24,
-    height: 24
+    height: 24,
   },
   optionIcon: {
     width: 18,
     height: 18,
-    marginRight: 10
+    marginRight: 10,
   },
   title: {
     flex: 1,
     color: colors.whiteTwo,
     fontSize: 14,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   touchable: {
     width: '100%',
-    height: 48
+    height: 48,
   },
   container: {
     paddingHorizontal: 20,
@@ -51,8 +51,8 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomColor: colors.black,
-    borderBottomWidth: 1
-  }
+    borderBottomWidth: 1,
+  },
 }
 
 export default Option

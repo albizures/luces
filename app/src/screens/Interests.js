@@ -16,17 +16,17 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     paddingTop: 30,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   image: {
     width: 70,
-    height: 50
+    height: 50,
   },
   title: {
     marginTop: 20,
     color: '#b98955',
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   description: {
     marginTop: 10,
@@ -35,11 +35,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     color: 'white',
-    paddingHorizontal: 38
+    paddingHorizontal: 38,
   },
   description2: {
-    color: '#b98955'
-  }
+    color: '#b98955',
+  },
 })
 
 class Interests extends Component {
@@ -47,7 +47,7 @@ class Interests extends Component {
     navigation: PropTypes.object.isRequired,
     changeUser: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    categories: PropTypes.object.isRequired
+    categories: PropTypes.object.isRequired,
   }
 
   interests = React.createRef()
@@ -57,7 +57,7 @@ class Interests extends Component {
     const categories = Object.keys(interests).map(Number)
     try {
       await http.post('/interests/user', { categories })
-      await this.props.changeUser({...this.props.user, interests: true})
+      await this.props.changeUser({ ...this.props.user, interests: true })
       this.props.navigation.dispatch(NavigationActions.back())
     } catch (error) {
       console.log('Interest', error)
@@ -74,7 +74,7 @@ class Interests extends Component {
           Selecciona los temas que te gustaría aprender con <Text style={styles.description2}>Luces Beautiful</Text>
         </Text>
         <ListInterests ref={this.interests} categories={this.props.categories} />
-        <ButtonCTA title='CONTINUAR' style={{marginTop: 20}} onPress={this.onDone} />
+        <ButtonCTA title='CONTINUAR' style={{ marginTop: 20 }} onPress={this.onDone} />
       </Container>
     )
   }

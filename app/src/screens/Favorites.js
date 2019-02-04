@@ -12,37 +12,37 @@ import colors from '../utils/colors'
 
 export default class Favorites extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
   }
 
   static navigationOptions = {
     title: 'Favoritos',
     tabBarIcon: tabBarIcon({
       active: require('../assets/tabs/favorites_active.png'),
-      inactive: require('../assets/tabs/favorites.png')
-    })
+      inactive: require('../assets/tabs/favorites.png'),
+    }),
   }
 
   state = {
     courses: [],
-    refreshing: false
+    refreshing: false,
   }
 
   async getCourses () {
     this.setState({
-      isLoading: true
+      isLoading: true,
     })
     try {
       const { data: courses = [] } = await http.get('favorites')
       this.setState({
         courses,
-        isLoading: false
+        isLoading: false,
       })
     } catch (error) {
       console.log(error)
       alert('No se pudieron cargar los favoritos')
       this.setState({
-        isLoading: false
+        isLoading: false,
       })
     }
   }
@@ -61,13 +61,13 @@ export default class Favorites extends Component {
   }
 
   onRefresh = async () => {
-    this.setState({refreshing: true})
+    this.setState({ refreshing: true })
     try {
       await this.getCourses()
     } catch (error) {
       alert('No se pudieron actualizar los favoritos')
     }
-    this.setState({refreshing: false})
+    this.setState({ refreshing: false })
   }
 
   onClickCourse = async (course) => {
@@ -90,8 +90,8 @@ export default class Favorites extends Component {
       'Quitar de Favoritos',
       'Estas a punto de quitar "Curso" de tus cursos Favoritos. Lo puedes volver a listar acá cuando quieras',
       [
-        {text: 'No Quitar', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'Quitar', onPress: () => this.remove(id)}
+        { text: 'No Quitar', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+        { text: 'Quitar', onPress: () => this.remove(id) },
       ],
       { cancelable: false }
     )
@@ -118,11 +118,11 @@ export default class Favorites extends Component {
           refreshing={refreshing}>
           <View style={styles.resultsContainer}>
             {courses.map((course, index) => {
-              const {image, name, description, id} = course
+              const { image, name, description, id } = course
               return (
                 <Course
                   key={id}
-                  image={{uri: createUrl(image)}}
+                  image={{ uri: createUrl(image) }}
                   title={name}
                   description={description}
                   onPress={() => this.onClickCourse(course)}
@@ -142,11 +142,11 @@ const styles = {
     textAlign: 'center',
     color: colors.whiteTwo,
     backgroundColor: colors.black,
-    paddingVertical: 10
+    paddingVertical: 10,
   },
   resultsContainer: {
     flex: 1,
     marginHorizontal: 15,
-    marginVertical: 30
-  }
+    marginVertical: 30,
+  },
 }

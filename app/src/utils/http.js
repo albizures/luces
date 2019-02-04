@@ -2,7 +2,7 @@ import axios from 'axios'
 import createUrl from './createUrl'
 
 export const instance = axios.create({
-  baseURL: createUrl('api')
+  baseURL: createUrl('api'),
 })
 
 export default {
@@ -20,5 +20,5 @@ export default {
   },
   login (token) {
     return instance.post('login', { token })
-  }
+  },
 }

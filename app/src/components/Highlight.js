@@ -24,17 +24,17 @@ Highlight.propTypes = {
   subTitle: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired
+  image: PropTypes.string.isRequired,
 }
 
 const styles = {
   imageBackground: {
     resizeMode: 'cover',
-    borderRadius: 11
+    borderRadius: 11,
   },
   gradient: {
     padding: 15,
-    borderRadius: 10
+    borderRadius: 10,
   },
   box: {
     borderRadius: 10,
@@ -42,32 +42,32 @@ const styles = {
     shadowColor: 'black',
     shadowOffset: {
       width: 0,
-      height: 0
+      height: 0,
     },
     width: 170,
     shadowRadius: 7,
     shadowOpacity: 0.7,
     marginRight: 15,
-    marginTop: 20
+    marginTop: 20,
   },
   container: {
     backgroundColor: 'gray',
     justifyContent: 'flex-end',
     borderRadius: 10,
     height: 180,
-    width: 170
+    width: 170,
   },
   title: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 16,
   },
   subTitle: {
     color: '#b98a56',
     fontWeight: '500',
     fontSize: 11,
-    marginTop: 5
-  }
+    marginTop: 5,
+  },
 }
 
 export default Highlight

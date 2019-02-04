@@ -16,7 +16,7 @@ const Course = ({ icon, title }) => {
 
 Course.propTypes = {
   icon: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
 }
 
 const styles = {
@@ -24,12 +24,12 @@ const styles = {
     fontSize: 14,
     color: colors.darkTan,
     fontWeight: 'bold',
-    flex: 1
+    flex: 1,
   },
   icon: {
     width: 40,
     height: 40,
-    marginHorizontal: 5
+    marginHorizontal: 5,
   },
   container: {
     borderRadius: 25,
@@ -39,8 +39,8 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.black
-  }
+    backgroundColor: colors.black,
+  },
 }
 
 export default Course

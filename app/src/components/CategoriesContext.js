@@ -19,8 +19,8 @@ const getValue = (list) => list.reduce((categories, category) => {
   return {
     ...categories,
     [category.id]: {
-      ...category
-    }
+      ...category,
+    },
   }
 }, {})
 
@@ -28,7 +28,7 @@ export {
   withCategories,
   Consumer,
   Provider,
-  getValue
+  getValue,
 }
 
 export default CategoriesContext

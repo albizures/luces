@@ -46,6 +46,14 @@ app.then(() => {
     }
   )
 
+  server.use((req, res, next) => {
+    if (req.user && req.user.admin) {
+      return next()
+    }
+
+    return res.redirect('/login')
+  })
+
   server.get('*', handle)
 
   server.listen(port, (err) => {

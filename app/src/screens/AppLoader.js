@@ -14,16 +14,18 @@ class AppLoader extends Component {
     navigation: PropTypes.object.isRequired,
     changeUser: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    setCategories: PropTypes.func.isRequired
+    setCategories: PropTypes.func.isRequired,
   }
 
   state = {
-    isLoading: false
+    isLoading: false,
   }
 
   constructor (props) {
     super(props)
-    this.bootstrap()
+    this.bootstrap().catch((error) => {
+      console.error(error)
+    })
   }
 
   async getCategories () {
@@ -37,7 +39,7 @@ class AppLoader extends Component {
     try {
       const [token, categories] = await Promise.all([
         AsyncStorage.getItem('token'),
-        this.getCategories()
+        this.getCategories(),
       ])
 
       if (Array.isArray(categories)) {
@@ -47,20 +49,19 @@ class AppLoader extends Component {
         const interests = await AsyncStorage.getItem('interests')
         await changeUser({
           token,
-          interests: Boolean(interests)
+          interests: Boolean(interests),
         })
       }
 
       navigation.navigate(token ? 'App' : 'Onboarding')
-      SplashScreen.hide()
     } catch (error) {
       const { logout } = this.props
-      console.log('AppLoader', error)
+      console.error('AppLoader', error)
       navigation.navigate('Onboarding')
       await logout()
       alert('Ocurrio un error cargando el usuario')
-      SplashScreen.hide()
     }
+    SplashScreen.hide()
   }
 
   render () {

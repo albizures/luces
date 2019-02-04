@@ -8,7 +8,7 @@ const Dot = ({ isLight, selected }) => {
     <View
       style={{
         ...styles.dot,
-        backgroundColor
+        backgroundColor,
       }}
     />
   )
@@ -16,7 +16,7 @@ const Dot = ({ isLight, selected }) => {
 
 Dot.propTypes = {
   isLight: PropTypes.bool.isRequired,
-  selected: PropTypes.bool.isRequired
+  selected: PropTypes.bool.isRequired,
 }
 
 const styles = {
@@ -24,8 +24,8 @@ const styles = {
     width: 10,
     height: 10,
     borderRadius: 5,
-    marginHorizontal: 5
-  }
+    marginHorizontal: 5,
+  },
 }
 
 export default Dot

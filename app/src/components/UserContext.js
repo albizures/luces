@@ -15,13 +15,13 @@ function withUser (Component) {
   return ComponentWithUser
 }
 
-const getValue = (user, {changeUser, logout}) => ({ user, changeUser, logout })
+const getValue = (user, { changeUser, logout }) => ({ user, changeUser, logout })
 
 export {
   withUser,
   Consumer,
   Provider,
-  getValue
+  getValue,
 }
 
 export default UserContext

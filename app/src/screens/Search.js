@@ -21,8 +21,8 @@ export default class Search extends Component {
     title: 'Buscar',
     tabBarIcon: tabBarIcon({
       active: require('../assets/tabs/search_active.png'),
-      inactive: require('../assets/tabs/search.png')
-    })
+      inactive: require('../assets/tabs/search.png'),
+    }),
   }
 
   mapResults () {
@@ -31,17 +31,17 @@ export default class Search extends Component {
       return null
     }
     if (results.length === 0) {
-      return <Text style={{color: colors.whiteTwo}}>No se encontro ningun resultado</Text>
+      return <Text style={{ color: colors.whiteTwo }}>No se encontro ningun resultado</Text>
     }
     return results.map((course, index) => (
-      <Course key={index} image={{uri: createUrl(course.image)}} title={course.name} description={course.description} />
+      <Course key={index} image={{ uri: createUrl(course.image) }} title={course.name} description={course.description} />
     ))
   }
 
   search = async (text) => {
     if (!text) {
       return this.setState({
-        results: undefined
+        results: undefined,
       })
     }
     const { data: results } = await http.get('courses/search/' + text)
@@ -78,18 +78,18 @@ const styles = {
     color: colors.darkTan,
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20
+    marginBottom: 20,
   },
   resultsContainer: {
     flex: 1,
     paddingTop: 20,
     paddingHorizontal: 15,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   searchIcon: {
     width: 25,
     height: 25,
-    marginHorizontal: 5
+    marginHorizontal: 5,
   },
   searchIconContainer: {
     borderTopLeftRadius: 18,
@@ -97,7 +97,7 @@ const styles = {
     height: 35,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.gunmetal
+    backgroundColor: colors.gunmetal,
   },
   topbar: {
     paddingTop: 18,
@@ -105,7 +105,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: colors.black
+    backgroundColor: colors.black,
   },
   searchInput: {
     color: colors.whiteTwo,
@@ -115,6 +115,6 @@ const styles = {
     height: 35,
     borderTopRightRadius: 18,
     borderBottomRightRadius: 18,
-    backgroundColor: colors.gunmetal
-  }
+    backgroundColor: colors.gunmetal,
+  },
 }

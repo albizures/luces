@@ -26,41 +26,41 @@ Course.propTypes = {
   icon: PropTypes.number.isRequired,
   style: ViewPropTypes.style,
   course: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
 }
 
 const styles = {
   touchable: {
     flex: 1,
-    width: '100%'
+    width: '100%',
   },
   container: {
     flex: 1,
     flexDirection: 'row',
-    height: 48
+    height: 48,
   },
   text: {
-    flex: 1
+    flex: 1,
   },
   title: {
     fontSize: 14,
     color: colors.darkTan,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   subTitle: {
     color: colors.whiteTwo,
     fontSize: 12,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   icon: {
     marginRight: 15,
-    backgroundColor: colors.darkTan
+    backgroundColor: colors.darkTan,
   },
   arrow: {
     width: 12,
     height: 24,
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 }
 
 export default Course

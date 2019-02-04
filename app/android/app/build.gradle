@@ -100,8 +100,8 @@ android {
         applicationId "com.luces"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 21
-        versionName "0.0.21"
+        versionCode 22
+        versionName "1.0.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -154,7 +154,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-gesture-handler')
     compile project(':react-native-splash-screen')
     compile(project(':react-native-fbsdk')){
       exclude(group: 'com.facebook.android', module: 'facebook-android-sdk')

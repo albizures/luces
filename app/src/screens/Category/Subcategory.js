@@ -21,34 +21,34 @@ const Subcategory = (props) => {
 Subcategory.propTypes = {
   onPress: PropTypes.func.isRequired,
   style: ViewPropTypes.style,
-  subcategory: PropTypes.object.isRequired
+  subcategory: PropTypes.object.isRequired,
 }
 
 const styles = {
   touchable: {
     flex: 1,
-    width: '100%'
+    width: '100%',
   },
   container: {
     flex: 1,
     flexDirection: 'row',
     height: 20,
     marginBottom: 10,
-    marginTop: 10
+    marginTop: 10,
   },
   text: {
-    flex: 1
+    flex: 1,
   },
   title: {
     fontSize: 14,
     color: colors.darkTan,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   arrow: {
     width: 12,
     height: 24,
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 }
 
 export default Subcategory

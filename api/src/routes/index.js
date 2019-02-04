@@ -3,11 +3,12 @@ const { Router } = require('express')
 
 const router = Router()
 
-router.use('/', jwt({ secret: process.env.SECRET_KEY }).unless({path: [
+router.use('/', jwt({ secret: process.env.SECRET_KEY }).unless({ path: [
   '/api/categories',
   '/api/login',
-  '/api/login/password'
-]}))
+  '/api/login/password',
+  '/api/login/signup'
+] }))
 router.use('/login', require('./login/login'))
 router.use('/videos', require('./videos/videos'))
 router.use('/favorites', require('./favorites/favorites'))

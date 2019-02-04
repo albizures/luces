@@ -12,24 +12,24 @@ const Divider = (props) => {
 }
 
 Divider.propTypes = {
-  active: PropTypes.bool
+  active: PropTypes.bool,
 }
 
 class ListInterests extends Component {
   static propTypes = {
     update: PropTypes.bool,
-    categories: PropTypes.object.isRequired
+    categories: PropTypes.object.isRequired,
   }
 
   state = {
-    interests: {}
+    interests: {},
   }
 
   getInterests = async () => {
     try {
       const { data: interests } = await http.get('interests/user')
       this.setState({
-        interests: interests.reduce((obj, interest) => Object.assign(obj, { [interest.category]: true }), {})
+        interests: interests.reduce((obj, interest) => Object.assign(obj, { [interest.category]: true }), {}),
       })
     } catch (error) {
       console.log('ListInterests', error)
@@ -53,8 +53,8 @@ class ListInterests extends Component {
       this.setState({
         interests: {
           ...interests,
-          [id]: !interests[id]
-        }
+          [id]: !interests[id],
+        },
       })
     } catch (error) {
       alert('No se puedo guardar')
@@ -94,15 +94,15 @@ const styles = {
       marginVertical: 5,
       height: 1,
       backgroundColor: '#252525',
-      width: '100%'
+      width: '100%',
     },
     inactive: {
       marginVertical: 5,
       height: 1,
       backgroundColor: 'transparent',
-      width: '100%'
-    }
-  }
+      width: '100%',
+    },
+  },
 }
 
 export default ListInterests

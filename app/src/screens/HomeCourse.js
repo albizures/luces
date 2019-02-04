@@ -14,16 +14,16 @@ import { getIcon } from '../utils/icons'
 export default class CourseHome extends Component {
   static navigationOptions = {
     title: 'Cursos',
-    tabBarIcon: ({focused, ...rest}) => {
+    tabBarIcon: ({ focused, ...rest }) => {
       return <TabIcon
         activeSrc={require('../assets/tabs/courses_active.png')}
         src={require('../assets/tabs/courses.png')}
         focused={focused} />
-    }
+    },
   };
 
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
   }
 
   onBack = () => {
@@ -57,7 +57,7 @@ export default class CourseHome extends Component {
         {/* <View style={styles.header}>
           <Text>{title}</Text>
         </View> */}
-        <ImageBackground elevation={20} style={styles.cover} source={{uri: createUrl(image)}} imageStyle={styles.imageBackground} >
+        <ImageBackground elevation={20} style={styles.cover} source={{ uri: createUrl(image) }} imageStyle={styles.imageBackground} >
           <LinearGradient colors={['transparent', colors.black]} style={styles.gradient}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.subTitle}>{subTitle}</Text>
@@ -76,7 +76,7 @@ export default class CourseHome extends Component {
 const styles = {
   description: {
     marginHorizontal: 18,
-    marginTop: 40
+    marginTop: 40,
   },
   mainDescription: {
     textAlign: 'center',
@@ -84,7 +84,7 @@ const styles = {
     fontSize: 16,
     fontWeight: '500',
     // minHeight: 100,
-    marginBottom: 30
+    marginBottom: 30,
   },
   secondaryDescription: {
     textAlign: 'center',
@@ -92,41 +92,41 @@ const styles = {
     fontSize: 12,
     fontWeight: '500',
     marginTop: 20,
-    marginBottom: 30
+    marginBottom: 30,
   },
   imageBackground: {
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   },
   title: {
     color: colors.whiteTwo,
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   subTitle: {
     color: colors.darkTan,
     fontSize: 12,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   gradient: {
     flex: 1,
     paddingHorizontal: 30,
     justifyContent: 'flex-end',
-    paddingBottom: 24
+    paddingBottom: 24,
   },
   cover: {
     shadowColor: 'black',
     shadowOffset: {
       width: 0,
-      height: 0
+      height: 0,
     },
     width: '100%',
     height: 270,
     shadowRadius: 7,
-    shadowOpacity: 0.7
+    shadowOpacity: 0.7,
   },
   header: {
     width: '100%',
     height: 65,
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 }

@@ -22,14 +22,14 @@ class Onboarding extends Component {
       width: null,
       height: null,
       backgroundColorAnim: new Animated.Value(0),
-      gone: false
+      gone: false,
     }
   }
 
   componentDidUpdate () {
     Animated.timing(this.state.backgroundColorAnim, {
       toValue: 1,
-      duration: 500
+      duration: 500,
     }).start()
   }
 
@@ -42,7 +42,7 @@ class Onboarding extends Component {
       return {
         previousPage: state.currentPage,
         currentPage: viewableItems[0].index,
-        backgroundColorAnim: new Animated.Value(0)
+        backgroundColorAnim: new Animated.Value(0),
       }
     })
   };
@@ -50,7 +50,7 @@ class Onboarding extends Component {
   goNext = () => {
     this.flatList.scrollToIndex({
       animated: true,
-      index: this.state.currentPage + 1
+      index: this.state.currentPage + 1,
     })
   }
 
@@ -58,7 +58,7 @@ class Onboarding extends Component {
     if (!this.props.onSkip) {
       this.flatList.scrollToIndex({
         animated: false,
-        index: this.props.pages.length - 1
+        index: this.props.pages.length - 1,
       })
     }
   }
@@ -90,7 +90,7 @@ class Onboarding extends Component {
       SkipButtonComponent,
       DoneButtonComponent,
       NextButtonComponent,
-      DotComponent
+      DotComponent,
     } = this.props
     const currentPage = pages[this.state.currentPage]
     const currentBackgroundColor = currentPage.backgroundColor
@@ -103,7 +103,7 @@ class Onboarding extends Component {
         pages[this.state.previousPage].backgroundColor
       backgroundColor = this.state.backgroundColorAnim.interpolate({
         inputRange: [0, 1],
-        outputRange: [previousBackgroundColor, currentBackgroundColor]
+        outputRange: [previousBackgroundColor, currentBackgroundColor],
       })
     }
 
@@ -169,7 +169,7 @@ Onboarding.propTypes = {
   SkipButtonComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
   DoneButtonComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
   NextButtonComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
-  DotComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
+  DotComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 }
 
 Onboarding.defaultProps = {
@@ -185,7 +185,7 @@ Onboarding.defaultProps = {
   SkipButtonComponent: SkipButton,
   DoneButtonComponent: DoneButton,
   NextButtonComponent: NextButton,
-  DotComponent: Dot
+  DotComponent: Dot,
 }
 
 export default Onboarding

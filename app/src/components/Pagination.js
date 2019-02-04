@@ -22,7 +22,7 @@ const Pagination = ({
   NextButtonComponent,
   DoneButtonComponent,
   DotComponent,
-  gone
+  gone,
 }) => {
   const isLastPage = currentPage + 1 === numPages
 
@@ -64,7 +64,7 @@ const Pagination = ({
       style={{
         height: bottomBarHeight,
         ...styles.container,
-        ...(bottomBarHighlight ? styles.overlay : {})
+        ...(bottomBarHighlight ? styles.overlay : {}),
       }}
     >
       <View style={styles.buttonLeft}>{SkipButtonFinal}</View>
@@ -101,7 +101,7 @@ Pagination.propTypes = {
   DoneButtonComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
   NextButtonComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
   DotComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
-  gone: PropTypes.func
+  gone: PropTypes.func,
 }
 
 const styles = {
@@ -110,25 +110,25 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#252525'
+    backgroundColor: '#252525',
   },
   overlay: {
-    backgroundColor: '#252525'
+    backgroundColor: '#252525',
   },
   buttonLeft: {
     width: 200,
     flexShrink: 1,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   buttonRight: {
     width: 200,
     flexShrink: 1,
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
   dots: {
     flexShrink: 0,
-    backgroundColor: 'red'
-  }
+    backgroundColor: 'red',
+  },
 }
 
 export default Pagination

@@ -10,7 +10,7 @@ const Step = (props) => {
     image,
     icon,
     title,
-    description
+    description,
   } = props
   let titleElement = title
   if (typeof title === 'string' || title instanceof String) {
@@ -53,7 +53,7 @@ Step.propTypes = {
   image: PropTypes.number.isRequired,
   icon: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired
+  description: PropTypes.string.isRequired,
 }
 
 Step.defaultProps = {}
@@ -68,25 +68,25 @@ const styles = {
     alignItems: 'center',
     justifyContent: potrait ? 'center' : 'flex-start',
     paddingTop: potrait ? 0 : 10,
-    backgroundColor: '#252525'
+    backgroundColor: '#252525',
   },
   imageContainer: {
     paddingBottom: potrait ? 30 : 10,
     width: '100%',
     flex: 10,
     alignContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   textContainer: {
     flex: 6,
     marginTop: 75,
-    paddingHorizontal: 30
+    paddingHorizontal: 30,
   },
   imageBackground: {
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   },
   padding: {
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   iconContainer: {
     backgroundColor: '#b98a56',
@@ -95,31 +95,31 @@ const styles = {
     shadowRadius: 10,
     shadowOffset: {
       width: 0,
-      height: 0
+      height: 0,
     },
     width: sizeIcon,
     height: sizeIcon,
     borderRadius: borderRadiusIcon,
-    top: '95%'
+    top: '95%',
   },
   icon: {
     borderRadius: borderRadiusIcon,
     width: sizeIcon,
-    height: sizeIcon
+    height: sizeIcon,
   },
   title: {
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
     color: '#b98955',
-    paddingBottom: PixelRatio.getPixelSizeForLayoutSize(2)
+    paddingBottom: PixelRatio.getPixelSizeForLayoutSize(2),
   },
   description: {
     textAlign: 'center',
     fontWeight: '500',
     fontSize: 14,
-    color: '#fff'
-  }
+    color: '#fff',
+  },
 }
 
 export default Step

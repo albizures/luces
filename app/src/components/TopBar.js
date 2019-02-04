@@ -8,8 +8,8 @@ import CircleImage from './CircleImage'
 const TopBar = ({ icon, text, onBack, modal }) => {
   const styleModal = modal ? {
     transform: [{
-      rotate: '-90deg'
-    }]
+      rotate: '-90deg',
+    }],
   } : {}
 
   return (
@@ -30,29 +30,29 @@ TopBar.propTypes = {
   icon: PropTypes.number,
   modal: PropTypes.bool,
   onBack: PropTypes.func,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
 }
 
 const styles = {
   icon: {
     backgroundColor: colors.darkTan,
-    marginRight: 12
+    marginRight: 12,
   },
   text: {
     color: colors.darkTan,
     fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 16,
   },
   containerBack: {
     position: 'absolute',
     top: 24,
-    left: 20
+    left: 20,
   },
   back: {
     height: 20,
     width: 10,
     marginHorizontal: 8,
-    marginVertical: 4
+    marginVertical: 4,
   },
   container: {
     width: '100%',
@@ -60,8 +60,8 @@ const styles = {
     flexDirection: 'row',
     backgroundColor: colors.black,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 }
 
 export default TopBar

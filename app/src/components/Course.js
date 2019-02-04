@@ -40,8 +40,8 @@ Course.propTypes = {
   description: PropTypes.string.isRequired,
   image: PropTypes.oneOfType([
     PropTypes.number,
-    PropTypes.object
-  ]).isRequired
+    PropTypes.object,
+  ]).isRequired,
 }
 
 const styles = {
@@ -49,32 +49,32 @@ const styles = {
     color: colors.darkTan,
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 8
+    marginBottom: 8,
   },
   description: {
     color: colors.whiteTwo,
     fontSize: 12,
     fontWeight: '500',
-    marginBottom: 8
+    marginBottom: 8,
   },
   remove: {
     textDecorationLine: 'underline',
     fontSize: 12,
     color: colors.darkTan,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   textContainer: {
     padding: 20,
-    flex: 1
+    flex: 1,
   },
   play: {
     width: 40,
-    height: 40
+    height: 40,
   },
   image: {
     resizeMode: 'cover',
     borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5
+    borderBottomLeftRadius: 5,
   },
   imageContainer: {
     justifyContent: 'center',
@@ -82,7 +82,7 @@ const styles = {
     width: 130,
     height: 100,
     borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5
+    borderBottomLeftRadius: 5,
   },
   container: {
     marginBottom: 20,
@@ -96,9 +96,9 @@ const styles = {
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
-      height: 10
-    }
-  }
+      height: 10,
+    },
+  },
 }
 
 export default Course

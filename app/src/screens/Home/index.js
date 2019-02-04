@@ -16,10 +16,10 @@ const styles = {
   container: {
     flex: 1,
     backgroundColor: colors.black,
-    paddingTop: 20
+    paddingTop: 20,
   },
   gradient: {
-    flex: 1
+    flex: 1,
   },
   header: {
     height: 65,
@@ -27,59 +27,59 @@ const styles = {
     backgroundColor: colors.black,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 5
+    paddingTop: 5,
   },
   headerLogo: {
     height: 35,
-    resizeMode: Image.resizeMode.contain
+    resizeMode: 'contain',
   },
   highlights: {
     height: 50,
     marginHorizontal: 15,
-    marginTop: 24
+    marginTop: 24,
   },
   title: {
     fontSize: 24,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   subTitle: {
     fontSize: 14,
     color: '#b98a56',
-    fontWeight: '500'
+    fontWeight: '500',
   },
   section: {
     backgroundColor: '#252525',
     paddingTop: 20,
     paddingHorizontal: 10,
     width: '100%',
-    flex: 1
+    flex: 1,
   },
   scrollView: {
     height: 222,
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   allCourses: {
     marginBottom: 22,
     textAlign: 'center',
     color: colors.darkTan,
     textDecorationLine: 'underline',
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 }
 
 class Home extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    categories: PropTypes.object.isRequired
+    categories: PropTypes.object.isRequired,
   }
 
   state = {
     courses: [],
     highlights: [],
     enabled: true,
-    refreshing: false
+    refreshing: false,
   }
 
   async checkUser () {
@@ -98,14 +98,14 @@ class Home extends Component {
 
     try {
       const [
-        {data: courses = []},
-        {data: highlights = []}
+        { data: courses = [] },
+        { data: highlights = [] },
       ] = await Promise.all([
         http.get('courses/latest'),
-        http.get('courses/highlights')
+        http.get('courses/highlights'),
       ])
 
-      this.setState({courses, highlights})
+      this.setState({ courses, highlights })
     } catch (error) {
       console.log(error)
     }
@@ -156,13 +156,13 @@ class Home extends Component {
   }
 
   onRefresh = async () => {
-    this.setState({refreshing: true})
+    this.setState({ refreshing: true })
     try {
       await this.checkUser()
     } catch (error) {
       alert('No se pudieron actualizar los cursos')
     }
-    this.setState({refreshing: false})
+    this.setState({ refreshing: false })
   }
 
   render () {
@@ -186,14 +186,14 @@ class Home extends Component {
           ))}
         </ScrollView>
         <View style={styles.section}>
-          <Text style={[styles.title, {marginBottom: 20}]}>Los últimos cursos</Text>
+          <Text style={[styles.title, { marginBottom: 20 }]}>Los últimos cursos</Text>
           {courses.map((course, index) => (
             <Course key={course.id} index={index} icon={getIcon(course.icon).checked} onPress={this.onClickCourse} course={course} />
           ))}
           <Text style={styles.allCourses} onPress={this.onClickAllCourses}>Todos los cursos</Text>
         </View>
         <View style={[styles.section, { borderTopColor: colors.gunmetal, borderTopWidth: 1 }]}>
-          <Text style={[styles.title, {marginBottom: 20}]}>Categorías</Text>
+          <Text style={[styles.title, { marginBottom: 20 }]}>Categorías</Text>
           {Object.keys(categories).map((categoryId, index, arr) => {
             const category = categories[categoryId]
             return (
