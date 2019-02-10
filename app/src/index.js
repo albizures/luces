@@ -74,9 +74,6 @@ const CoursesStack = createStackNavigator({
   Courses: {
     screen: Courses,
   },
-  HomeCourse: {
-    screen: HomeCourse,
-  },
   Category: {
     screen: Category,
   },
@@ -135,6 +132,9 @@ const AppStack = createStackNavigator({
   },
   Course: {
     screen: Course,
+  },
+  HomeCourse: {
+    screen: HomeCourse,
   },
 }, {
   mode: 'modal',
