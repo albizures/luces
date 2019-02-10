@@ -47,7 +47,7 @@ TopBar.propTypes = {
   modal: PropTypes.bool,
   onBack: PropTypes.func,
   text: PropTypes.string.isRequired,
-  shareText: PropTypes.string.isRequired,
+  shareText: PropTypes.string,
 }
 
 const styles = {
@@ -78,10 +78,12 @@ const styles = {
     marginHorizontal: 8,
     marginVertical: 4,
   },
+  title: {
+    flexDirection: 'row',
+  },
   container: {
     width: '100%',
     height: 64,
-    flexDirection: 'row',
     backgroundColor: colors.black,
     justifyContent: 'center',
     alignItems: 'center',
