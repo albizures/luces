@@ -366,7 +366,7 @@ exports.putVideosOrder = asyncHandler(async (req, res) => {
   const { id } = req.params
   const videos = req.body
 
-  await Promise.all(videos.map(({idVideo, order}) => {
+  await Promise.all(videos.map(({ idVideo, order }) => {
     return knex('course_videos')
       .where({
         id_video: idVideo,
@@ -392,7 +392,7 @@ exports.putSubcategories = asyncHandler(async (req, res) => {
 
   const subcategoriesIds = subcategoriesSelect.map(subcategory => subcategory.id_subcategory)
 
-  await Promise.all(subcategoriesUpdate.map(({id_subcategory, add}) => {
+  await Promise.all(subcategoriesUpdate.map(({ id_subcategory, add }) => {
     if (add) {
       if (subcategoriesIds.includes(id_subcategory)) {
         return Promise.resolve()

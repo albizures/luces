@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import debounce from 'lodash.debounce'
-import { View, Text, TextInput, Image } from 'react-native'
+import { View, Text, TextInput, Image, AsyncStorage } from 'react-native'
 import colors from '../utils/colors'
 
 import { tabBarIcon } from '../components/TabIcon'
@@ -15,6 +16,10 @@ export default class Search extends Component {
     this.search = debounce(this.search, 400)
   }
 
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+  }
+
   state = {}
 
   static navigationOptions = {
@@ -23,6 +28,21 @@ export default class Search extends Component {
       active: require('../assets/tabs/search_active.png'),
       inactive: require('../assets/tabs/search.png'),
     }),
+  }
+
+  onClickCourse = async (course) => {
+    const { navigation } = this.props
+    try {
+      const started = await AsyncStorage.getItem(`course-${course.id}`)
+      if (started === 'started') {
+        navigation.navigate('Course', { course })
+      } else {
+        navigation.navigate('HomeCourse', { course })
+      }
+    } catch (error) {
+      console.log('Home', error)
+      alert('No se pudo carga el curso')
+    }
   }
 
   mapResults () {
@@ -34,7 +54,13 @@ export default class Search extends Component {
       return <Text style={{ color: colors.whiteTwo }}>No se encontro ningun resultado</Text>
     }
     return results.map((course, index) => (
-      <Course key={index} image={{ uri: createUrl(course.image) }} title={course.name} description={course.description} />
+      <Course
+        key={index}
+        course={course}
+        image={{ uri: createUrl(course.image) }}
+        onPress={() => this.onClickCourse(course)}
+        title={course.name}
+        description={course.description} />
     ))
   }
 

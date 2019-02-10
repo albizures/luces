@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, View, Text, Dimensions, PixelRatio, Platform } from 'react-native'
+import { KeyboardAvoidingView, View, Text, Dimensions, PixelRatio, Platform, StatusBar } from 'react-native'
 import { TabView, TabBar, PagerPan } from 'react-native-tab-view'
 import React, { Component, PureComponent } from 'react'
 import { NavigationActions } from 'react-navigation'
@@ -21,6 +21,10 @@ const initialLayout = {
   height: 0,
   width,
 }
+
+const link = Platform.OS === 'ios'
+  ? 'https://itunes.apple.com/us/app/luces-beautiful-app/id1449402928'
+  : 'https://play.google.com/store/apps/details?id=com.luces'
 
 class Videos extends PureComponent {
   static propTypes = {
@@ -211,15 +215,16 @@ export default class Course extends Component {
           videoId={video.youtubeId}
           play={false}
           apiKey={API_KEY}
+          fullscreen={Platform.OS === 'ios'}
           controls={1}
           loop={false}
           rel={false}
           showinfo={false}
-          modestbranding={false}
           onReady={this.onReady}
           onChangeState={this.onChangeState}
           onChangeQuality={e => this.setState({ quality: e.quality })}
           onError={this.onError}
+          onChangeFullscreen={() => StatusBar.setHidden(false)}
           style={[
             { height: PixelRatio.roundToNearestPixel((height + playerHack) / (3 / 1)) },
             styles.video,
@@ -237,10 +242,12 @@ export default class Course extends Component {
   render () {
     const { isLoading } = this.state
     const { name, favorite } = this.state.course
+    const behavior = Platform.OS === 'ios' ? 'position' : undefined
+    const shareText = `Descarga Luces Beautiful app y aprende como yo con clases gratuitas! ${link}`
     return (
       <Container scroll isLoading={isLoading} style={{ flex: 1 }}>
-        <KeyboardAvoidingView style={{ flex: 1, width: '100%', height: '100%' }} enabled>
-          <TopBar text='Video' modal onBack={this.onBack} />
+        <KeyboardAvoidingView style={{ flex: 1, width: '100%', height: '100%' }} enabled behavior={behavior} >
+          <TopBar text='Video' modal onBack={this.onBack} shareText={shareText} />
           {this.getPlayer()}
           <View style={styles.container2}>
             <Text style={styles.title}>{name}</Text>
