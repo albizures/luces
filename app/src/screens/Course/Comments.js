@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { View, Text, TextInput, Image } from 'react-native'
+import { View, Text, TextInput, Image, findNodeHandle } from 'react-native'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
@@ -14,6 +14,7 @@ export default class Comments extends PureComponent {
       PropTypes.string,
       PropTypes.number,
     ]),
+    scroll: PropTypes.object,
   }
 
   state = {
@@ -99,6 +100,12 @@ export default class Comments extends PureComponent {
     })
   }
 
+  onFocus = (evt) => {
+    const { scroll } = this.props
+    const node = findNodeHandle(evt.target)
+    scroll.props.scrollToFocusedInput(node)
+  }
+
   async toggleLike (comment, index) {
     const { id, liked } = comment
     try {
@@ -148,6 +155,7 @@ export default class Comments extends PureComponent {
             blurOnSubmit
             onChangeText={(text) => this.setState({ text })}
             value={text}
+            onFocus={this.onFocus}
             placeholderTextColor={colors.whiteTwo}
             placeholder='Escribe un comentario…'
             style={styles.input}

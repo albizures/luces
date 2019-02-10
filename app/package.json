@@ -20,6 +20,7 @@
     "react-native": "0.56.0",
     "react-native-elevated-view": "0.0.6",
     "react-native-fbsdk": "^0.8.0",
+    "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-onboarding-swiper": "^1.0.0",
     "react-native-splash-screen": "^3.1.1",

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import LinearGradient from 'react-native-linear-gradient'
-import { View, ViewPropTypes, Platform, ScrollView, RefreshControl, ImageBackground } from 'react-native'
+import { SafeAreaView, View, ViewPropTypes, Platform, ScrollView, RefreshControl, ImageBackground } from 'react-native'
 
 import Loading from './Loading'
 import colors from '../utils/colors'
@@ -44,10 +44,12 @@ const Container = ({ scroll, isLoading, children, style, gradient, topBar, onRef
   const ScrollViewProps = {
     refreshControl,
     style: styles.flex,
+    keyboardShouldPersistTaps: 'never',
+    keyboardDismissMode: 'on-drag',
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Loading top={top} isLoading={isLoading}>
         {topBar}
         <ConditionalRender component={LinearGradient} condition={gradient} props={gradientProps}>
@@ -60,7 +62,7 @@ const Container = ({ scroll, isLoading, children, style, gradient, topBar, onRef
           </ConditionalRender>
         </ConditionalRender>
       </Loading>
-    </View>
+    </SafeAreaView>
   )
 }
 

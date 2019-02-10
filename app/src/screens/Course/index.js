@@ -1,4 +1,5 @@
-import { KeyboardAvoidingView, View, Text, Dimensions, PixelRatio, Platform, StatusBar } from 'react-native'
+import { View, Text, Dimensions, PixelRatio, Platform, StatusBar } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { TabView, TabBar, PagerPan } from 'react-native-tab-view'
 import React, { Component, PureComponent } from 'react'
 import { NavigationActions } from 'react-navigation'
@@ -144,7 +145,7 @@ export default class Course extends Component {
 
     switch (route.key) {
     case 'comments':
-      return <Comments courseId={id} />
+      return <Comments courseId={id} scroll={this.scroll} />
     case 'description':
       if (!Number.isInteger(selectedVideo)) {
         return null
@@ -242,11 +243,13 @@ export default class Course extends Component {
   render () {
     const { isLoading } = this.state
     const { name, favorite } = this.state.course
-    const behavior = Platform.OS === 'ios' ? 'position' : undefined
+    // const behavior = Platform.OS === 'ios' ? 'position' : undefined
     const shareText = `Descarga Luces Beautiful app y aprende como yo con clases gratuitas! ${link}`
     return (
       <Container scroll isLoading={isLoading} style={{ flex: 1 }}>
-        <KeyboardAvoidingView style={{ flex: 1, width: '100%', height: '100%' }} enabled behavior={behavior} >
+        <KeyboardAwareScrollView innerRef={ref => {
+          this.scroll = ref
+        }} >
           <TopBar text='Video' modal onBack={this.onBack} shareText={shareText} />
           {this.getPlayer()}
           <View style={styles.container2}>
@@ -261,7 +264,7 @@ export default class Course extends Component {
             renderPager={this.renderPager}
             onIndexChange={this.onIndexChange}
             initialLayout={initialLayout} />
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
       </Container>
     )
   }
