@@ -10,55 +10,6 @@ import colors from '../../utils/colors'
 import http from '../../utils/http'
 import { getIcon } from '../../utils/icons'
 
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: colors.black,
-    paddingTop: 20,
-  },
-  gradient: {
-    flex: 1,
-  },
-  header: {
-    height: 65,
-    width: '100%',
-    backgroundColor: colors.black,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 5,
-  },
-  headerLogo: {
-    height: 35,
-    resizeMode: 'contain',
-  },
-  highlights: {
-    height: 50,
-    marginHorizontal: 15,
-    marginTop: 24,
-  },
-  title: {
-    fontSize: 24,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  subTitle: {
-    fontSize: 14,
-    color: '#b98a56',
-    fontWeight: '500',
-  },
-  section: {
-    backgroundColor: '#252525',
-    paddingTop: 20,
-    paddingHorizontal: 10,
-    width: '100%',
-    flex: 1,
-  },
-  scrollView: {
-    height: 222,
-    paddingHorizontal: 15,
-  },
-}
-
 class Category extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
@@ -151,6 +102,55 @@ class Category extends Component {
       </Container>
     )
   }
+}
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: colors.black,
+    paddingTop: 20,
+  },
+  gradient: {
+    flex: 1,
+  },
+  header: {
+    height: 65,
+    width: '100%',
+    backgroundColor: colors.black,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 5,
+  },
+  headerLogo: {
+    height: 35,
+    resizeMode: 'contain',
+  },
+  highlights: {
+    height: 50,
+    marginHorizontal: 15,
+    marginTop: 24,
+  },
+  title: {
+    fontSize: 24,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  subTitle: {
+    fontSize: 14,
+    color: '#b98a56',
+    fontWeight: '500',
+  },
+  section: {
+    backgroundColor: '#252525',
+    paddingTop: 20,
+    paddingHorizontal: 10,
+    width: '100%',
+    flex: 1,
+  },
+  scrollView: {
+    height: 222,
+    paddingHorizontal: 15,
+  },
 }
 
 export default Category

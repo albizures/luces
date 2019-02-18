@@ -1,19 +1,22 @@
 import React, { PureComponent } from 'react'
-import { View, Text, TextInput, Image, findNodeHandle } from 'react-native'
+import { View, Text, TextInput, Image, findNodeHandle, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
 import Heart from '../../components/Heart'
+import { withUser } from '../../components/UserContext'
 import createUrl from '../../utils/createUrl'
 import colors from '../../utils/colors'
 import http from '../../utils/http'
 
-export default class Comments extends PureComponent {
+class Comments extends PureComponent {
   static propTypes = {
+    user: PropTypes.object,
     courseId: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
     ]),
+    navigation: PropTypes.object.isRequired,
     scroll: PropTypes.object,
   }
 
@@ -71,10 +74,36 @@ export default class Comments extends PureComponent {
   //     }
   //   ]
   // }
+  onCreateAccount = () => {
+    const { navigation } = this.props
+
+    navigation.navigate('SignUp')
+  }
+
+  userRequiredAlert = () => {
+    Alert.alert(
+      '¿Quieres ser parte de la comunidad?',
+      'Crea tu cuenta gratuita de Luces Beautiful para poder comentar',
+      [
+        { text: 'Crear Cuenta', onPress: this.onCreateAccount },
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+      ],
+      { cancelable: true },
+    )
+  }
 
   onSubmit = async (evt) => {
+    const { user } = this.props
     const { text: comment, comments } = this.state
     const { courseId } = this.props
+
+    if (!user) {
+      return this.userRequiredAlert()
+    }
+
     if (!comment || (comment.trim().length === 0)) {
       return
     }
@@ -107,7 +136,13 @@ export default class Comments extends PureComponent {
   }
 
   async toggleLike (comment, index) {
+    const { user } = this.props
     const { id, liked } = comment
+
+    if (!user) {
+      return this.userRequiredAlert()
+    }
+
     try {
       if (liked) {
         const { data: { likes } } = await http.del(`comments/${id}/like`)
@@ -248,3 +283,5 @@ const styles = {
     width: '100%',
   },
 }
+
+export default withUser(Comments)

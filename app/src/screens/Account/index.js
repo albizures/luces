@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, TouchableHighlight } from 'react-native'
+import { Text, View, Image, TouchableHighlight, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import colors from '../../utils/colors'
 import LinearGradient from 'react-native-linear-gradient'
@@ -14,6 +14,7 @@ import Option from './Option'
 class Account extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
+    user: PropTypes.object,
     logout: PropTypes.func.isRequired,
   }
 
@@ -25,23 +26,61 @@ class Account extends Component {
     }),
   }
 
+  componentDidMount () {
+    this.checkUser()
+  }
+
+  checkUser () {
+    const { user } = this.props
+    if (!user) {
+      return Alert.alert(
+        '¿Quiere guardar tus cursos favoritos?',
+        'Crea tu cuenta gratuita de Luces Beautiful para poder guardar tus cursos.',
+        [
+          { text: 'Crear Cuenta', onPress: this.onCreateAccount },
+          {
+            text: 'Cancelar',
+            style: 'cancel',
+          },
+        ],
+        { cancelable: true },
+      )
+    }
+
+    return true
+  }
+
   onLogout = async () => {
     const { logout, navigation } = this.props
+
+    if (!this.checkUser()) {
+      return
+    }
+
     navigation.navigate('Onboarding')
     logout()
   }
 
-  render () {
+  navigateTo = (screen) => {
     const { navigation } = this.props
+
+    if (!this.checkUser()) {
+      return
+    }
+
+    navigation.navigate(screen)
+  }
+
+  render () {
     return (
       <Container>
         <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
           <TopBar
             icon={require('../../assets/account.png')}
             text='Mi cuenta' />
-          <Option onPress={() => navigation.navigate('Profile')} title='Mi Perfil' icon={require('../../assets/account/profile.png')} />
-          <Option onPress={() => navigation.navigate('Notifications')} title='Notificationes' icon={require('../../assets/account/notifications.png')} />
-          <Option onPress={() => navigation.navigate('InterestsAccount')} title='Intereses' icon={require('../../assets/account/interests.png')} />
+          <Option onPress={() => this.navigateTo('Profile')} title='Mi Perfil' icon={require('../../assets/account/profile.png')} />
+          <Option onPress={() => this.navigateTo('Notifications')} title='Notificationes' icon={require('../../assets/account/notifications.png')} />
+          <Option onPress={() => this.navigateTo('InterestsAccount')} title='Intereses' icon={require('../../assets/account/interests.png')} />
           <View style={styles.logoutAbout}>
             <TouchableHighlight onPress={this.onLogout}>
               <View style={styles.logout}>

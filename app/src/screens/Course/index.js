@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, PixelRatio, Platform, StatusBar } from 'react-native'
+import { View, Text, Dimensions, PixelRatio, Platform, StatusBar, Alert } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { TabView, TabBar, PagerPan } from 'react-native-tab-view'
 import React, { Component, PureComponent } from 'react'
@@ -14,6 +14,7 @@ import Heart from '../../components/Heart'
 import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
 import CardCourse from '../../components/Course'
+import { withUser } from '../../components/UserContext'
 import Comments from './Comments'
 
 const { width } = Dimensions.get('window')
@@ -59,9 +60,10 @@ const oneVideoConfig = [
   { key: 'description', title: 'Descripción' },
 ]
 
-export default class Course extends Component {
+class Course extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
+    user: PropTypes.object,
   }
 
   state = {
@@ -116,9 +118,31 @@ export default class Course extends Component {
     })
   }
 
+  onCreateAccount = () => {
+    const { navigation } = this.props
+
+    navigation.navigate('SignUp')
+  }
+
   toggleFavorite = async () => {
+    const { user } = this.props
     const { course } = this.state
     const { id, favorite } = course
+
+    if (!user) {
+      return Alert.alert(
+        '¿Quiere guardar tus cursos favoritos?',
+        'Crea tu cuenta gratuita de Luces Beautiful para poder guardar tus cursos.',
+        [
+          { text: 'Crear Cuenta', onPress: this.onCreateAccount },
+          {
+            text: 'Cancelar',
+            style: 'cancel',
+          },
+        ],
+        { cancelable: true },
+      )
+    }
 
     try {
       if (favorite) {
@@ -140,12 +164,13 @@ export default class Course extends Component {
   }
 
   renderScene = ({ route }) => {
+    const { navigation } = this.props
     const { selectedVideo, videos, course } = this.state
     const { id } = course
 
     switch (route.key) {
     case 'comments':
-      return <Comments courseId={id} scroll={this.scroll} />
+      return <Comments navigation={navigation} courseId={id} scroll={this.scroll} />
     case 'description':
       if (!Number.isInteger(selectedVideo)) {
         return null
@@ -320,3 +345,5 @@ const styles = {
     alignItems: 'center',
   },
 }
+
+export default withUser(Course)

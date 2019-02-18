@@ -8,11 +8,13 @@ import TopBar from '../components/TopBar'
 import { tabBarIcon } from '../components/TabIcon'
 import Course from '../components/Course'
 import Container from '../components/Container'
+import { withUser } from '../components/UserContext'
 import colors from '../utils/colors'
 
-export default class Favorites extends Component {
+class Favorites extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
+    user: PropTypes.object,
   }
 
   static navigationOptions = {
@@ -29,6 +31,23 @@ export default class Favorites extends Component {
   }
 
   async getCourses () {
+    const { user } = this.props
+
+    if (!user) {
+      return Alert.alert(
+        '¿Quiere guardar tus cursos favoritos?',
+        'Crea tu cuenta gratuita de Luces Beautiful para poder guardar tus cursos.',
+        [
+          { text: 'Crear Cuenta', onPress: this.onCreateAccount },
+          {
+            text: 'Cancelar',
+            style: 'cancel',
+          },
+        ],
+        { cancelable: true },
+      )
+    }
+
     this.setState({
       isLoading: true,
     })
@@ -45,6 +64,12 @@ export default class Favorites extends Component {
         isLoading: false,
       })
     }
+  }
+
+  onCreateAccount = () => {
+    const { navigation } = this.props
+
+    navigation.navigate('SignUp')
   }
 
   componentDidMount () {
@@ -150,3 +175,5 @@ const styles = {
     marginVertical: 30,
   },
 }
+
+export default withUser(Favorites)

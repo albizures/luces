@@ -9,9 +9,7 @@ import { withUser } from '../../components/UserContext'
 import Welcome from './Welcome'
 import Learn from './Learn'
 import Share from './Share'
-import Login from './Login'
-
-// import colors from '../../utils/colors'
+import Enter from './Enter'
 
 const styles = {
   container: {
@@ -71,7 +69,7 @@ class Onboarding extends Component {
             () => <Welcome />,
             () => <Learn />,
             () => <Share />,
-            () => <Login setLoaderStatus={this.setLoaderStatus} navigation={navigation} goHome={this.goHome} />,
+            () => <Enter navigation={navigation} />,
           ]} />
       </Container>
     )

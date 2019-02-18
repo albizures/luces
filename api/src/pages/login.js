@@ -4,7 +4,7 @@ import Input from 'antd/lib/input'
 import Button from 'antd/lib/button'
 import Card from 'antd/lib/card'
 import Icon from 'antd/lib/icon'
-import {Row, Col} from 'antd/lib/grid'
+import { Row, Col } from 'antd/lib/grid'
 import Alert from 'antd/lib/alert'
 import Head from 'next/head'
 
@@ -49,7 +49,7 @@ class Login extends Component {
         <Head>
           <link rel='stylesheet' href='https://unpkg.com/antd@3/dist/antd.min.css' />
         </Head>
-        <Row style={{marginTop: 200}}>
+        <Row style={{ marginTop: 200 }}>
           <Col span={6} offset={9}>
             <Card>
               <Form onSubmit={this.onSubmit} className='login-form'>
@@ -71,7 +71,7 @@ class Login extends Component {
                   <Button type='primary' htmlType='submit' disabled={disabled} className='login-form-button'>
                     Ingresar
                   </Button>
-                  {wrongPassword && <Alert style={{marginTop: 10}} message='Informacion incorrecta' type='error' />}
+                  {wrongPassword && <Alert style={{ marginTop: 10 }} message='Informacion incorrecta' type='error' />}
                 </FormItem>
               </Form>
             </Card>

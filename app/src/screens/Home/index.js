@@ -12,66 +12,10 @@ import colors from '../../utils/colors'
 import http from '../../utils/http'
 import { getIcon } from '../../utils/icons'
 
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: colors.black,
-    paddingTop: 20,
-  },
-  gradient: {
-    flex: 1,
-  },
-  header: {
-    height: 65,
-    width: '100%',
-    backgroundColor: colors.black,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 5,
-  },
-  headerLogo: {
-    height: 35,
-    resizeMode: 'contain',
-  },
-  highlights: {
-    height: 50,
-    marginHorizontal: 15,
-    marginTop: 24,
-  },
-  title: {
-    fontSize: 24,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  subTitle: {
-    fontSize: 14,
-    color: '#b98a56',
-    fontWeight: '500',
-  },
-  section: {
-    backgroundColor: '#252525',
-    paddingTop: 20,
-    paddingHorizontal: 10,
-    width: '100%',
-    flex: 1,
-  },
-  scrollView: {
-    height: 222,
-    paddingHorizontal: 15,
-  },
-  allCourses: {
-    marginBottom: 22,
-    textAlign: 'center',
-    color: colors.darkTan,
-    textDecorationLine: 'underline',
-    fontWeight: 'bold',
-  },
-}
-
 class Home extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
+    user: PropTypes.object,
     categories: PropTypes.object.isRequired,
   }
 
@@ -84,6 +28,10 @@ class Home extends Component {
 
   async checkUser () {
     const { user, navigation } = this.props
+    if (!user) {
+      return
+    }
+
     if (!user.interests) {
       try {
         const { data: interests } = await http.get('interests/user')
@@ -95,20 +43,6 @@ class Home extends Component {
         console.log('we couldn`t get the interests', error)
       }
     }
-
-    try {
-      const [
-        { data: courses = [] },
-        { data: highlights = [] },
-      ] = await Promise.all([
-        http.get('courses/latest'),
-        http.get('courses/highlights'),
-      ])
-
-      this.setState({ courses, highlights })
-    } catch (error) {
-      console.log(error)
-    }
   }
 
   componentDidUpdate (prevProps) {
@@ -117,8 +51,23 @@ class Home extends Component {
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     this.checkUser()
+
+    try {
+      const { data: courses = [] } = await http.get('courses/latest')
+      this.setState({ courses })
+    } catch (error) {
+      console.log(error)
+    }
+
+    try {
+      const { data: highlights = [] } = await http.get('courses/highlights')
+
+      this.setState({ highlights })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   onTouchStart = () => {
@@ -204,6 +153,62 @@ class Home extends Component {
       </Container>
     )
   }
+}
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: colors.black,
+    paddingTop: 20,
+  },
+  gradient: {
+    flex: 1,
+  },
+  header: {
+    height: 65,
+    width: '100%',
+    backgroundColor: colors.black,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 5,
+  },
+  headerLogo: {
+    height: 35,
+    resizeMode: 'contain',
+  },
+  highlights: {
+    height: 50,
+    marginHorizontal: 15,
+    marginTop: 24,
+  },
+  title: {
+    fontSize: 24,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  subTitle: {
+    fontSize: 14,
+    color: '#b98a56',
+    fontWeight: '500',
+  },
+  section: {
+    backgroundColor: '#252525',
+    paddingTop: 20,
+    paddingHorizontal: 10,
+    width: '100%',
+    flex: 1,
+  },
+  scrollView: {
+    height: 222,
+    paddingHorizontal: 15,
+  },
+  allCourses: {
+    marginBottom: 22,
+    textAlign: 'center',
+    color: colors.darkTan,
+    textDecorationLine: 'underline',
+    fontWeight: 'bold',
+  },
 }
 
 export default withCategories(withUser(Home))

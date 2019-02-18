@@ -3,45 +3,50 @@ const Promise = require('bluebird')
 
 const knex = require('../../config/connection')
 const downloadFile = require('../../utils/downloadFile')
+const { assign } = Object
 
 exports.get = asyncHandler(async (req, res) => {
   const { id } = req.params
-  const { id_user } = req.user
-  const [course] = await knex('courses')
-    .select({
+  let id_user
+  if (req.user) {
+    id_user = req.user.id_user
+  }
+
+  let query = knex('courses')
+    .select(assign({
       id: 'courses.id',
       name: 'courses.name',
       description: 'courses.description',
       image: 'courses.image_url',
-      // idCategory: 'categories.id',
-      // categoryName: 'categories.name',
-      // icon: 'categories.icon',
-      author: 'courses.author',
-      // videos: knex.raw('COUNT(course_videos.id_course)'),
-      favorite: 'favorites.id_course'
-    })
-    // .join('categories', 'courses.id_category', 'categories.id')
-    // .leftJoin('course_videos', 'courses.id', 'course_videos.id_course')
-    .leftJoin(
+      author: 'courses.author'
+    }, id_user && { favorite: 'favorites.id_course' }))
+
+  if (id_user) {
+    query = query.leftJoin(
       knex.raw(`
         favorites as favorites
         on favorites.id_user = ${id_user}
           and courses.id = favorites.id_course 
           and favorites.deleted = 0`)
     )
-    .where({
-      'courses.deleted': false,
-      'courses.id': id
-      // 'course_videos.deleted': true
-    })
+  }
+
+  const [course] = await query.where({
+    'courses.deleted': false,
+    'courses.id': id
+  })
 
   res.json(course)
 })
 
 exports.getAll = asyncHandler(async (req, res) => {
-  const { id_user } = req.user
-  const courses = await knex('courses')
-    .select({
+  let id_user
+  if (req.user) {
+    id_user = req.user.id_user
+  }
+
+  let query = knex('courses')
+    .select(assign({
       id: 'courses.id',
       name: 'courses.name',
       description: 'courses.description',
@@ -50,22 +55,24 @@ exports.getAll = asyncHandler(async (req, res) => {
       categoryName: 'categories.name',
       icon: 'categories.icon',
       author: 'courses.author',
-      videos: knex.raw('COUNT(course_videos.id_course)'),
-      favorite: 'favorites.id_course'
-    })
+      videos: knex.raw('COUNT(course_videos.id_course)')
+    }, id_user && { favorite: 'favorites.id_course' }))
     .join('categories', 'courses.id_category', 'categories.id')
     .leftJoin('course_videos', 'courses.id', 'course_videos.id_course')
-    .leftJoin(
+  if (id_user) {
+    query = query.leftJoin(
       knex.raw(`
         favorites as favorites
         on favorites.id_user = ${id_user}
           and courses.id = favorites.id_course 
           and favorites.deleted = 0`)
     )
-    .whereNot({
-      'courses.deleted': true,
-      'course_videos.deleted': true
-    })
+  }
+
+  const courses = await query.whereNot({
+    'courses.deleted': true,
+    'course_videos.deleted': true
+  })
     .orderBy('courses.created_at', 'desc')
     .groupBy('courses.id')
 
@@ -73,7 +80,11 @@ exports.getAll = asyncHandler(async (req, res) => {
 })
 
 exports.getHighlights = asyncHandler(async (req, res) => {
-  const { id_user } = req.user
+  let id_user
+  if (req.user) {
+    id_user = req.user.id_user
+  }
+
   const courses = await knex('interests')
     .select({
       id: 'courses.id',
@@ -83,24 +94,23 @@ exports.getHighlights = asyncHandler(async (req, res) => {
       idCategory: 'categories.id',
       categoryName: 'categories.name',
       icon: 'categories.icon',
-      author: 'courses.author',
-      favorite: 'favorites.id_course'
+      author: 'courses.author'
+      // favorite: 'favorites.id_course'
     })
     .join('courses', 'courses.id_category', 'interests.id_category')
     .join('categories', 'categories.id', 'interests.id_category')
-    .leftJoin(
-      knex.raw(`
-        favorites as favorites
-        on favorites.id_user = ${id_user}
-          and courses.id = favorites.id_course 
-          and favorites.deleted = 0`)
-    )
-    .where({
-      'interests.id_user': id_user,
+    // .leftJoin(
+    //   knex.raw(`
+    //     favorites as favorites
+    //     on favorites.id_user = ${id_user}
+    //       and courses.id = favorites.id_course
+    //       and favorites.deleted = 0`)
+    // )
+    .where(assign({
       'courses.deleted': false,
       'interests.deleted': false,
       'categories.deleted': false
-    })
+    }, id_user && { 'interests.id_user': id_user }))
     .limit(5)
     .groupByRaw('categories.id, courses.id')
     .orderBy('courses.created_at', 'desc')
@@ -108,7 +118,6 @@ exports.getHighlights = asyncHandler(async (req, res) => {
 })
 
 exports.getLatest = asyncHandler(async (req, res) => {
-  const { id_user } = req.user
   const courses = await knex('courses')
     .select({
       id: 'courses.id',
@@ -119,18 +128,18 @@ exports.getLatest = asyncHandler(async (req, res) => {
       categoryName: 'categories.name',
       icon: 'categories.icon',
       author: 'courses.author',
-      videos: knex.raw('COUNT(course_videos.id_course)'),
-      favorite: 'favorites.id_course'
+      videos: knex.raw('COUNT(course_videos.id_course)')
+      // favorite: 'favorites.id_course'
     })
     .join('categories', 'courses.id_category', 'categories.id')
     .leftJoin('course_videos', 'courses.id', 'course_videos.id_course')
-    .leftJoin(
-      knex.raw(`
-        favorites as favorites
-        on favorites.id_user = ${id_user}
-          and courses.id = favorites.id_course 
-          and favorites.deleted = 0`)
-    )
+    // .leftJoin(
+    //   knex.raw(`
+    //     favorites as favorites
+    //     on favorites.id_user = ${id_user}
+    //       and courses.id = favorites.id_course
+    //       and favorites.deleted = 0`)
+    // )
     .whereNot({
       'courses.deleted': true,
       'course_videos.deleted': true
@@ -182,17 +191,19 @@ exports.getSubcategories = asyncHandler(async (req, res) => {
 
 exports.getComments = asyncHandler(async (req, res) => {
   const { id } = req.params
-  const { id_user } = req.user
+  let id_user
+  if (req.user) {
+    id_user = req.user.id_user
+  }
 
-  const comments = await knex('comments')
-    .select({
+  let query = knex('comments')
+    .select(assign({
       id: 'comments.id',
       comment: 'comments.comment',
       date: 'comments.created_at',
       userName: 'users.name',
-      cover: 'users.cover',
-      liked: 'likes.id_user'
-    })
+      cover: 'users.cover'
+    }, id_user && { liked: 'likes.id_user' }))
     .select(knex.raw('IFNULL(likeCounter.likesCount, 0) as likes'))
     .leftJoin(
       knex('likes')
@@ -210,8 +221,12 @@ exports.getComments = asyncHandler(async (req, res) => {
       'likeCounter.id_comment',
       'LEFT'
     )
-    .leftJoin(knex.raw(`likes as likes on likes.id_user = ${id_user} and comments.id = likes.id_comment and likes.deleted = 0`))
-    .join('courses', 'comments.id_course', 'courses.id')
+
+  if (id_user) {
+    query = query.leftJoin(knex.raw(`likes as likes on likes.id_user = ${id_user} and comments.id = likes.id_comment and likes.deleted = 0`))
+  }
+
+  const comments = await query.join('courses', 'comments.id_course', 'courses.id')
     .join('users', 'comments.id_user', 'users.id_user')
     .orderBy('comments.created_at', 'desc')
     .where({

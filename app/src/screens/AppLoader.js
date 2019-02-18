@@ -53,7 +53,9 @@ class AppLoader extends Component {
         })
       }
 
-      navigation.navigate(token ? 'App' : 'Onboarding')
+      const onboarding = await AsyncStorage.getItem('onboarding')
+
+      navigation.navigate(onboarding === 'seen' ? 'App' : 'Onboarding')
     } catch (error) {
       const { logout } = this.props
       console.error('AppLoader', error)
