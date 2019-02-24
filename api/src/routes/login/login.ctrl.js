@@ -70,7 +70,8 @@ exports.signUp = asyncHandler(async (req, res) => {
     .select({
       id_user: 'id_user',
       name: 'name',
-      facebookId: 'facebook_id'
+      facebookId: 'facebook_id',
+      cover: ''
     }).where({
       deleted: false,
       email
@@ -109,7 +110,6 @@ exports.login = asyncHandler(async (req, res) => {
   const response = await axios.get(getFacebookFields(fbToken))
 
   const user = await getOrCreateUserByFacebook(response)
-  console.log('jwt sign', user, SECRET_KEY)
   const token = jwt.sign(user, SECRET_KEY)
 
   res.json({ token, user })

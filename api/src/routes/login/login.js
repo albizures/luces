@@ -7,7 +7,7 @@ const authRoute = jwt({ secret: process.env.SECRET_KEY })
 router.get('/me', authRoute, controller.getProfile)
 
 router.post('/', controller.login)
-router.post('/signup', authRoute, controller.signUp)
-router.post('/password', authRoute, controller.loginPassword)
+router.post('/signup', controller.signUp)
+router.post('/password', controller.loginPassword)
 
 module.exports = router
