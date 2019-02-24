@@ -20,8 +20,11 @@ class Favorites extends Component {
   static navigationOptions = {
     title: 'Favoritos',
     tabBarIcon: tabBarIcon({
-      active: require('../assets/tabs/favorites_active.png'),
-      inactive: require('../assets/tabs/favorites.png'),
+      style: {
+        width: 10,
+      },
+      active: require('../assets/favorite_filled.png'),
+      inactive: require('../assets/favorite.png'),
     }),
   }
 

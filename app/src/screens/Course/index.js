@@ -10,12 +10,12 @@ import { API_KEY } from 'react-native-dotenv'
 import colors from '../../utils/colors'
 import createUrl from '../../utils/createUrl'
 import http from '../../utils/http'
-import Heart from '../../components/Heart'
 import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
 import CardCourse from '../../components/Course'
 import { withUser } from '../../components/UserContext'
 import Comments from './Comments'
+import FavoriteButton from './FavoriteButton'
 
 const { width } = Dimensions.get('window')
 
@@ -279,7 +279,8 @@ class Course extends Component {
           {this.getPlayer()}
           <View style={styles.container2}>
             <Text style={styles.title}>{name}</Text>
-            <Heart style={styles.like} active={!!favorite} onPress={this.toggleFavorite} />
+            <FavoriteButton title='Guardar' isFavorite={Boolean(favorite)} onPress={this.toggleFavorite} />
+            {/* <Heart style={styles.like} active={!!favorite} onPress={this.toggleFavorite} /> */}
           </View>
           <TabView
             style={{ flex: 1 }}
