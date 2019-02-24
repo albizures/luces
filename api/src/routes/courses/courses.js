@@ -1,17 +1,19 @@
 const jwt = require('express-jwt')
 const router = require('express').Router()
-const authRoute = jwt({ secret: process.env.SECRET_KEY })
 
 const controller = require('./courses.ctrl')
 
-router.get('/', controller.getAll)
+const authRoute = jwt({ secret: process.env.SECRET_KEY })
+const authlessRoute = jwt({ secret: process.env.SECRET_KEY, credentialsRequired: false })
+
+router.get('/', authlessRoute, controller.getAll)
 router.get('/highlights', controller.getHighlights)
 router.get('/latest', controller.getLatest)
 router.get('/search/:search', controller.search)
-router.get('/:id', controller.get)
+router.get('/:id', authlessRoute, controller.get)
 router.get('/:id/videos', controller.getVideos)
 router.get('/:id/subcategories', controller.getSubcategories)
-router.get('/:id/comments', controller.getComments)
+router.get('/:id/comments', authlessRoute, controller.getComments)
 
 router.post('/', authRoute, controller.post)
 router.post('/:id/comment', authRoute, controller.postComment)
