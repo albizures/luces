@@ -4,7 +4,6 @@ import { TouchableHighlight, ViewPropTypes, Text, Image } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import colors from '../../utils/colors'
-import ConditionalRender from '../../components/ConditionalRender'
 
 const ButtonCTA = (props) => {
   const { isFavorite } = props
@@ -12,12 +11,9 @@ const ButtonCTA = (props) => {
     ? require('../../assets/favorite_filled2.png')
     : require('../../assets/favorite_active.png')
 
-  const gradientProps = {
-    start: { x: 0.0, y: 0.0 },
-    end: { x: 1.0, y: 1.0 },
-    style: styles.gradient,
-    colors: ['#c79a63', '#d9b992'],
-  }
+  const gradientColors = isFavorite
+    ? ['#c79a63', '#d9b992']
+    : ['transparent', 'transparent']
 
   const containerStyles = [
     props.style,
@@ -27,12 +23,19 @@ const ButtonCTA = (props) => {
       : styles.unfilled,
   ]
 
+  const textStyles = [
+    styles.text,
+    isFavorite
+      ? styles.textFilled
+      : styles.textUnfilled,
+  ]
+
   return (
     <TouchableHighlight {...props} elevation={10} style={containerStyles}>
-      <ConditionalRender component={LinearGradient} props={gradientProps} condition={isFavorite}>
+      <LinearGradient start={{ x: 0.0, y: 0.0 }} end={{ x: 1.0, y: 1.0 }} style={styles.gradient} colors={gradientColors} >
         <Image source={image} style={styles.icon} />
-        <Text style={styles.text}>{props.title}</Text>
-      </ConditionalRender>
+        <Text style={textStyles}>{props.title}</Text>
+      </LinearGradient>
     </TouchableHighlight>
   )
 }
@@ -55,15 +58,12 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 30,
+    flexDirection: 'row',
   },
   filled: {
     borderWidth: 0,
   },
-  unfilled: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
+  unfilled: {},
   button: {
     height: 28,
     shadowColor: '#000000',
@@ -77,9 +77,13 @@ const styles = {
     borderWidth: 2,
     width: 100,
   },
-  text: {
-    // marginVertical: 20,
+  textFilled: {
+    color: colors.black,
+  },
+  textUnfilled: {
     color: colors.darkTan,
+  },
+  text: {
     fontSize: 16,
   },
 }
