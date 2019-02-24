@@ -338,6 +338,7 @@ const styles = {
     marginRight: 14,
   },
   container2: {
+    flex: 1,
     paddingVertical: 10,
     paddingHorizontal: 20,
     height: 80,

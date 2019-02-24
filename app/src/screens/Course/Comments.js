@@ -159,9 +159,13 @@ class Comments extends PureComponent {
 
   getComment = (comment, index) => {
     const { comment: text, userName, liked, date, likes, id, cover } = comment
+
+    const source = cover
+      ? { uri: createUrl(cover) }
+      : require('../../assets/account.png')
     return (
       <View key={id} style={styles.comment}>
-        <Image style={styles.photo} source={{ uri: createUrl(cover) }} />
+        <Image style={styles.photo} source={source} />
         <View style={styles.commentContainer}>
           <Text style={styles.userName}>{userName}</Text>
           <Text style={styles.text}>{text}</Text>
