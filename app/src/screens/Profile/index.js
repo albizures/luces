@@ -45,7 +45,7 @@ export default class Profile extends Component {
         loading: false,
       })
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 

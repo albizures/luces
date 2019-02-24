@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import { Text, View, Image, TouchableHighlight, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import colors from '../../utils/colors'
-import LinearGradient from 'react-native-linear-gradient'
+import ElevatedView from 'react-native-elevated-view'
+
+import createUrl from '../../utils/createUrl'
+import http from '../../utils/http'
 
 import { version } from '../../../package.json'
 import { tabBarIcon } from '../../components/TabIcon'
 import { withUser } from '../../components/UserContext'
 import Container from '../../components/Container'
+import CircleImage from '../../components/CircleImage'
 import TopBar from '../../components/TopBar'
 import Option from './Option'
 
@@ -26,8 +30,26 @@ class Account extends Component {
     }),
   }
 
-  componentDidMount () {
-    this.checkUser()
+  state = {}
+
+  async componentDidMount () {
+    if (!this.checkUser()) {
+      return
+    }
+
+    this.setState({ isLoading: true })
+
+    try {
+      const { data } = await http.get('login/me')
+      this.setState({
+        ...data,
+        isLoading: false,
+      })
+    } catch (error) {
+      console.error(error)
+    }
+
+    this.setState({ isLoading: false })
   }
 
   onCreateAccount = () => {
@@ -78,30 +100,36 @@ class Account extends Component {
   }
 
   render () {
+    const { name, cover, isLoading } = this.state
+
     return (
-      <Container>
-        <LinearGradient colors={colors.blackGradientBackground} style={styles.gradient}>
-          <TopBar
-            icon={require('../../assets/account.png')}
-            text='Mi cuenta' />
-          <Option onPress={() => this.navigateTo('Profile')} title='Mi Perfil' icon={require('../../assets/account/profile.png')} />
-          <Option onPress={() => this.navigateTo('Notifications')} title='Notificationes' icon={require('../../assets/account/notifications.png')} />
-          <Option onPress={() => this.navigateTo('InterestsAccount')} title='Intereses' icon={require('../../assets/account/interests.png')} />
-          <View style={styles.logoutAbout}>
-            <TouchableHighlight onPress={this.onLogout}>
-              <View style={styles.logout}>
-                <Image style={styles.logoutIcon} source={require('../../assets/account/logout.png')} />
-                <Text style={styles.logoutText}>Cerrar Sesión</Text>
-              </View>
-            </TouchableHighlight>
-            <View style={styles.about}>
-              <Image style={styles.aboutIcon} source={require('../../assets/account/about.png')} />
-              <Text style={styles.aboutText}>Luces Beautiful App 2018 {'\n'} Made with ❤ by Minimo</Text>
-              <Text style={styles.aboutText}>Version: {version}</Text>
-              <Image style={styles.logo} source={require('../../assets/logo.png')} />
+      <Container gradient isLoading={isLoading}>
+        <TopBar
+          icon={require('../../assets/account.png')}
+          text='Mi cuenta' />
+        <View style={styles.profile}>
+          <ElevatedView style={{ height: 130, width: 130, borderRadius: 65 }} elevation={2}>
+            {cover && <CircleImage size={130} style={styles.photo} source={{ uri: createUrl(cover) }} />}
+          </ElevatedView>
+          <Text style={styles.name}>{name}</Text>
+        </View>
+        <Text style={styles.configuration}>Configuración</Text>
+        <Option onPress={() => this.navigateTo('Notifications')} title='Notificationes' icon={require('../../assets/account/notifications.png')} />
+        <Option onPress={() => this.navigateTo('InterestsAccount')} title='Intereses' icon={require('../../assets/account/interests.png')} />
+        <View style={styles.logoutAbout}>
+          <TouchableHighlight onPress={this.onLogout}>
+            <View style={styles.logout}>
+              <Image style={styles.logoutIcon} source={require('../../assets/account/logout.png')} />
+              <Text style={styles.logoutText}>Cerrar Sesión</Text>
             </View>
+          </TouchableHighlight>
+          <View style={styles.about}>
+            <Image style={styles.aboutIcon} source={require('../../assets/account/about.png')} />
+            <Text style={styles.aboutText}>Luces Beautiful App 2018 {'\n'} Made with ❤ by Minimo</Text>
+            <Text style={styles.aboutText}>Version: {version}</Text>
+            <Image style={styles.logo} source={require('../../assets/logo.png')} />
           </View>
-        </LinearGradient>
+        </View>
       </Container>
     )
   }
@@ -110,6 +138,13 @@ class Account extends Component {
 export default withUser(Account)
 
 const styles = {
+  configuration: {
+    fontSize: 18,
+    color: colors.darkTan,
+    marginVertical: 20,
+    marginHorizontal: 10,
+    fontWeight: 'bold',
+  },
   logoutIcon: {
     width: 18,
     height: 18,
@@ -157,7 +192,18 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
-  gradient: {
-    flex: 1,
+  name: {
+    fontSize: 24,
+    color: colors.darkTan,
+    marginBottom: 5,
+    marginTop: 20,
+    fontWeight: 'bold',
+  },
+  photo: {
+    marginBottom: 20,
+  },
+  profile: {
+    paddingTop: 30,
+    alignItems: 'center',
   },
 }

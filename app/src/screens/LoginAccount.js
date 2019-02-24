@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, Image, StyleSheet } from 'react-native'
+import { Text, StyleSheet } from 'react-native'
 
 import { withUser } from '../components/UserContext'
 import ButtonCTA from '../components/ButtonCTA'
@@ -58,7 +58,7 @@ class LoginAccount extends Component {
 
   onSignUp = () => {
     const { navigation } = this.props
-    navigation.navigate('SignUp')
+    navigation.replace('SignUp')
   }
 
   onBack = () => {
@@ -87,7 +87,6 @@ class LoginAccount extends Component {
     )
     return (
       <Container scroll topBar={topBar} isLoading={isLoading} gradient style={styles.container}>
-        <Image style={styles.image} source={require('../assets/logo.png')} />
         <Text style={styles.title}>Ingresa</Text>
         <Text style={styles.description}>
           Ingresa con tu cuenta Luces Beautiful
@@ -97,7 +96,7 @@ class LoginAccount extends Component {
         <ButtonCTA title='INGRESAR' style={{ marginTop: 20 }} onPress={this.onLogin} />
         <Text onPress={this.onSignUp} style={[styles.text, { marginTop: 40 }]}>Ya tienes cuenta? Ingresa ahora</Text>
         <TextDivider>O también puedes</TextDivider>
-        <ButtonCTA isFilled={false} title='INGRESAR CON FACEBOOK' style={{ marginTop: 20 }} onPress={this.onLoginFacebook} />
+        <ButtonCTA isFilled={false} title='INGRESAR CON FACEBOOK' style={{ marginVertical: 20 }} onPress={this.onLoginFacebook} />
       </Container>
     )
   }

@@ -27,7 +27,7 @@ class SignUp extends Component {
 
   onLogin = () => {
     const { navigation } = this.props
-    navigation.navigate('LoginAccount')
+    navigation.replace('LoginAccount')
   }
 
   onChange = (evt) => {
@@ -100,7 +100,7 @@ class SignUp extends Component {
         <ButtonCTA title='CREAR CUENTA' style={{ marginTop: 20 }} onPress={this.onDone} />
         <Text onPress={this.onLogin} style={[styles.text, { marginTop: 40 }]}>Ya tienes cuenta? Ingresa aquí</Text>
         <TextDivider>O también puedes</TextDivider>
-        <ButtonCTA isFilled={false} title='INGRESAR CON FACEBOOK' style={{ marginTop: 20 }} onPress={this.onLoginFacebook} />
+        <ButtonCTA isFilled={false} title='INGRESAR CON FACEBOOK' style={{ marginVertical: 20 }} onPress={this.onLoginFacebook} />
       </Container>
     )
   }

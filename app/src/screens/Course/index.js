@@ -266,8 +266,8 @@ class Course extends Component {
   );
 
   render () {
-    const { isLoading } = this.state
-    const { name, favorite } = this.state.course
+    const { isLoading, course } = this.state
+    const { name, favorite } = course
     // const behavior = Platform.OS === 'ios' ? 'position' : undefined
     const shareText = `Descarga Luces Beautiful app y aprende como yo con clases gratuitas! ${link}`
     return (
@@ -279,7 +279,7 @@ class Course extends Component {
           {this.getPlayer()}
           <View style={styles.container2}>
             <Text style={styles.title}>{name}</Text>
-            <FavoriteButton title='Guardar' isFavorite={Boolean(favorite)} onPress={this.toggleFavorite} />
+            <FavoriteButton title='Guardar' isFavorite={!!favorite} onPress={this.toggleFavorite} />
             {/* <Heart style={styles.like} active={!!favorite} onPress={this.toggleFavorite} /> */}
           </View>
           <TabView
