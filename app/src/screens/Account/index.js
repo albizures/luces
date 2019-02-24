@@ -30,6 +30,12 @@ class Account extends Component {
     this.checkUser()
   }
 
+  onCreateAccount = () => {
+    const { navigation } = this.props
+
+    navigation.navigate('SignUp')
+  }
+
   checkUser () {
     const { user } = this.props
     if (!user) {

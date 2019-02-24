@@ -8,6 +8,9 @@ import Container from '../components/Container'
 import TextInput from '../components/TextInput'
 
 import http from '../utils/http'
+import { login } from '../utils/facebook'
+import TopBar from '../components/TopBar'
+import TextDivider from '../components/TextDivider'
 
 class LoginAccount extends Component {
   static propTypes = {
@@ -60,23 +63,41 @@ class LoginAccount extends Component {
 
   onBack = () => {
     const { navigation } = this.props
-    navigation.navigate('Onboarding')
+
+    navigation.goBack()
+  }
+
+  onLoginFacebook = () => {
+    const { navigation, changeUser } = this.props
+
+    login({
+      setLoaderStatus: (isLoading) => this.setState({ isLoading }),
+      goHome: () => navigation.navigate('AppLoader'),
+      changeUser,
+    })
   }
 
   render () {
-    const { email, password } = this.state
+    const { email, password, isLoading } = this.state
+    const topBar = (
+      <TopBar
+        modal
+        onBack={this.onBack}
+        text='Ingresar' />
+    )
     return (
-      <Container gradient style={styles.container}>
+      <Container scroll topBar={topBar} isLoading={isLoading} gradient style={styles.container}>
         <Image style={styles.image} source={require('../assets/logo.png')} />
-        <Text style={styles.title}>Iniciar sesion</Text>
+        <Text style={styles.title}>Ingresa</Text>
         <Text style={styles.description}>
-          Crea una cuenta en Luces Beautiful, para mantenerte informada de tus cursos favoritos. ¡ES GRATIS!
+          Ingresa con tu cuenta Luces Beautiful
         </Text>
         <TextInput onChange={this.onChange} value={email} name='email' placeholder='Correo electronico' autoCapitalize='none' />
         <TextInput onChange={this.onChange} value={password} name='password' placeholder='Contraseña' mask />
         <ButtonCTA title='INGRESAR' style={{ marginTop: 20 }} onPress={this.onLogin} />
-        <Text onPress={this.onBack} style={styles.text}>Ó ingresa con Facebook</Text>
         <Text onPress={this.onSignUp} style={[styles.text, { marginTop: 40 }]}>Ya tienes cuenta? Ingresa ahora</Text>
+        <TextDivider>O también puedes</TextDivider>
+        <ButtonCTA isFilled={false} title='INGRESAR CON FACEBOOK' style={{ marginTop: 20 }} onPress={this.onLoginFacebook} />
       </Container>
     )
   }

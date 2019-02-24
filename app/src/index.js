@@ -34,8 +34,6 @@ const OnboardingStack = createStackNavigator({
   Onboarding: {
     screen: Onboarding,
   },
-  LoginAccount,
-  SignUp,
 }, {
   headerMode: 'none',
   initialRouteName: 'Onboarding',
@@ -136,6 +134,8 @@ const AppStack = createStackNavigator({
   HomeCourse: {
     screen: HomeCourse,
   },
+  LoginAccount,
+  SignUp,
 }, {
   mode: 'modal',
   initialRouteName: 'Main',

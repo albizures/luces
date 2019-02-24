@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "assert": "^1.4.1",
     "axios": "^0.18.0",
     "dayjs": "^1.8.0",
     "is-email-maybe": "^1.0.1",

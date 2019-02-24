@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, Image, StyleSheet } from 'react-native'
+import { Text, StyleSheet } from 'react-native'
 import isEmail from 'is-email-maybe'
 
 import ButtonCTA from '../components/ButtonCTA'
@@ -8,10 +8,15 @@ import Container from '../components/Container'
 import TextInput from '../components/TextInput'
 
 import http from '../utils/http'
+import { login } from '../utils/facebook'
+import TopBar from '../components/TopBar'
+import TextDivider from '../components/TextDivider'
+import { withUser } from '../components/UserContext'
 
 class SignUp extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
+    changeUser: PropTypes.func.isRequired,
   }
 
   state = {
@@ -30,6 +35,12 @@ class SignUp extends Component {
     this.setState({
       [name]: value,
     })
+  }
+
+  onBack = () => {
+    const { navigation } = this.props
+
+    navigation.goBack()
   }
 
   onDone = async () => {
@@ -57,12 +68,29 @@ class SignUp extends Component {
     }
   }
 
+  onLoginFacebook = () => {
+    const { navigation, changeUser } = this.props
+
+    login({
+      setLoaderStatus: (isLoading) => this.setState({ isLoading }),
+      goHome: () => navigation.navigate('AppLoader'),
+      changeUser,
+    })
+  }
+
   render () {
-    const { name, email, password } = this.state
+    const { name, email, password, isLoading } = this.state
+    const topBar = (
+      <TopBar
+        modal
+        onBack={this.onBack}
+        text='Crear Cuenta' />
+    )
+
     return (
-      <Container gradient style={styles.container}>
-        <Image style={styles.image} source={require('../assets/logo.png')} />
-        <Text style={styles.title}>Crear cuenta</Text>
+      <Container scroll topBar={topBar} isLoading={isLoading} gradient style={styles.container}>
+        {/* <Image style={styles.image} source={require('../assets/logo.png')} /> */}
+        <Text style={styles.title}>Únete a Luces Beautiful</Text>
         <Text style={styles.description}>
           Crea una cuenta en Luces Beautiful, para mantenerte informada de tus cursos favoritos. ¡ES GRATIS!
         </Text>
@@ -70,7 +98,9 @@ class SignUp extends Component {
         <TextInput value={email} onChange={this.onChange} name='email' placeholder='Correo electrónico' autoCapitalize='none' />
         <TextInput value={password} onChange={this.onChange} name='password' placeholder='Contraseña' mask />
         <ButtonCTA title='CREAR CUENTA' style={{ marginTop: 20 }} onPress={this.onDone} />
-        <Text onPress={this.onLogin} style={styles.text}>Ya tienes cuenta? Ingresa ahora</Text>
+        <Text onPress={this.onLogin} style={[styles.text, { marginTop: 40 }]}>Ya tienes cuenta? Ingresa aquí</Text>
+        <TextDivider>O también puedes</TextDivider>
+        <ButtonCTA isFilled={false} title='INGRESAR CON FACEBOOK' style={{ marginTop: 20 }} onPress={this.onLoginFacebook} />
       </Container>
     )
   }
@@ -113,4 +143,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SignUp
+export default withUser(SignUp)
