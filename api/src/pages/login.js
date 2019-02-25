@@ -20,11 +20,10 @@ class Login extends Component {
   state = {}
   onSubmit = (evt) => {
     evt.preventDefault()
-    this.setState({
-      disabled: true
-    })
+    this.setState({ disabled: true })
     this.props.form.validateFields((err, values) => {
       if (err) {
+        this.setState({ disabled: false })
         return console.error(err)
       }
       api.login(values.email, values.password)
@@ -34,10 +33,11 @@ class Login extends Component {
         })
         .catch(() => {
           this.setState({
-            disabled: false,
             wrongPassword: true
           })
           this.props.form.resetFields()
+        }).finally(() => {
+          this.setState({ disabled: false })
         })
     })
   }

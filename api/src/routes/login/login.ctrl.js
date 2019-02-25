@@ -140,12 +140,12 @@ exports.loginPassword = asyncHandler(async (req, res) => {
     })
   }
 
-  const [{ password: hash, id_user, name }] = users
+  const [{ password: hash, id_user, name, admin }] = users
 
   const isEqual = await bcrypt.compare(password, hash)
 
   if (isEqual) {
-    const user = { id_user, name }
+    const user = { id_user, name, admin }
     const token = jwt.sign(user, SECRET_KEY)
     res.json({ token, user })
   } else {

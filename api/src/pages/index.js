@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import Table from 'antd/lib/table'
-import {Row, Col} from 'antd/lib/grid'
+import { Row, Col } from 'antd/lib/grid'
 import notification from 'antd/lib/notification'
 
 import Layout from '../components/Layout'
@@ -40,7 +40,7 @@ export default class Courses extends Component {
 
   onUpdate = (shouldUnSelect = false) => {
     shouldUnSelect && this.unSelect()
-    api.courses.getAll().then(({data: courses}) => {
+    api.courses.getAll().then(({ data: courses }) => {
       this.setState({ courses })
     }).catch(error => {
       console.error(error)
@@ -73,8 +73,8 @@ export default class Courses extends Component {
 
   static async getInitialProps ({ req }) {
     api.server(req)
-    const {data: categories} = await api.categories.getAll()
-    const {data: courses} = await api.courses.getAll()
+    const { data: categories } = await api.categories.getAll()
+    const { data: courses } = await api.courses.getAll()
     const categoriesMap = categories.reduce((map, category) => ({
       ...map,
       [category.id]: category
@@ -85,7 +85,7 @@ export default class Courses extends Component {
 
   expandedRow (course) {
     return <div style={styleExpandable}>
-      <div style={{flex: 1}}>
+      <div style={{ flex: 1 }}>
         <h4>{course.name}</h4>
         <p><strong>Descripcion: </strong> {course.description}</p>
         <p><strong>Autor: </strong>{course.author}</p>
