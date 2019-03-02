@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import colors from '../../utils/colors'
 
-const ButtonCTA = (props) => {
+const FavoriteButton = (props) => {
   const { isFavorite } = props
   const image = isFavorite
     ? require('../../assets/favorite_filled2.png')
@@ -30,19 +30,20 @@ const ButtonCTA = (props) => {
       : styles.textUnfilled,
   ]
 
+  const text = isFavorite ? 'GUARDADO' : 'GUARDAR'
+
   return (
     <TouchableHighlight {...props} elevation={10} style={containerStyles}>
       <LinearGradient start={{ x: 0.0, y: 0.0 }} end={{ x: 1.0, y: 1.0 }} style={styles.gradient} colors={gradientColors} >
         <Image source={image} style={styles.icon} />
-        <Text style={textStyles}>{props.title}</Text>
+        <Text style={textStyles}>{text}</Text>
       </LinearGradient>
     </TouchableHighlight>
   )
 }
 
-ButtonCTA.propTypes = {
+FavoriteButton.propTypes = {
   style: ViewPropTypes.style,
-  title: PropTypes.string.isRequired,
   isFavorite: PropTypes.bool.isRequired,
 }
 
@@ -84,8 +85,9 @@ const styles = {
     color: colors.darkTan,
   },
   text: {
-    fontSize: 16,
+    fontSize: 10,
+    fontWeight: 'bold',
   },
 }
 
-export default ButtonCTA
+export default FavoriteButton

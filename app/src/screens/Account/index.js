@@ -101,7 +101,12 @@ class Account extends Component {
 
   render () {
     const { name, cover, isLoading } = this.state
-
+    const image = cover
+      ? (
+        <CircleImage size={130} style={styles.photo} source={{ uri: createUrl(cover) }} />
+      ) : (
+        <CircleImage size={130} style={styles.photo} source={require('../../assets/account2.png')} />
+      )
     return (
       <Container gradient isLoading={isLoading}>
         <TopBar
@@ -109,7 +114,7 @@ class Account extends Component {
           text='Mi cuenta' />
         <View style={styles.profile}>
           <ElevatedView style={{ height: 130, width: 130, borderRadius: 65 }} elevation={2}>
-            {cover && <CircleImage size={130} style={styles.photo} source={{ uri: createUrl(cover) }} />}
+            {image}
           </ElevatedView>
           <Text style={styles.name}>{name}</Text>
         </View>
