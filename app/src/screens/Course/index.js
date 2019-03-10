@@ -1,21 +1,22 @@
-import { View, Text, Dimensions, PixelRatio, Platform, StatusBar, Alert } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { TabView, TabBar, PagerPan } from 'react-native-tab-view'
-import React, { Component, PureComponent } from 'react'
+import { View, Text, Dimensions } from 'react-native'
+import { TabView } from 'react-native-tab-view'
+import React, { Component } from 'react'
 import { NavigationActions } from 'react-navigation'
-import YouTube from 'react-native-youtube'
 import PropTypes from 'prop-types'
-import { API_KEY } from 'react-native-dotenv'
 
 import colors from '../../utils/colors'
-import createUrl from '../../utils/createUrl'
 import http from '../../utils/http'
 import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
-import CardCourse from '../../components/Course'
 import { withUser } from '../../components/UserContext'
 import Comments from './Comments'
 import FavoriteButton from './FavoriteButton'
+import CommentBox from './CommentBox'
+import Player from './Player'
+import Videos from './Videos'
+import { Provider as CourseContextProvider } from './CourseContext'
+
+import { getTabBar, link, moreThanOneVideoConfig, oneVideoConfig, renderPager, userRequiredAlert } from './utils'
 
 const { width } = Dimensions.get('window')
 
@@ -23,42 +24,6 @@ const initialLayout = {
   height: 0,
   width,
 }
-
-const link = Platform.OS === 'ios'
-  ? 'https://itunes.apple.com/us/app/luces-beautiful-app/id1449402928'
-  : 'https://play.google.com/store/apps/details?id=com.luces.app'
-
-class Videos extends PureComponent {
-  static propTypes = {
-    videos: PropTypes.array.isRequired,
-    onSelect: PropTypes.func.isRequired,
-  }
-
-  render () {
-    const { videos } = this.props
-    return <View style={{ padding: 20 }}>
-      {videos.map((video, index) => (
-        <CardCourse
-          key={video.id}
-          id={video.id}
-          onPress={() => this.props.onSelect(index)}
-          image={{ uri: createUrl(video.url) }}
-          title={video.name}
-          description={video.description} />
-      ))}
-    </View>
-  }
-}
-
-const moreThanOneVideoConfig = [
-  { key: 'comments', title: 'Comentarios' },
-  { key: 'videos', title: 'Videos' },
-  { key: 'description', title: 'Descripción' },
-]
-const oneVideoConfig = [
-  { key: 'comments', title: 'Comentarios' },
-  { key: 'description', title: 'Descripción' },
-]
 
 class Course extends Component {
   static propTypes = {
@@ -69,40 +34,38 @@ class Course extends Component {
   state = {
     course: {},
     videos: [],
+    comments: [],
     index: 0,
-    playerHack: 1,
     routes: oneVideoConfig,
   }
 
+  constructor (props) {
+    super(props)
+
+    this.userRequiredAlert = userRequiredAlert(this.onCreateAccount)
+  }
+
   onIndexChange = index => this.setState({ index });
-
-  renderLabel = (scene) => {
-    const label = scene.route.title
-    return <Text style={[styles.label, { color: scene.focused ? colors.darkTan : colors.gunmetal }]} >{label}</Text>
-  }
-
-  getTabBar = (props) => {
-    return <TabBar
-      {...props}
-      pressOpacity={1}
-      renderLabel={this.renderLabel}
-      // getLabelText={({ route }) => route.title}
-      labelStyle={styles.label}
-      indicatorStyle={styles.indicator}
-      style={styles.header} />
-  }
 
   async componentDidMount () {
     const { navigation } = this.props
     const { id } = navigation.getParam('course')
     this.setState({ isLoading: true })
     try {
-      const { data: course } = await http.get(`courses/${id}`)
-      const { data: videos } = await http.get(`courses/${id}/videos`)
+      const [
+        { data: course },
+        { data: videos },
+        { data: comments },
+      ] = await Promise.all([
+        http.get(`courses/${id}`),
+        http.get(`courses/${id}/videos`),
+        http.get(`courses/${id}/comments`),
+      ])
+
       this.setState({
         course,
-        isLoading: false,
         videos,
+        comments,
         selectedVideo: 0,
         routes: videos.length > 1 ? moreThanOneVideoConfig : oneVideoConfig,
       })
@@ -110,6 +73,8 @@ class Course extends Component {
       console.log(error)
       alert('No se pudo carga el curso')
     }
+
+    this.setState({ isLoading: false })
   }
 
   onSelect = (index) => {
@@ -130,18 +95,10 @@ class Course extends Component {
     const { id, favorite } = course
 
     if (!user) {
-      return Alert.alert(
-        '¿Quiere guardar tus cursos favoritos?',
-        'Crea tu cuenta gratuita de Luces Beautiful para poder guardar tus cursos.',
-        [
-          { text: 'Crear Cuenta', onPress: this.onCreateAccount },
-          {
-            text: 'Cancelar',
-            style: 'cancel',
-          },
-        ],
-        { cancelable: true },
-      )
+      return this.userRequiredAlert({
+        title: '¿Quiere guardar tus cursos favoritos?',
+        subtitle: 'Crea tu cuenta gratuita de Luces Beautiful para poder guardar tus cursos.',
+      })
     }
 
     try {
@@ -163,14 +120,34 @@ class Course extends Component {
     }
   }
 
+  focusTextInput = (commentId) => {
+    const { user } = this.props
+    if (!user) {
+      return this.userRequiredAlert({
+        title: '¿Quieres ser parte de la comunidad?',
+        subtitle: 'Crea tu cuenta gratuita de Luces Beautiful para poder comentar',
+      })
+    }
+
+    this.setState({
+      withFocus: true,
+      commentId,
+    })
+  }
+
+  onBlurTextInput = () => {
+    this.setState({
+      withFocus: false,
+      commentId: undefined,
+    })
+  }
+
   renderScene = ({ route }) => {
-    const { navigation } = this.props
-    const { selectedVideo, videos, course } = this.state
-    const { id } = course
+    const { selectedVideo, videos } = this.state
 
     switch (route.key) {
     case 'comments':
-      return <Comments navigation={navigation} courseId={id} scroll={this.scroll} />
+      return <Comments />
     case 'description':
       if (!Number.isInteger(selectedVideo)) {
         return null
@@ -189,94 +166,47 @@ class Course extends Component {
     }
   };
 
-  onError = (event) => {
-    console.log(event)
-    // alert(`onError ${JSON.stringify(event.error)}`)
-    this.setState({ error: event.error })
-  }
-
-  onChangeState = (event) => {
-    this.setStatusState(event.state)
-  }
-
-  setStatusState (stateName) {
-    this.setState((state) => ({
-      state: Object.assign({}, state.state, { [stateName]: true }),
-    }))
-  }
-
-  componentWillUnmount () {
-    clearTimeout(this.timeout)
-  }
-
-  addTimeout () {
-    const { lastTimeout = 200 } = this
-    this.lastTimeout = lastTimeout * 1.5
-    this.timeout = setTimeout(() => {
-      this.setState((state) => ({
-        playerHack: state.playerHack === 0 ? 1 : 0,
-      }))
-      this.addTimeout()
-    }, this.lastTimeout)
-  }
-
-  onReady = () => {
-    this.setStatusState('ready')
-    if (Platform.OS === 'android') {
-      this.addTimeout()
-    }
-  }
-
   onBack = () => {
     this.props.navigation.dispatch(NavigationActions.back())
   }
 
-  getPlayer () {
-    const { height } = Dimensions.get('window')
-    const { selectedVideo, videos, playerHack } = this.state
-    if (Number.isInteger(selectedVideo)) {
-      const video = videos[selectedVideo]
-      return (
-        <YouTube
-          videoId={video.youtubeId}
-          play={false}
-          apiKey={API_KEY}
-          fullscreen={Platform.OS === 'ios'}
-          controls={1}
-          loop={false}
-          rel={false}
-          showinfo={false}
-          onReady={this.onReady}
-          onChangeState={this.onChangeState}
-          onChangeQuality={e => this.setState({ quality: e.quality })}
-          onError={this.onError}
-          onChangeFullscreen={() => StatusBar.setHidden(false)}
-          style={[
-            { height: PixelRatio.roundToNearestPixel((height + playerHack) / (3 / 1)) },
-            styles.video,
-          ]} />
-      )
-    } else {
-      return <View style={styles.video} />
-    }
+  addComment = (comment) => {
+    const { comments } = this.state
+
+    this.setState({
+      comments: [comment].concat(comments),
+    })
   }
 
-  renderPager = props => (
-    <PagerPan {...props} />
-  );
-
   render () {
-    const { isLoading, course } = this.state
+    const { isLoading, course, withFocus, selectedVideo, videos, comments } = this.state
     const { name, favorite } = course
-    // const behavior = Platform.OS === 'ios' ? 'position' : undefined
     const shareText = `Descarga Luces Beautiful app y aprende como yo con clases gratuitas! ${link}`
+    const { id } = course
+
+    let video
+
+    if (Number.isInteger(selectedVideo)) {
+      video = videos[selectedVideo]
+    }
+
+    const keyboardChildren = withFocus ? (<CommentBox />) : null
+
+    const commentsContext = {
+      video,
+      userRequiredAlert: this.userRequiredAlert,
+      focusTextInput: this.focusTextInput,
+      comments,
+      courseId: id,
+      addComment: this.addComment,
+      onBlurTextInput: this.onBlurTextInput,
+    }
+
     return (
-      <Container scroll isLoading={isLoading} style={{ flex: 1 }}>
-        <KeyboardAwareScrollView innerRef={ref => {
-          this.scroll = ref
-        }} >
+      <CourseContextProvider value={commentsContext}>
+        <Container scroll isLoading={isLoading} style={{ flex: 1 }} keyboardChildren={keyboardChildren}>
           <TopBar text='Video' modal onBack={this.onBack} shareText={shareText} />
-          {this.getPlayer()}
+          <Player video={video} />
           <View style={styles.container2}>
             <Text style={styles.title}>{name}</Text>
             <FavoriteButton title='Guardar' isFavorite={!!favorite} onPress={this.toggleFavorite} />
@@ -286,12 +216,12 @@ class Course extends Component {
             style={{ flex: 1 }}
             navigationState={this.state}
             renderScene={this.renderScene}
-            renderTabBar={this.getTabBar}
-            renderPager={this.renderPager}
+            renderTabBar={getTabBar}
+            renderPager={renderPager}
             onIndexChange={this.onIndexChange}
             initialLayout={initialLayout} />
-        </KeyboardAwareScrollView>
-      </Container>
+        </Container>
+      </CourseContextProvider>
     )
   }
 }
@@ -301,10 +231,6 @@ const styles = {
     marginTop: 5,
     width: 20,
     height: 20,
-  },
-  video: {
-    alignSelf: 'stretch',
-    backgroundColor: colors.black,
   },
   backContainer: {
     position: 'absolute',
@@ -316,20 +242,6 @@ const styles = {
   back: {
     width: 36,
     height: 36,
-  },
-  label: {
-    // color: colors.darkTan,
-    fontSize: 18,
-    fontWeight: '500',
-  },
-  indicator: {
-    backgroundColor: colors.darkTan,
-    height: 3,
-  },
-  header: {
-    backgroundColor: colors.black,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gunmetal,
   },
   title: {
     fontSize: 24,

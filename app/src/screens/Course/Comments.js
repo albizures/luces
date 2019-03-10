@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { View, Text, TextInput, Image, findNodeHandle, Alert } from 'react-native'
+import { View, Text, TextInput, Image } from 'react-native'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
@@ -8,42 +8,16 @@ import { withUser } from '../../components/UserContext'
 import createUrl from '../../utils/createUrl'
 import colors from '../../utils/colors'
 import http from '../../utils/http'
+import { withCourseContext, CourseContextShape } from './CourseContext'
 
 class Comments extends PureComponent {
   static propTypes = {
     user: PropTypes.object,
-    courseId: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    navigation: PropTypes.object.isRequired,
-    scroll: PropTypes.object,
+    courseContext: PropTypes.shape(CourseContextShape).isRequired,
   }
 
   state = {
-    comments: [],
     text: '',
-  }
-
-  async getComments () {
-    const { courseId } = this.props
-    try {
-      const { data: comments } = await http.get(`courses/${courseId}/comments`)
-      this.setState({ comments })
-    } catch (error) {
-      alert('Algo salio mal, intentelo mas tarde')
-    }
-  }
-
-  componentDidUpdate (prevProps) {
-    if (this.props.courseId && prevProps.courseId !== this.props.courseId) {
-      this.getComments()
-    }
-  }
-
-  async componentDidMount () {
-    const { courseId } = this.props
-    if (courseId) this.getComments()
   }
 
   // state = {
@@ -74,50 +48,6 @@ class Comments extends PureComponent {
   //     }
   //   ]
   // }
-  onCreateAccount = () => {
-    const { navigation } = this.props
-
-    navigation.navigate('SignUp')
-  }
-
-  userRequiredAlert = () => {
-    Alert.alert(
-      '¿Quieres ser parte de la comunidad?',
-      'Crea tu cuenta gratuita de Luces Beautiful para poder comentar',
-      [
-        { text: 'Crear Cuenta', onPress: this.onCreateAccount },
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-      ],
-      { cancelable: true },
-    )
-  }
-
-  onSubmit = async (evt) => {
-    const { user } = this.props
-    const { text: comment, comments } = this.state
-    const { courseId } = this.props
-
-    if (!user) {
-      return this.userRequiredAlert()
-    }
-
-    if (!comment || (comment.trim().length === 0)) {
-      return
-    }
-    try {
-      const { data: newComment } = await http.post(`courses/${courseId}/comment`, { comment: comment.trim() })
-
-      this.setState({
-        text: '',
-        comments: [newComment].concat(comments),
-      })
-    } catch (error) {
-      alert('No se pudo agregar el comentario')
-    }
-  }
 
   setCommentState (comment, likes, liked, index) {
     const { comments } = this.state
@@ -130,17 +60,21 @@ class Comments extends PureComponent {
   }
 
   onFocus = (evt) => {
-    const { scroll } = this.props
-    const node = findNodeHandle(evt.target)
-    scroll.props.scrollToFocusedInput(node)
+    const { focusTextInput } = this.props.courseContext
+
+    focusTextInput()
   }
 
   async toggleLike (comment, index) {
     const { user } = this.props
+    const { userRequiredAlert } = this.props.courseContext
     const { id, liked } = comment
 
     if (!user) {
-      return this.userRequiredAlert()
+      return userRequiredAlert({
+        title: '¿Quieres ser parte de la comunidad?',
+        subtitle: 'Crea tu cuenta gratuita de Luces Beautiful para poder comentar.',
+      })
     }
 
     try {
@@ -184,21 +118,21 @@ class Comments extends PureComponent {
   }
 
   render () {
-    const { comments, text } = this.state
+    const { comments } = this.props.courseContext
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.inputContainer}>
-          <Text style={styles.commentsCount}>{comments.length} comentarios</Text>
+          <Text style={styles.commentsCount}>{comments.length} {comments.length === 1 ? 'comentario' : 'comentarios'} </Text>
           <TextInput
-            onSubmitEditing={this.onSubmit}
-            blurOnSubmit
-            onChangeText={(text) => this.setState({ text })}
-            value={text}
+            // onSubmitEditing={this.onSubmit}
+            // blurOnSubmit
+            // onChangeText={(text) => this.setState({ text })}
+            // value={text}
             onFocus={this.onFocus}
             placeholderTextColor={colors.whiteTwo}
             placeholder='Escribe un comentario…'
-            style={styles.input}
-            numberOfLines={4} />
+            // numberOfLines={4}
+            style={styles.input} />
         </View>
         {comments.map(this.getComment)}
       </View>
@@ -267,7 +201,6 @@ const styles = {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    // alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 10,
@@ -279,13 +212,13 @@ const styles = {
     marginTop: 20,
   },
   input: {
-    padding: 10,
+    paddingHorizontal: 10,
     color: colors.whiteTwo,
     backgroundColor: colors.gunmetal,
     borderRadius: 6,
-    height: 60,
+    height: 40,
     width: '100%',
   },
 }
 
-export default withUser(Comments)
+export default withCourseContext(withUser(Comments))
