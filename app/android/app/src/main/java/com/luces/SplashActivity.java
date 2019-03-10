@@ -1,4 +1,4 @@
-package com.luces;
+package com.luces.app;
 
 import android.content.Intent;
 import android.os.Bundle;

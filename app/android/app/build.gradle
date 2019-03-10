@@ -97,7 +97,7 @@ android {
     compileSdkVersion 26
 
     defaultConfig {
-        applicationId "com.luces"
+        applicationId "com.luces.app"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 27

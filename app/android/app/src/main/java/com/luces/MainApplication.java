@@ -1,4 +1,4 @@
-package com.luces;
+package com.luces.app;
 
 import android.app.Application;
 import com.facebook.CallbackManager;

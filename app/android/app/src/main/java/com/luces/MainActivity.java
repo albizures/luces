@@ -1,4 +1,4 @@
-package com.luces;
+package com.luces.app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;

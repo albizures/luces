@@ -26,7 +26,7 @@ const initialLayout = {
 
 const link = Platform.OS === 'ios'
   ? 'https://itunes.apple.com/us/app/luces-beautiful-app/id1449402928'
-  : 'https://play.google.com/store/apps/details?id=com.luces'
+  : 'https://play.google.com/store/apps/details?id=com.luces.app'
 
 class Videos extends PureComponent {
   static propTypes = {
