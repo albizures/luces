@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import LinearGradient from 'react-native-linear-gradient'
 import { SafeAreaView, View, ViewPropTypes, Platform, ScrollView, RefreshControl, ImageBackground } from 'react-native'
+import { KeyboardAccessoryView } from 'react-native-keyboard-accessory'
 
 import Loading from './Loading'
 import colors from '../utils/colors'
@@ -9,7 +10,19 @@ import ConditionalRender from './ConditionalRender'
 
 const top = Platform.OS === 'ios' ? 20 : 0
 
-const Container = ({ scroll, isLoading, children, style, gradient, topBar, onRefresh, refreshing, backgroundImage }) => {
+const Container = (props) => {
+  const {
+    scroll,
+    isLoading,
+    children,
+    style,
+    gradient,
+    topBar,
+    onRefresh,
+    refreshing,
+    backgroundImage,
+    keyboardChildren,
+  } = props
   const refreshControl = scroll && onRefresh && refreshing !== undefined ? (
     <RefreshControl
       refreshing={refreshing}
@@ -35,6 +48,12 @@ const Container = ({ scroll, isLoading, children, style, gradient, topBar, onRef
     keyboardDismissMode: 'on-drag',
   }
 
+  const keyboard = keyboardChildren ? (
+    <KeyboardAccessoryView alwaysVisible>
+      {keyboardChildren}
+    </KeyboardAccessoryView>
+  ) : null
+
   return (
     <SafeAreaView style={styles.container}>
       <Loading top={top} isLoading={isLoading}>
@@ -46,6 +65,7 @@ const Container = ({ scroll, isLoading, children, style, gradient, topBar, onRef
                 {children}
               </View>
             </ConditionalRender>
+            {keyboard}
           </ConditionalRender>
         </ConditionalRender>
       </Loading>
@@ -63,6 +83,7 @@ Container.propTypes = {
   isLoading: PropTypes.bool,
   style: ViewPropTypes.style,
   scroll: PropTypes.bool,
+  keyboardChildren: PropTypes.node,
 }
 
 const styles = {
