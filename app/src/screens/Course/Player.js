@@ -22,7 +22,6 @@ class Player extends Component {
   }
 
   onError = (event) => {
-    console.log(event)
     // alert(`onError ${JSON.stringify(event.error)}`)
     this.setState({ error: event.error })
   }

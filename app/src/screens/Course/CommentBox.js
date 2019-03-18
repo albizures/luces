@@ -4,6 +4,7 @@ import { View, StyleSheet, TextInput, Text } from 'react-native'
 
 import colors from '../../utils/colors'
 import http from '../../utils/http'
+import { showPicker } from './utils'
 import { withCourseContext, CourseContextShape } from './CourseContext'
 
 class CommentBox extends Component {
@@ -22,7 +23,16 @@ class CommentBox extends Component {
     this.textInput.current.focus()
   }
 
-  onAddImage = () => {}
+  onAddImage = async () => {
+    try {
+      const source = await showPicker()
+      this.setState({
+        image: source,
+      })
+    } catch (error) {
+      console.error('onAddImage', error)
+    }
+  }
 
   updateSize = (height) => {
     this.setState({
@@ -30,21 +40,52 @@ class CommentBox extends Component {
     })
   }
 
-  onSubmit = async () => {
-    const { text } = this.state
-    const { addComment, courseId } = this.props.courseContext
+  getFormData (comment, image) {
+    if (!image) {
+      return { comment }
+    }
 
+    const formData = new FormData()
+
+    formData.append('comment', comment)
+    formData.append('image', image)
+
+    return formData
+  }
+
+  postComment (isThereAImage, formData) {
+    const { courseId } = this.props.courseContext
+
+    if (isThereAImage) {
+      return http.postWithFile(`courses/${courseId}/comment/image`, formData)
+    }
+
+    return http.post(`courses/${courseId}/comment`, formData)
+  }
+
+  onSubmit = async () => {
+    const { text, image } = this.state
+    const { addComment } = this.props.courseContext
     const comment = text.trim()
 
-    if (!comment || comment.length === 0) {
+    const isThereAComment = Boolean(comment && comment.length !== 0)
+    const isThereAImage = Boolean(image)
+
+    if (!(isThereAComment && isThereAImage)) {
       return
     }
 
     try {
-      const { data: newComment } = await http.post(`courses/${courseId}/comment`, { comment })
+      const formData = this.getFormData(comment, image)
+      const { data: newComment } = await this.postComment(isThereAImage, formData)
+      console.log(newComment)
 
       addComment(newComment)
     } catch (error) {
+      console.error(error)
+      console.log(error.code)
+      console.log(error.config)
+
       alert('No se pudo agregar el comentario')
     }
   }
@@ -54,7 +95,7 @@ class CommentBox extends Component {
     const { text, height } = this.state
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { height: height + 20 }]}>
         <Text style={styles.add} onPress={this.onAddImage}>
           +
         </Text>

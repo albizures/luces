@@ -49,7 +49,7 @@ const Container = (props) => {
   }
 
   const keyboard = keyboardChildren ? (
-    <KeyboardAccessoryView alwaysVisible>
+    <KeyboardAccessoryView alwaysVisible androidAdjustResize>
       {keyboardChildren}
     </KeyboardAccessoryView>
   ) : null

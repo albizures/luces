@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, StyleSheet, Platform, Alert } from 'react-native'
 import { TabBar, PagerPan } from 'react-native-tab-view'
+import ImagePicker from 'react-native-image-picker'
 
 import colors from '../../utils/colors'
 
@@ -60,6 +61,27 @@ export const userRequiredAlert = (defaultOnPress) => (options) => {
     { cancelable: true },
   )
 }
+
+export const showPicker = () => new Promise((resolve, reject) => {
+  ImagePicker.showImagePicker({}, (response) => {
+    if (response.didCancel) {
+      return reject(new Error('Cancelado'))
+    }
+
+    if (response.error) {
+      reject(response.error)
+    }
+
+    const { uri, type, fileName: name } = response
+    resolve({
+      uri: Platform.OS === 'android'
+        ? uri
+        : uri.replace('file://', ''),
+      type,
+      name,
+    })
+  })
+})
 
 const styles = StyleSheet.create({
   label: {

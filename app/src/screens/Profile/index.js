@@ -37,7 +37,6 @@ export default class Profile extends Component {
     try {
       const { data } = await http.get('login/me')
       const { data: courses = [] } = await http.get('favorites')
-      console.log(courses)
 
       this.setState({
         ...data,

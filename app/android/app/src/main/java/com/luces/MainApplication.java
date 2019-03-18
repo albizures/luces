@@ -12,7 +12,7 @@ import com.facebook.soloader.SoLoader;
 import com.facebook.appevents.AppEventsLogger;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
-
+import com.imagepicker.ImagePickerPackage; 
 import com.BV.LinearGradient.LinearGradientPackage;
 
 import java.util.Arrays;
@@ -32,9 +32,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new SplashScreenReactPackage(),
-            new FBSDKPackage(mCallbackManager),
-            new ReactNativeYouTube(),
+          new SplashScreenReactPackage(),
+          new ImagePickerPackage(),
+          new FBSDKPackage(mCallbackManager),
+          new ReactNativeYouTube(),
           new LinearGradientPackage()
       );
     }

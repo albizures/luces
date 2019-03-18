@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Image, Text, StyleSheet } from 'react-native'
+import FitImage from 'react-native-fit-image'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
@@ -9,6 +10,8 @@ import http from '../../utils/http'
 import { withUser } from '../../components/UserContext'
 import Heart from '../../components/Heart'
 import { withCourseContext, CourseContextShape } from './CourseContext'
+
+// const { width } = Dimensions.get('window')
 
 class Comment extends Component {
   static propTypes = {
@@ -58,12 +61,16 @@ class Comment extends Component {
 
   render () {
     const { comment } = this.props
-    const { comment: text, userName, date, cover } = comment
+    const { comment: text, userName, date, cover, image } = comment
     const { liked, likes } = this.state
 
     const source = cover
       ? { uri: createUrl(cover) }
       : require('../../assets/account.png')
+
+    const sourceImage = image
+      ? { uri: createUrl(image) }
+      : false
 
     return (
       <View style={styles.comment}>
@@ -71,6 +78,11 @@ class Comment extends Component {
         <View style={styles.commentContainer}>
           <Text style={styles.userName}>{userName}</Text>
           <Text style={styles.text}>{text}</Text>
+          { sourceImage && (
+            <View style={styles.imageContainer}>
+              <FitImage source={sourceImage} style={styles.image} />
+            </View>
+          )}
           <View style={styles.commentBottom}>
             <View style={styles.dateContainer}>
               <Text style={styles.date}>{dayjs(date).format('D MMMM, YYYY')}</Text>
@@ -89,6 +101,17 @@ class Comment extends Component {
 export default withCourseContext(withUser(Comment))
 
 const styles = StyleSheet.create({
+  imageContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'flex-start',
+    marginBottom: 20,
+  },
+  image: {
+    flex: 1,
+    alignSelf: 'stretch',
+    borderRadius: 8,
+  },
   like: {
     width: 14,
     height: 14,
@@ -147,5 +170,6 @@ const styles = StyleSheet.create({
   },
   commentContainer: {
     flex: 1,
+    alignItems: 'flex-start',
   },
 })
