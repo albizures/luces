@@ -22,5 +22,5 @@ exports.delete = asyncHandler(async (req, res) => {
   if (stats.isFile()) {
     await unlink(imagePath)
   }
-  res.json({1: true})
+  res.json({ 1: true })
 })

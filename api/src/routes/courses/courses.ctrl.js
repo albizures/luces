@@ -202,7 +202,8 @@ exports.getComments = asyncHandler(async (req, res) => {
       comment: 'comments.comment',
       date: 'comments.created_at',
       userName: 'users.name',
-      cover: 'users.cover'
+      cover: 'users.cover',
+      image: 'comments.image'
     }, id_user && { liked: 'likes.id_user' }))
     .select(knex.raw('IFNULL(likeCounter.likesCount, 0) as likes'))
     .leftJoin(
@@ -239,17 +240,27 @@ exports.getComments = asyncHandler(async (req, res) => {
   res.json(comments)
 })
 
+const extractImage = (req) => {
+  console.log('extractImage', req.file, req.files)
+  if (req.file) {
+    return req.file.path
+  }
+}
+
 exports.postComment = asyncHandler(async (req, res) => {
   const { id: id_course } = req.params
   const { id_user } = req.user
   const { comment } = req.body
+
+  const image = extractImage(req)
 
   const [id] = await knex('comments')
     .returning('id')
     .insert({
       id_course,
       id_user,
-      comment
+      comment,
+      image
     })
 
   const [newComment] = await knex('comments')
@@ -258,7 +269,8 @@ exports.postComment = asyncHandler(async (req, res) => {
       comment: 'comments.comment',
       date: 'comments.created_at',
       userName: 'users.name',
-      cover: 'users.cover'
+      cover: 'users.cover',
+      image: 'comments.image'
     })
     .join('users', 'users.id_user', 'comments.id_user')
     .where({
