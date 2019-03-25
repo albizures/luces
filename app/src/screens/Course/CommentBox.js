@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, TextInput, Text } from 'react-native'
+import { View, StyleSheet, TextInput, Text, Image, TouchableHighlight } from 'react-native'
 
 import colors from '../../utils/colors'
 import http from '../../utils/http'
@@ -16,27 +16,45 @@ class CommentBox extends Component {
 
   state = {
     text: '',
-    height: 40,
+    height: 30,
   }
 
   componentDidMount () {
     this.textInput.current.focus()
   }
 
-  onAddImage = async () => {
-    try {
-      const source = await showPicker()
-      this.setState({
-        image: source,
-      })
-    } catch (error) {
-      console.error('onAddImage', error)
+  onRemoveImage = () => {
+    this.setState({ image: undefined })
+    if (this.closeImage) {
+      this.closeImage()
     }
   }
 
-  updateSize = (height) => {
+  onAddImage = async () => {
+    const { expandImage } = this.props.courseContext
+
+    this.ignoreBlur = true
+    try {
+      const image = await showPicker()
+      this.closeImage = expandImage({
+        onModalClose: this.onRemoveImage,
+        image,
+      })
+
+      this.setState({ image })
+    } catch (error) {
+      console.error('onAddImage', error)
+    }
+
+    this.textInput.current.focus()
+    this.ignoreBlur = false
+  }
+
+  updateSize = (event) => {
+    const { height } = event.nativeEvent.contentSize
+
     this.setState({
-      height: height < 46 ? 46 : height,
+      height: height < 30 ? 30 : height,
     })
   }
 
@@ -88,28 +106,47 @@ class CommentBox extends Component {
 
       alert('No se pudo agregar el comentario')
     }
+
+    this.setState({ image: undefined }, () => {
+      this.textInput.current.blur()
+    })
+  }
+
+  onSetText = (text) => {
+    this.setState({ text })
+  }
+
+  onBlur = () => {
+    const { onBlurTextInput } = this.props.courseContext
+    if (!this.ignoreBlur) {
+      onBlurTextInput()
+    }
   }
 
   render () {
-    const { onBlurTextInput } = this.props.courseContext
-    const { text, height } = this.state
+    const { text, height, image } = this.state
 
     return (
       <View style={[styles.container, { height: height + 20 }]}>
-        <Text style={styles.add} onPress={this.onAddImage}>
+        {!image && <Text style={styles.add} onPress={this.onAddImage}>
           +
-        </Text>
+        </Text>}
         <TextInput
-          onSubmitEditing={this.onSubmit}
-          blurOnSubmit
           value={text}
-          onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
-          onChangeText={(text) => this.setState({ text })}
+          placeholder='Escribe un comentario…'
+          placeholderTextColor={colors.slateGrey}
+          onContentSizeChange={this.updateSize}
+          onChangeText={this.onSetText}
           ref={this.textInput}
-          onBlur={onBlurTextInput}
+          onBlur={this.onBlur}
           underlineColorAndroid='transparent'
           style={[styles.textInput, { height }]}
           multiline />
+        <TouchableHighlight onPress={this.onSubmit}>
+          <View style={styles.sendIconContaner}>
+            <Image style={styles.sendIcon} source={require('../../assets/send.png')} />
+          </View>
+        </TouchableHighlight>
       </View>
     )
   }
@@ -118,19 +155,33 @@ class CommentBox extends Component {
 export default withCourseContext(CommentBox)
 
 const styles = StyleSheet.create({
+  sendIcon: {
+    width: 13,
+    height: 13,
+  },
+  sendIconContaner: {
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgb(0, 122, 255)',
+    borderRadius: 50,
+    borderWidth: 0,
+    width: 30,
+    height: 30,
+    marginLeft: 10,
+  },
   textInput: {
-    borderRadius: 20,
-    backgroundColor: colors.whiteTwo,
+    borderRadius: 18,
+    backgroundColor: colors.silver,
     flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 14,
-    paddingBottom: 10,
-    textAlignVertical: 'top',
+    fontSize: 14,
+    lineHeight: 19,
+    paddingHorizontal: 14,
     borderWidth: 0,
   },
   container: {
     padding: 10,
-    backgroundColor: 'gray',
+    backgroundColor: colors.gunmetal,
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
