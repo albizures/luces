@@ -22,6 +22,7 @@ const Container = (props) => {
     refreshing,
     backgroundImage,
     keyboardChildren,
+    modal,
   } = props
   const refreshControl = scroll && onRefresh && refreshing !== undefined ? (
     <RefreshControl
@@ -49,7 +50,7 @@ const Container = (props) => {
   }
 
   const keyboard = keyboardChildren ? (
-    <KeyboardAccessoryView alwaysVisible androidAdjustResize>
+    <KeyboardAccessoryView hideBorder avoidKeyboard alwaysVisible androidAdjustResize>
       {keyboardChildren}
     </KeyboardAccessoryView>
   ) : null
@@ -65,6 +66,7 @@ const Container = (props) => {
                 {children}
               </View>
             </ConditionalRender>
+            {modal}
             {keyboard}
           </ConditionalRender>
         </ConditionalRender>
@@ -84,6 +86,7 @@ Container.propTypes = {
   style: ViewPropTypes.style,
   scroll: PropTypes.bool,
   keyboardChildren: PropTypes.node,
+  modal: PropTypes.node,
 }
 
 const styles = {
