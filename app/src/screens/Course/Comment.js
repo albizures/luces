@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, Text, StyleSheet } from 'react-native'
+import { View, Image, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import FitImage from 'react-native-fit-image'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
@@ -59,6 +59,15 @@ class Comment extends Component {
     }
   }
 
+  onPressImage = () => {
+    const { image } = this.props.comment
+    const { expandImage } = this.props.courseContext
+
+    expandImage({
+      image: { uri: createUrl(image) },
+    })
+  }
+
   render () {
     const { comment } = this.props
     const { comment: text, userName, date, cover, image } = comment
@@ -80,7 +89,9 @@ class Comment extends Component {
           <Text style={styles.text}>{text}</Text>
           { sourceImage && (
             <View style={styles.imageContainer}>
-              <FitImage source={sourceImage} style={styles.image} />
+              <TouchableHighlight onPress={this.onPressImage}>
+                <FitImage source={sourceImage} style={styles.image} />
+              </TouchableHighlight>
             </View>
           )}
           <View style={styles.commentBottom}>

@@ -1,8 +1,10 @@
-import { View, Text, Dimensions } from 'react-native'
+import { View, Text, Dimensions, TouchableWithoutFeedback, Image } from 'react-native'
 import { TabView } from 'react-native-tab-view'
 import React, { Component } from 'react'
 import { NavigationActions } from 'react-navigation'
 import PropTypes from 'prop-types'
+import Modal from '@albizures/react-native-modal'
+import FitImage from 'react-native-fit-image'
 
 import colors from '../../utils/colors'
 import http from '../../utils/http'
@@ -178,8 +180,50 @@ class Course extends Component {
     })
   }
 
+  onCloseModal = () => {
+    const { onModalClose } = this.state
+    this.setState({
+      image: undefined,
+      isModalVisible: false,
+      onModalClose: undefined,
+    }, onModalClose)
+  }
+
+  componentWillUnmount () {
+    this.onCloseModal()
+  }
+
+  expandImage = (config) => {
+    const { image, onModalClose } = config
+
+    console.log(image)
+
+    this.setState({
+      image,
+      isModalVisible: true,
+      onModalClose: onModalClose,
+    })
+
+    return () => {
+      this.setState({
+        image: undefined,
+        isModalVisible: false,
+        onModalClose: undefined,
+      })
+    }
+  }
+
   render () {
-    const { isLoading, course, withFocus, selectedVideo, videos, comments } = this.state
+    const {
+      isLoading,
+      course, withFocus,
+      selectedVideo,
+      videos,
+      comments,
+      isModalVisible,
+      image,
+      onModalClose,
+    } = this.state
     const { name, favorite } = course
     const shareText = `Descarga Luces Beautiful app y aprende como yo con clases gratuitas! ${link}`
     const { id } = course
@@ -200,11 +244,35 @@ class Course extends Component {
       courseId: id,
       addComment: this.addComment,
       onBlurTextInput: this.onBlurTextInput,
+      expandImage: this.expandImage,
     }
+
+    const imageModal = (
+      <Modal
+        avoidKeyboard
+        isVisible={isModalVisible}
+        onBackdropPress={this.onCloseModal}
+        onSwipeComplete={this.onCloseModal}
+        backdropOpacity={0.9}
+        swipeDirection='down'>
+        <TouchableWithoutFeedback onPress={this.onCloseModal}>
+          <View onPress={this.onCloseModal} style={{ flex: 1, width: '100%', alignContent: 'center', justifyContent: 'center', position: 'relative' }}>
+            {Boolean(onModalClose) && (
+              <Image style={{ position: 'absolute', right: 22, top: 22, height: 14, width: 14 }} source={require('../../assets/close.png')} />
+            )}
+            {Boolean(image) && (
+              <TouchableWithoutFeedback activeOpacity={1}>{/* this stop propagation */}
+                <FitImage source={image} />
+              </TouchableWithoutFeedback>
+            )}
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    )
 
     return (
       <CourseContextProvider value={commentsContext}>
-        <Container scroll isLoading={isLoading} style={{ flex: 1 }} keyboardChildren={keyboardChildren}>
+        <Container modal={imageModal} scroll isLoading={isLoading} style={{ flex: 1 }} keyboardChildren={keyboardChildren}>
           <TopBar text='Video' modal onBack={this.onBack} shareText={shareText} />
           <Player video={video} />
           <View style={styles.container2}>
