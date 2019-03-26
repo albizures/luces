@@ -236,7 +236,8 @@ exports.postComment = asyncHandler(async (req, res) => {
       date: 'comments.created_at',
       userName: 'users.name',
       cover: 'users.cover',
-      image: 'comments.image'
+      image: 'comments.image',
+      itComments: 'comments.itComments'
     })
     .join('users', 'users.id_user', 'comments.id_user')
     .where({
