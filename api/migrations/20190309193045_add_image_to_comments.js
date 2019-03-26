@@ -6,6 +6,6 @@ exports.up = (knex) => {
 
 exports.down = (knex) => {
   return knex.schema.alterTable('comments', (table) => {
-    table.string('image').nullable()
+    table.dropColumn('image')
   })
 }

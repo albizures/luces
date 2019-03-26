@@ -1,6 +1,23 @@
 const asyncHandler = require('express-async-handler')
 
 const knex = require('../../config/connection')
+const { getComments } = require('../../utils/queries')
+
+exports.getComments = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  let id_user
+
+  if (req.user) {
+    id_user = req.user.id_user
+  }
+
+  const comments = await getComments({
+    user: id_user,
+    comment: id
+  })
+
+  res.json(comments)
+})
 
 exports.postLike = asyncHandler(async (req, res) => {
   const { id: id_comment } = req.params

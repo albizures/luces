@@ -1,8 +1,9 @@
 const asyncHandler = require('express-async-handler')
-const Promise = require('bluebird')
 
 const knex = require('../../config/connection')
+const { getComments } = require('../../utils/queries')
 const downloadFile = require('../../utils/downloadFile')
+
 const { assign } = Object
 
 exports.get = asyncHandler(async (req, res) => {
@@ -196,46 +197,10 @@ exports.getComments = asyncHandler(async (req, res) => {
     id_user = req.user.id_user
   }
 
-  let query = knex('comments')
-    .select(assign({
-      id: 'comments.id',
-      comment: 'comments.comment',
-      date: 'comments.created_at',
-      userName: 'users.name',
-      cover: 'users.cover',
-      image: 'comments.image'
-    }, id_user && { liked: 'likes.id_user' }))
-    .select(knex.raw('IFNULL(likeCounter.likesCount, 0) as likes'))
-    .leftJoin(
-      knex('likes')
-        .select({
-          id_comment: 'likes.id_comment'
-        })
-        .count('likes.id_comment as likesCount')
-        .where({
-          'likes.deleted': false
-        })
-        .groupBy('likes.id_comment')
-        .as('likeCounter'),
-      'comments.id',
-      '=',
-      'likeCounter.id_comment',
-      'LEFT'
-    )
-
-  if (id_user) {
-    query = query.leftJoin(knex.raw(`likes as likes on likes.id_user = ${id_user} and comments.id = likes.id_comment and likes.deleted = 0`))
-  }
-
-  const comments = await query.join('courses', 'comments.id_course', 'courses.id')
-    .join('users', 'comments.id_user', 'users.id_user')
-    .orderBy('comments.created_at', 'desc')
-    .where({
-      'courses.id': id,
-      'users.deleted': false,
-      'courses.deleted': false,
-      'comments.deleted': false
-    })
+  const comments = await getComments({
+    user: id_user,
+    course: id
+  })
 
   res.json(comments)
 })
@@ -250,7 +215,7 @@ const extractImage = (req) => {
 exports.postComment = asyncHandler(async (req, res) => {
   const { id: id_course } = req.params
   const { id_user } = req.user
-  const { comment } = req.body
+  const { comment, itComments } = req.body
 
   const image = extractImage(req)
 
@@ -260,7 +225,8 @@ exports.postComment = asyncHandler(async (req, res) => {
       id_course,
       id_user,
       comment,
-      image
+      image,
+      itComments
     })
 
   const [newComment] = await knex('comments')
