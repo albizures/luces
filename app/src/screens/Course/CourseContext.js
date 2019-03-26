@@ -23,6 +23,7 @@ export const CourseContextShape = {
     PropTypes.string,
     PropTypes.number,
   ]),
+  itComments: PropTypes.number,
   expandImage: PropTypes.func.isRequired,
   comments: PropTypes.array.isRequired,
   addComment: PropTypes.func.isRequired,

@@ -10,8 +10,7 @@ import http from '../../utils/http'
 import { withUser } from '../../components/UserContext'
 import Heart from '../../components/Heart'
 import { withCourseContext, CourseContextShape } from './CourseContext'
-
-// const { width } = Dimensions.get('window')
+import FakeCommentBox from './FakeCommentBox'
 
 class Comment extends Component {
   static propTypes = {
@@ -29,6 +28,7 @@ class Comment extends Component {
     this.state = {
       liked,
       likes,
+      showComments: false,
     }
   }
 
@@ -68,9 +68,63 @@ class Comment extends Component {
     })
   }
 
+  onFocus = (evt) => {
+    const { id } = this.props.comment
+    const { comments } = this.state
+    const { focusTextInput } = this.props.courseContext
+
+    focusTextInput(id, (comment) => {
+      this.setState({
+        comments: [comment].concat(comments),
+      })
+    })
+  }
+
+  onComments = async () => {
+    const { id } = this.props.comment
+    this.setState({
+      showComments: true,
+    })
+
+    try {
+      const { data: comments } = await http.get(`comments/${id}/comments`)
+
+      this.setState({ comments })
+    } catch (error) {
+      this.setState({ showComments: false })
+    }
+  }
+
+  getComments = () => {
+    const { showComments, comments } = this.state
+
+    if (!showComments) {
+      return null
+    }
+
+    const elements = (comments && comments.length > 0)
+      ? comments.map((comment) => (
+        <Comment key={comment.id} courseContext={this.props.courseContext} comment={comment} />
+      ))
+      : (
+        <Text style={{ marginTop: 20, marginBottom: 10, textAlign: 'center', color: colors.white }}>Sé el primero en comentar</Text>
+      )
+
+    return (
+      <View style={styles.commentsContainer}>
+        <View style={{ marginLeft: 20, marginRight: 20, marginTop: 20 }}>
+          <FakeCommentBox onFocus={this.onFocus} />
+        </View>
+        <View style={styles.comments}>
+          {elements}
+        </View>
+      </View>
+    )
+  }
+
   render () {
     const { comment } = this.props
-    const { comment: text, userName, date, cover, image } = comment
+    const { comment: text, userName, date, cover, image, itComments } = comment
     const { liked, likes } = this.state
 
     const source = cover
@@ -81,29 +135,39 @@ class Comment extends Component {
       ? { uri: createUrl(image) }
       : false
 
+    const comments = this.getComments()
+
+    const itDoComments = Number.isInteger(itComments)
+
     return (
-      <View style={styles.comment}>
-        <Image style={styles.photo} source={source} />
-        <View style={styles.commentContainer}>
-          <Text style={styles.userName}>{userName}</Text>
-          <Text style={styles.text}>{text}</Text>
-          { sourceImage && (
-            <View style={styles.imageContainer}>
-              <TouchableHighlight onPress={this.onPressImage}>
-                <FitImage source={sourceImage} style={styles.image} />
-              </TouchableHighlight>
-            </View>
-          )}
-          <View style={styles.commentBottom}>
-            <View style={styles.dateContainer}>
-              <Text style={styles.date}>{dayjs(date).format('D MMMM, YYYY')}</Text>
-            </View>
-            <View style={styles.likesContainer}>
-              <Text style={styles.likesCount} >{likes || 0} me gusta</Text>
-              <Heart style={styles.like} active={!!liked} onPress={this.toggleLike} />
+      <View style={[styles.container, itDoComments ? {} : styles.containerBorder]}>
+        <View style={styles.comment}>
+          <Image style={styles.photo} source={source} />
+          <View style={styles.commentContainer}>
+            <Text style={styles.userName}>{userName}</Text>
+            <Text style={styles.text}>{text}</Text>
+            { sourceImage && (
+              <View style={styles.imageContainer}>
+                <TouchableHighlight onPress={this.onPressImage}>
+                  <FitImage source={sourceImage} style={styles.image} />
+                </TouchableHighlight>
+              </View>
+            )}
+            <View style={styles.commentBottom}>
+              <View style={styles.dateContainer}>
+                <Text style={styles.date}>{dayjs(date).format('D MMMM, YYYY')}</Text>
+              </View>
+              <View style={styles.likesContainer}>
+                <Text style={styles.likesCount} >{likes || 0} me gusta</Text>
+                {!itDoComments && (
+                  <Text style={styles.likesCount} onPress={this.onComments} >comentarios</Text>
+                )}
+                <Heart style={styles.like} active={!!liked} onPress={this.toggleLike} />
+              </View>
             </View>
           </View>
         </View>
+        {comments}
       </View>
     )
   }
@@ -112,6 +176,14 @@ class Comment extends Component {
 export default withCourseContext(withUser(Comment))
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingBottom: 10,
+  },
+  containerBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gunmetal,
+  },
   imageContainer: {
     flex: 1,
     width: '100%',
@@ -169,9 +241,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 20,
     paddingTop: 20,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gunmetal,
+  },
+  commentsContainer: {
+    marginLeft: 50,
+  },
+  comments: {
+    flex: 1,
   },
   photo: {
     height: 40,

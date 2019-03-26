@@ -122,7 +122,7 @@ class Course extends Component {
     }
   }
 
-  focusTextInput = (commentId) => {
+  focusTextInput = (itComments, addSubComment) => {
     const { user } = this.props
     if (!user) {
       return this.userRequiredAlert({
@@ -133,14 +133,16 @@ class Course extends Component {
 
     this.setState({
       withFocus: true,
-      commentId,
+      addSubComment,
+      itComments,
     })
   }
 
   onBlurTextInput = () => {
     this.setState({
       withFocus: false,
-      commentId: undefined,
+      addSubComment: undefined,
+      itComments: undefined,
     })
   }
 
@@ -173,9 +175,21 @@ class Course extends Component {
   }
 
   addComment = (comment) => {
-    const { comments } = this.state
+    const { comments, addSubComment } = this.state
+
+    if (addSubComment) {
+      this.setState({
+        withFocus: false,
+        addSubComment: undefined,
+        itComments: undefined,
+      }, () => {
+        addSubComment(comment)
+      })
+      return
+    }
 
     this.setState({
+      withFocus: false,
       comments: [comment].concat(comments),
     })
   }
@@ -195,8 +209,6 @@ class Course extends Component {
 
   expandImage = (config) => {
     const { image, onModalClose } = config
-
-    console.log(image)
 
     this.setState({
       image,
@@ -223,6 +235,7 @@ class Course extends Component {
       isModalVisible,
       image,
       onModalClose,
+      itComments,
     } = this.state
     const { name, favorite } = course
     const shareText = `Descarga Luces Beautiful app y aprende como yo con clases gratuitas! ${link}`
@@ -245,6 +258,7 @@ class Course extends Component {
       addComment: this.addComment,
       onBlurTextInput: this.onBlurTextInput,
       expandImage: this.expandImage,
+      itComments,
     }
 
     const imageModal = (
@@ -258,7 +272,7 @@ class Course extends Component {
         <TouchableWithoutFeedback onPress={this.onCloseModal}>
           <View onPress={this.onCloseModal} style={{ flex: 1, width: '100%', alignContent: 'center', justifyContent: 'center', position: 'relative' }}>
             {Boolean(onModalClose) && (
-              <Image style={{ position: 'absolute', right: 22, top: 22, height: 14, width: 14 }} source={require('../../assets/close.png')} />
+              <Image style={{ position: 'absolute', right: 0, top: 20, height: 14, width: 14 }} source={require('../../assets/close.png')} />
             )}
             {Boolean(image) && (
               <TouchableWithoutFeedback activeOpacity={1}>{/* this stop propagation */}

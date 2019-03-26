@@ -58,15 +58,16 @@ class CommentBox extends Component {
     })
   }
 
-  getFormData (comment, image) {
+  getFormData (comment, image, itComments) {
     if (!image) {
-      return { comment }
+      return { comment, itComments }
     }
 
     const formData = new FormData()
 
     formData.append('comment', comment)
     formData.append('image', image)
+    formData.append('itComments', itComments)
 
     return formData
   }
@@ -83,20 +84,23 @@ class CommentBox extends Component {
 
   onSubmit = async () => {
     const { text, image } = this.state
-    const { addComment } = this.props.courseContext
+    const { addComment, itComments } = this.props.courseContext
     const comment = text.trim()
 
     const isThereAComment = Boolean(comment && comment.length !== 0)
     const isThereAImage = Boolean(image)
 
-    if (!(isThereAComment && isThereAImage)) {
+    if (!isThereAComment && !isThereAImage) {
       return
     }
 
     try {
-      const formData = this.getFormData(comment, image)
+      const formData = this.getFormData(comment, image, itComments)
       const { data: newComment } = await this.postComment(isThereAImage, formData)
-      console.log(newComment)
+
+      if (this.closeImage) {
+        this.closeImage()
+      }
 
       addComment(newComment)
     } catch (error) {
@@ -107,9 +111,9 @@ class CommentBox extends Component {
       alert('No se pudo agregar el comentario')
     }
 
-    this.setState({ image: undefined }, () => {
-      this.textInput.current.blur()
-    })
+    // this.setState({ image: undefined }, () => {
+    //   this.textInput.current.blur()
+    // })
   }
 
   onSetText = (text) => {
@@ -142,7 +146,7 @@ class CommentBox extends Component {
           underlineColorAndroid='transparent'
           style={[styles.textInput, { height }]}
           multiline />
-        <TouchableHighlight onPress={this.onSubmit}>
+        <TouchableHighlight style={{ marginLeft: 10 }} onPress={this.onSubmit}>
           <View style={styles.sendIconContaner}>
             <Image style={styles.sendIcon} source={require('../../assets/send.png')} />
           </View>
@@ -168,7 +172,6 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     width: 30,
     height: 30,
-    marginLeft: 10,
   },
   textInput: {
     borderRadius: 18,

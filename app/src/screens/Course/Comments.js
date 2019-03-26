@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react'
-import { View, Text, TextInput } from 'react-native'
+import { View, Text } from 'react-native'
 import PropTypes from 'prop-types'
 
 import colors from '../../utils/colors'
 import Comment from './Comment'
+import FakeCommentBox from './FakeCommentBox'
 import { withCourseContext, CourseContextShape } from './CourseContext'
 
 class Comments extends PureComponent {
@@ -53,16 +54,7 @@ class Comments extends PureComponent {
       <View style={{ flex: 1 }}>
         <View style={styles.inputContainer}>
           <Text style={styles.commentsCount}>{comments.length} {comments.length === 1 ? 'comentario' : 'comentarios'} </Text>
-          <TextInput
-            // onSubmitEditing={this.onSubmit}
-            // blurOnSubmit
-            // onChangeText={(text) => this.setState({ text })}
-            // value={text}
-            onFocus={this.onFocus}
-            placeholderTextColor={colors.whiteTwo}
-            placeholder='Escribe un comentario…'
-            // numberOfLines={4}
-            style={styles.input} />
+          <FakeCommentBox onFocus={this.onFocus} />
         </View>
         {comments.map((comment) => (
           <Comment key={comment.id} comment={comment} />
@@ -82,14 +74,6 @@ const styles = {
   inputContainer: {
     marginHorizontal: 20,
     marginTop: 20,
-  },
-  input: {
-    paddingHorizontal: 10,
-    color: colors.whiteTwo,
-    backgroundColor: colors.gunmetal,
-    borderRadius: 6,
-    height: 40,
-    width: '100%',
   },
 }
 
