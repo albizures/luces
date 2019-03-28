@@ -100,8 +100,8 @@ android {
         applicationId "com.luces.app"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 27
-        versionName "1.0.5"
+        versionCode 28
+        versionName "1.0.6"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
