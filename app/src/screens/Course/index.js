@@ -57,7 +57,7 @@ class Course extends Component {
       const [
         { data: course },
         { data: videos },
-        { data: comments },
+        { data: comments = [] },
       ] = await Promise.all([
         http.get(`courses/${id}`),
         http.get(`courses/${id}/videos`),
@@ -270,9 +270,9 @@ class Course extends Component {
         backdropOpacity={0.9}
         swipeDirection='down'>
         <TouchableWithoutFeedback onPress={this.onCloseModal}>
-          <View onPress={this.onCloseModal} style={{ flex: 1, width: '100%', alignContent: 'center', justifyContent: 'center', position: 'relative' }}>
+          <View onPress={this.onCloseModal} style={{ flex: 1, position: 'relative', alignContent: 'center', justifyContent: 'center', marginVertical: 30 }}>
             {Boolean(onModalClose) && (
-              <Image style={{ position: 'absolute', right: 0, top: 20, height: 14, width: 14 }} source={require('../../assets/close.png')} />
+              <Image style={{ position: 'absolute', right: 0, top: -20, height: 14, width: 14 }} source={require('../../assets/close.png')} />
             )}
             {Boolean(image) && (
               <TouchableWithoutFeedback activeOpacity={1}>{/* this stop propagation */}

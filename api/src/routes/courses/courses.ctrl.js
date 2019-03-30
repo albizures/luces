@@ -219,15 +219,20 @@ exports.postComment = asyncHandler(async (req, res) => {
 
   const image = extractImage(req)
 
+  const data = {
+    id_course,
+    id_user,
+    comment,
+    image
+  }
+
+  if (Number.isInteger(itComments)) {
+    assign(data, { itComments })
+  }
+
   const [id] = await knex('comments')
     .returning('id')
-    .insert({
-      id_course,
-      id_user,
-      comment,
-      image,
-      itComments
-    })
+    .insert(data)
 
   const [newComment] = await knex('comments')
     .select({

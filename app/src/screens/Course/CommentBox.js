@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, TextInput, Text, Image, TouchableHighlight } from 'react-native'
+import { View, StyleSheet, TextInput, Image, TouchableHighlight } from 'react-native'
 
 import colors from '../../utils/colors'
 import http from '../../utils/http'
@@ -132,9 +132,11 @@ class CommentBox extends Component {
 
     return (
       <View style={[styles.container, { height: height + 20 }]}>
-        {!image && <Text style={styles.add} onPress={this.onAddImage}>
-          +
-        </Text>}
+        {!image && <View style={{ marginRight: 10 }}>
+          <TouchableHighlight onPress={this.onAddImage}>
+            <Image style={styles.add} source={require('../../assets/add.png')} />
+          </TouchableHighlight>
+        </View>}
         <TextInput
           value={text}
           placeholder='Escribe un comentario…'
@@ -191,11 +193,8 @@ const styles = StyleSheet.create({
     minHeight: 30,
   },
   add: {
-    fontSize: 40,
-    lineHeight: 36,
-    marginRight: 10,
-    fontWeight: '200',
+    width: 20,
+    height: 20,
     backgroundColor: 'transparent',
-    color: colors.whiteTwo,
   },
 })

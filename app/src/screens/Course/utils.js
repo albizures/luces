@@ -62,8 +62,16 @@ export const userRequiredAlert = (defaultOnPress) => (options) => {
   )
 }
 
+const config = {
+  noData: true,
+  storageOptions: {
+    cameraRoll: true,
+    waitUntilSaved: true,
+  },
+}
+
 export const showPicker = () => new Promise((resolve, reject) => {
-  ImagePicker.showImagePicker({}, (response) => {
+  ImagePicker.showImagePicker(config, (response) => {
     if (response.didCancel) {
       return reject(new Error('Cancelado'))
     }
@@ -74,9 +82,7 @@ export const showPicker = () => new Promise((resolve, reject) => {
 
     const { uri, type, fileName: name } = response
     resolve({
-      uri: Platform.OS === 'android'
-        ? uri
-        : uri.replace('file://', ''),
+      uri,
       type,
       name,
     })

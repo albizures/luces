@@ -28,6 +28,7 @@ class Comment extends Component {
     this.state = {
       liked,
       likes,
+      comments: [],
       showComments: false,
     }
   }
@@ -87,7 +88,7 @@ class Comment extends Component {
     })
 
     try {
-      const { data: comments } = await http.get(`comments/${id}/comments`)
+      const { data: comments = [] } = await http.get(`comments/${id}/comments`)
 
       this.setState({ comments })
     } catch (error) {
