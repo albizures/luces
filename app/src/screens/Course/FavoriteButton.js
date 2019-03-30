@@ -1,43 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TouchableHighlight, ViewPropTypes, Text, Image } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-
-import colors from '../../utils/colors'
+import { TouchableHighlight, ViewPropTypes, Image } from 'react-native'
 
 const FavoriteButton = (props) => {
   const { isFavorite } = props
   const image = isFavorite
-    ? require('../../assets/favorite_filled2.png')
-    : require('../../assets/favorite_active.png')
-
-  const gradientColors = isFavorite
-    ? ['#c79a63', '#d9b992']
-    : ['transparent', 'transparent']
+    ? require('../../assets/fav_filled.png')
+    : require('../../assets/fav.png')
 
   const containerStyles = [
     props.style,
-    styles.button,
-    isFavorite
-      ? styles.filled
-      : styles.unfilled,
+    styles.container,
   ]
-
-  const textStyles = [
-    styles.text,
-    isFavorite
-      ? styles.textFilled
-      : styles.textUnfilled,
-  ]
-
-  const text = isFavorite ? 'GUARDADO' : 'GUARDAR'
 
   return (
     <TouchableHighlight {...props} elevation={10} style={containerStyles}>
-      <LinearGradient start={{ x: 0.0, y: 0.0 }} end={{ x: 1.0, y: 1.0 }} style={styles.gradient} colors={gradientColors} >
-        <Image source={image} style={styles.icon} />
-        <Text style={textStyles}>{text}</Text>
-      </LinearGradient>
+      <Image source={image} style={styles.icon} resizeMode='contain' />
     </TouchableHighlight>
   )
 }
@@ -48,45 +26,12 @@ FavoriteButton.propTypes = {
 }
 
 const styles = {
+  container: {
+    marginRight: 25,
+  },
   icon: {
-    width: 10,
-    height: 17,
-    marginRight: 6,
-  },
-  gradient: {
-    flex: 1,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 30,
-    flexDirection: 'row',
-  },
-  filled: {
-    borderWidth: 0,
-  },
-  unfilled: {},
-  button: {
-    height: 28,
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    borderRadius: 30,
-    backgroundColor: 'transparent',
-    borderColor: colors.darkTan,
-    borderWidth: 2,
-    width: 100,
-  },
-  textFilled: {
-    color: colors.black,
-  },
-  textUnfilled: {
-    color: colors.darkTan,
-  },
-  text: {
-    fontSize: 10,
-    fontWeight: 'bold',
+    width: 25,
+    height: 32,
   },
 }
 

@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, TouchableWithoutFeedback, Image } from 'react-native'
+import { View, Text, Dimensions, TouchableWithoutFeedback, Image, StyleSheet, TouchableHighlight, Share, Platform } from 'react-native'
 import { TabView } from 'react-native-tab-view'
 import React, { Component } from 'react'
 import { NavigationActions } from 'react-navigation'
@@ -21,6 +21,10 @@ import { Provider as CourseContextProvider } from './CourseContext'
 import { getTabBar, link, moreThanOneVideoConfig, oneVideoConfig, renderPager, userRequiredAlert } from './utils'
 
 const { width } = Dimensions.get('window')
+
+const iconShare = Platform.OS === 'ios'
+  ? require('../../assets/share_ios.png')
+  : require('../../assets/share_android.png')
 
 const initialLayout = {
   height: 0,
@@ -228,7 +232,8 @@ class Course extends Component {
   render () {
     const {
       isLoading,
-      course, withFocus,
+      course,
+      withFocus,
       selectedVideo,
       videos,
       comments,
@@ -239,6 +244,20 @@ class Course extends Component {
     } = this.state
     const { name, favorite } = course
     const shareText = `Descarga Luces Beautiful app y aprende como yo con clases gratuitas! ${link}`
+    const share = (
+      <View style={styles.share}>
+        <FavoriteButton title='Guardar' isFavorite={!!favorite} onPress={this.toggleFavorite} />
+        <TouchableHighlight
+          onPress={() => Share.share({
+            message: shareText,
+            title: 'Luces Beautiful App',
+          })}
+          elevation={10}
+          style={{ marginRight: 25 }}>
+          <Image source={iconShare} style={styles.icon} resizeMode='contain' />
+        </TouchableHighlight>
+      </View>
+    )
     const { id } = course
 
     let video
@@ -287,11 +306,10 @@ class Course extends Component {
     return (
       <CourseContextProvider value={commentsContext}>
         <Container modal={imageModal} scroll isLoading={isLoading} style={{ flex: 1 }} keyboardChildren={keyboardChildren}>
-          <TopBar text='Video' modal onBack={this.onBack} shareText={shareText} />
+          <TopBar text='Video' modal onBack={this.onBack} share={share} />
           <Player video={video} />
           <View style={styles.container2}>
             <Text style={styles.title}>{name}</Text>
-            <FavoriteButton title='Guardar' isFavorite={!!favorite} onPress={this.toggleFavorite} />
             {/* <Heart style={styles.like} active={!!favorite} onPress={this.toggleFavorite} /> */}
           </View>
           <TabView
@@ -308,7 +326,16 @@ class Course extends Component {
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
+  share: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    height: 64,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   like: {
     marginTop: 5,
     width: 20,
@@ -340,6 +367,10 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-}
+  icon: {
+    width: 25,
+    height: 32,
+  },
+})
 
 export default withUser(Course)

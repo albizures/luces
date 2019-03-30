@@ -5,7 +5,24 @@ import PropTypes from 'prop-types'
 import colors from '../utils/colors'
 import CircleImage from './CircleImage'
 
-const TopBar = ({ icon, text, onBack, modal, shareText }) => {
+const getShareElement = (shareText, share) => {
+  if (share) {
+    return share
+  }
+
+  return shareText ? (
+    <Text
+      onPress={() => Share.share({
+        message: shareText,
+        title: 'Luces Beautiful App',
+      })}
+      style={[styles.text, styles.share]}>
+      Compartir
+    </Text>
+  ) : null
+}
+
+const TopBar = ({ icon, text, onBack, modal, shareText, share }) => {
   const styleModal = modal ? {
     transform: [{
       rotate: '-90deg',
@@ -18,16 +35,7 @@ const TopBar = ({ icon, text, onBack, modal, shareText }) => {
   ) : null
 
   const iconElement = icon ? <CircleImage size={26} style={styles.icon} source={icon} /> : null
-  const share = shareText ? (
-    <Text
-      onPress={() => Share.share({
-        message: shareText,
-        title: 'Luces Beautiful App',
-      })}
-      style={[styles.text, styles.share]}>
-      Compartir
-    </Text>
-  ) : null
+  const shareElement = getShareElement(shareText, share)
 
   return (
     <View
@@ -37,7 +45,7 @@ const TopBar = ({ icon, text, onBack, modal, shareText }) => {
         {iconElement}
         <Text style={styles.text}>{text}</Text>
       </View>
-      {share}
+      {shareElement}
     </View>
   )
 }
@@ -48,6 +56,7 @@ TopBar.propTypes = {
   onBack: PropTypes.func,
   text: PropTypes.string.isRequired,
   shareText: PropTypes.string,
+  share: PropTypes.element,
 }
 
 const styles = {
