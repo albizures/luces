@@ -19,7 +19,7 @@ class Comment extends Component {
     courseContext: PropTypes.shape(CourseContextShape).isRequired,
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { comment } = this.props
@@ -123,7 +123,7 @@ class Comment extends Component {
     )
   }
 
-  render () {
+  render() {
     const { comment } = this.props
     const { comment: text, userName, date, cover, image, itComments } = comment
     const { liked, likes } = this.state
@@ -147,7 +147,7 @@ class Comment extends Component {
           <View style={styles.commentContainer}>
             <Text style={styles.userName}>{userName}</Text>
             <Text style={styles.text}>{text}</Text>
-            { sourceImage && (
+            {sourceImage && (
               <View style={styles.imageContainer}>
                 <TouchableHighlight onPress={this.onPressImage}>
                   <FitImage source={sourceImage} style={styles.image} />
@@ -161,7 +161,7 @@ class Comment extends Component {
               <View style={styles.likesContainer}>
                 <Text style={styles.likesCount} >{likes || 0} me gusta</Text>
                 {!itDoComments && (
-                  <Text style={styles.likesCount} onPress={this.onComments} >comentarios</Text>
+                  <Text style={styles.likesCount} onPress={this.onComments} >Comentar</Text>
                 )}
                 <Heart style={styles.like} active={!!liked} onPress={this.toggleLike} />
               </View>
