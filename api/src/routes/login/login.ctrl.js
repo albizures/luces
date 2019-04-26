@@ -71,7 +71,7 @@ exports.signUp = asyncHandler(async (req, res) => {
       id_user: 'id_user',
       name: 'name',
       facebookId: 'facebook_id',
-      cover: ''
+      cover: 'cover'
     }).where({
       deleted: false,
       email
