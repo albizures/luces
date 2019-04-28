@@ -59,11 +59,14 @@ class SignUp extends Component {
       return alert('password invalido')
     }
 
+    this.setState({ isLoading: true })
+
     try {
       await http.post('login/signup', { name, email, password })
       navigation.navigate('LoginAccount')
     } catch (error) {
       console.error(error)
+      this.setState({ isLoading: false })
       alert('Ocurrio un error creando el usuario:' + error.message)
     }
   }
@@ -98,7 +101,7 @@ class SignUp extends Component {
         <TextInput value={email} onChange={this.onChange} name='email' placeholder='Correo electrónico' autoCapitalize='none' />
         <TextInput value={password} onChange={this.onChange} name='password' placeholder='Contraseña' mask />
         <ButtonCTA title='CREAR CUENTA' style={{ marginTop: 20 }} onPress={this.onDone} />
-        <Text onPress={this.onLogin} style={[styles.text, { marginTop: 40 }]}>Ya tienes cuenta? Ingresa aquí</Text>
+        <Text onPress={this.onLogin} style={[styles.text, { marginTop: 40 }]}>¿Ya tienes cuenta? Ingresa aquí</Text>
         <TextDivider>O también puedes</TextDivider>
         <ButtonCTA isFilled={false} title='INGRESAR CON FACEBOOK' style={{ marginVertical: 20 }} onPress={this.onLoginFacebook} />
       </Container>

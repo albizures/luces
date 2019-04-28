@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, StyleSheet } from 'react-native'
+import isEmail from 'is-email-maybe'
 
 import { withUser } from '../components/UserContext'
 import ButtonCTA from '../components/ButtonCTA'
@@ -34,6 +35,16 @@ class LoginAccount extends Component {
     const { navigation } = this.props
     const { password, email } = this.state
 
+    if (!(email && isEmail(email))) {
+      return alert('Correo invalido')
+    }
+
+    if (!password) {
+      return alert('password invalido')
+    }
+
+    this.setState({ isLoading: true })
+
     try {
       const { data: { token, user } } = await http.post('login/password', {
         password,
@@ -52,6 +63,7 @@ class LoginAccount extends Component {
           data = {},
         },
       } = error
+      this.setState({ isLoading: true })
       alert('Error al ingresar: ' + (data.message || error.message))
     }
   }
@@ -94,7 +106,7 @@ class LoginAccount extends Component {
         <TextInput onChange={this.onChange} value={email} name='email' placeholder='Correo electronico' autoCapitalize='none' />
         <TextInput onChange={this.onChange} value={password} name='password' placeholder='Contraseña' mask />
         <ButtonCTA title='INGRESAR' style={{ marginTop: 20 }} onPress={this.onLogin} />
-        <Text onPress={this.onSignUp} style={[styles.text, { marginTop: 40 }]}>Ya tienes cuenta? Ingresa ahora</Text>
+        <Text onPress={this.onSignUp} style={[styles.text, { marginTop: 40 }]}>¿No tienes cuenta? Crea una ahora</Text>
         <TextDivider>O también puedes</TextDivider>
         <ButtonCTA isFilled={false} title='INGRESAR CON FACEBOOK' style={{ marginVertical: 20 }} onPress={this.onLoginFacebook} />
       </Container>
