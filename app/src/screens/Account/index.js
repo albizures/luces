@@ -62,7 +62,7 @@ class Account extends Component {
     const { user } = this.props
     if (!user) {
       return Alert.alert(
-        '¿Quiere guardar tus cursos favoritos?',
+        '¿Quieres guardar tus cursos favoritos?',
         'Crea tu cuenta gratuita de Luces Beautiful para poder guardar tus cursos.',
         [
           { text: 'Crear Cuenta', onPress: this.onCreateAccount },
@@ -78,11 +78,11 @@ class Account extends Component {
     return true
   }
 
-  onLogout = async () => {
+  onLogoutOrLogin = () => {
     const { logout, navigation } = this.props
 
     if (!this.checkUser()) {
-      return
+      return this.onCreateAccount()
     }
 
     navigation.navigate('Onboarding')
@@ -99,14 +99,31 @@ class Account extends Component {
     navigation.navigate(screen)
   }
 
+  getLogoutOrLoginOption = () => {
+    const { user } = this.props
+
+    if (user) {
+      return (
+        <View style={[styles.logout, { paddingLeft: 28 }]}>
+          <Text style={styles.logoutText}>Ingresar</Text>
+        </View>
+      )
+    }
+
+    return (
+      <View style={styles.logout}>
+        <Image style={styles.logoutIcon} source={require('../../assets/account/logout.png')} />
+        <Text style={styles.logoutText}>Cerrar Sesión</Text>
+      </View>
+    )
+  }
+
   render () {
     const { name, cover, isLoading } = this.state
-    const image = cover
-      ? (
-        <CircleImage size={130} style={styles.photo} source={{ uri: createUrl(cover) }} />
-      ) : (
-        <CircleImage size={130} style={styles.photo} source={require('../../assets/account2.png')} />
-      )
+    const source = cover
+      ? { uri: createUrl(cover) }
+      : require('../../assets/account2.png')
+
     return (
       <Container gradient isLoading={isLoading}>
         <TopBar
@@ -114,7 +131,7 @@ class Account extends Component {
           text='Mi cuenta' />
         <View style={styles.profile}>
           <ElevatedView style={{ height: 130, width: 130, borderRadius: 65 }} elevation={2}>
-            {image}
+            <CircleImage size={130} style={styles.photo} source={source} />
           </ElevatedView>
           <Text style={styles.name}>{name}</Text>
         </View>
@@ -122,11 +139,8 @@ class Account extends Component {
         <Option onPress={() => this.navigateTo('Notifications')} title='Notificationes' icon={require('../../assets/account/notifications.png')} />
         <Option onPress={() => this.navigateTo('InterestsAccount')} title='Intereses' icon={require('../../assets/account/interests.png')} />
         <View style={styles.logoutAbout}>
-          <TouchableHighlight onPress={this.onLogout}>
-            <View style={styles.logout}>
-              <Image style={styles.logoutIcon} source={require('../../assets/account/logout.png')} />
-              <Text style={styles.logoutText}>Cerrar Sesión</Text>
-            </View>
+          <TouchableHighlight onPress={this.onLogoutOrLogin}>
+            {this.getLogoutOrLoginOption()}
           </TouchableHighlight>
           <View style={styles.about}>
             <Image style={styles.aboutIcon} source={require('../../assets/account/about.png')} />
