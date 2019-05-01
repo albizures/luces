@@ -91,13 +91,13 @@ Container.propTypes = {
 
 const styles = {
   imageBackground: {
-    height: 100,
-    width: 140,
+    height: 120,
+    width: 170,
     opacity: 0.16,
     top: '50%',
     left: '50%',
-    marginTop: -50,
-    marginLeft: -70,
+    marginTop: -60,
+    marginLeft: -85,
   },
   flex: {
     flex: 1,
