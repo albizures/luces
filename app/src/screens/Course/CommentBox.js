@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 10,
+    paddingTop: 16,
     backgroundColor: colors.gunmetal,
     width: '100%',
     flexDirection: 'row',

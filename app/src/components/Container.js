@@ -50,7 +50,7 @@ const Container = (props) => {
   }
 
   const keyboard = keyboardChildren ? (
-    <KeyboardAccessoryView hideBorder avoidKeyboard alwaysVisible androidAdjustResize>
+    <KeyboardAccessoryView style={{backgroundColor: colors.gunmetal}} hideBorder alwaysVisible androidAdjustResize inSafeAreaView>
       {keyboardChildren}
     </KeyboardAccessoryView>
   ) : null
