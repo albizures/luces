@@ -170,12 +170,18 @@ export default class App extends Component {
   }
 
   onChangeUser = async (user) => {
-    if (user.token) {
+    if (user && user.token) {
       await AsyncStorage.setItem('token', user.token)
+    } else {
+      await AsyncStorage.removeItem('token')
     }
-    if (user.interests) {
+
+    if (user && user.interests) {
       await AsyncStorage.setItem('interests', 'true')
+    } else {
+      await AsyncStorage.removeItem('interests')
     }
+
     this.setState({ user })
   }
 

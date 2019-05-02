@@ -67,3 +67,22 @@ exports.deleteLike = asyncHandler(async (req, res) => {
 
   res.json(likes)
 })
+
+exports.deleteComment = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const { id_user } = req.user
+
+  await knex('comments')
+    .where({
+      id,
+      id_user
+    })
+    .update({
+      deleted: true
+    })
+
+  res.json({
+    id_comment: id,
+    id_user
+  })
+})

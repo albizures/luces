@@ -15,6 +15,7 @@ exports.getComments = async (config) => {
 
   const columns = {
     id: 'comments.id',
+    user: 'users.id_user',
     comment: 'comments.comment',
     date: 'comments.created_at',
     userName: 'users.name',
