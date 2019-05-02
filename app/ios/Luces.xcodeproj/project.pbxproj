@@ -864,6 +864,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1456,7 +1457,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = N4ADC3F34S;
 				FRAMEWORK_SEARCH_PATHS = (
-					/Users/josealbizures/Documents/FacebookSDK,
+					"/Users/$(USER)/Documents/FacebookSDK",
 					"$(PROJECT_DIR)",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -1493,7 +1494,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N4ADC3F34S;
 				FRAMEWORK_SEARCH_PATHS = (
-					/Users/josealbizures/Documents/FacebookSDK,
+					"/Users/$(USER)/Documents/FacebookSDK",
 					"$(PROJECT_DIR)",
 				);
 				HEADER_SEARCH_PATHS = (

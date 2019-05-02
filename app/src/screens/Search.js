@@ -81,10 +81,12 @@ export default class Search extends Component {
   render () {
     const topBar = (
       <View style={styles.topbar}>
-        <View style={styles.searchIconContainer}>
-          <Image style={styles.searchIcon} source={require('../assets/search.png')} />
+        <View style={styles.searchContainer}>
+          <View style={styles.searchIconContainer}>
+            <Image style={styles.searchIcon} source={require('../assets/search.png')} />
+          </View>
+          <TextInput onChangeText={this.onChange} placeholderTextColor={colors.whiteTwo} placeholder='Buscar' style={styles.searchInput} />
         </View>
-        <TextInput onChangeText={this.onChange} placeholderTextColor={colors.whiteTwo} placeholder='Buscar' style={styles.searchInput} />
       </View>
     )
 
@@ -100,6 +102,14 @@ export default class Search extends Component {
 }
 
 const styles = {
+  searchContainer: {
+    // flex: 1,
+    flexDirection: 'row',
+    borderRadius: 18,
+    borderColor: 'blue',
+    borderWitdh: 2,
+    backgroundColor: colors.gunmetal,
+  },
   results: {
     color: colors.darkTan,
     fontSize: 24,
@@ -128,6 +138,7 @@ const styles = {
   topbar: {
     paddingTop: 18,
     paddingBottom: 10,
+    paddingHorizontal: 15,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
@@ -137,7 +148,7 @@ const styles = {
     color: colors.whiteTwo,
     fontSize: 14,
     fontWeight: '500',
-    width: '70%',
+    flex: 1,
     height: 35,
     borderTopRightRadius: 18,
     borderBottomRightRadius: 18,
