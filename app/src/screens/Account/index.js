@@ -62,7 +62,7 @@ class Account extends Component {
     const { user } = this.props
     if (!user) {
       return Alert.alert(
-        '¿Quieres guardar tus cursos favoritos?',
+        '¿Quieres ser parte de la comunidad?',
         'Crea tu cuenta gratuita de Luces Beautiful para poder guardar tus cursos.',
         [
           { text: 'Crear Cuenta', onPress: this.onCreateAccount },
