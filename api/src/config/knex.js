@@ -7,6 +7,7 @@ module.exports = {
     host: process.env.DB_HOST || 'db',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'root',
-    database: 'luces'
+    database: 'luces',
+    charset : 'utf8mb4',
   }
 }

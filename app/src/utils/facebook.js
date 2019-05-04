@@ -22,9 +22,11 @@ export const login = async (options) => {
 
     instance.defaults.headers.common['Authorization'] = 'Bearer ' + token
 
+    const { id_user: userId } = user;
     const { data: interests } = await http.get('interests/user')
     await changeUser({
       ...user,
+      userId,
       interests: Array.isArray(interests) && interests.length > 0,
       token,
     })

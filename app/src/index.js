@@ -1,5 +1,6 @@
 import 'dayjs/locale/es'
 import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import React, { Component } from 'react'
 
 import { StatusBar, View, AsyncStorage } from 'react-native'
@@ -28,7 +29,25 @@ import { Provider as CategoryProvider } from './components/CategoriesContext'
 import { instance } from './utils/http'
 import { tabBarIcon } from './components/TabIcon'
 
-dayjs.locale('es')
+dayjs.locale('es', {
+  relativeTime: {
+    future: 'en %s',
+    past: '%s',
+    s: '< 0s',
+    ss: '%ss',
+    m: '1m',
+    mm: '%dm',
+    h:  '1h',
+    hh: '%dh',
+    d:  '1d',
+    dd: '%dd',
+    M:  '1M',
+    MM: '%dM',
+    y:  '1a',
+    yy: '%da'
+  }
+})
+dayjs.extend(relativeTime)
 
 const OnboardingStack = createStackNavigator({
   Onboarding: {
@@ -170,13 +189,21 @@ export default class App extends Component {
   }
 
   onChangeUser = async (user) => {
-    if (user && user.token) {
-      await AsyncStorage.setItem('token', user.token)
+    const { token, userId, interests } = user || {};
+    
+    if (token) {
+      await AsyncStorage.setItem('token', token)
     } else {
       await AsyncStorage.removeItem('token')
     }
 
-    if (user && user.interests) {
+    if (userId) {
+      await AsyncStorage.setItem('userId', userId.toString())
+    } else {
+      await AsyncStorage.removeItem('userId')
+    }
+
+    if (interests) {
       await AsyncStorage.setItem('interests', 'true')
     } else {
       await AsyncStorage.removeItem('interests')

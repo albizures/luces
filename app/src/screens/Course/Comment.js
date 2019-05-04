@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, Text, StyleSheet, TouchableHighlight } from 'react-native'
+import { View, Image, Text, StyleSheet, TouchableHighlight, Alert } from 'react-native'
 import FitImage from 'react-native-fit-image'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
@@ -29,6 +29,7 @@ class Comment extends Component {
       liked,
       likes,
       comments: [],
+      isDeleted: false,
       showComments: false,
     }
   }
@@ -96,6 +97,34 @@ class Comment extends Component {
     }
   }
 
+  deleteComment = async() => {
+    const { id } = this.props.comment
+    try {
+      await http.del(`comments/${id}`)
+
+      this.setState({ isDeleted: true })
+    } catch (error) {
+      alert('No se pudo eliminar el comentario');
+    }
+  }
+
+  onDeleteComment = async () => {
+    Alert.alert(
+      '¿Esta segura que quiere eliminar el comentario?',
+      '',
+      [
+        { text: 'Eliminar', onPress: this.deleteComment },
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+      ],
+      { cancelable: true },
+    )
+
+    
+  }
+
   getComments = () => {
     const { showComments, comments } = this.state
 
@@ -124,9 +153,13 @@ class Comment extends Component {
   }
 
   render() {
-    const { comment } = this.props
+    const { comment, user } = this.props
     const { comment: text, userName, date, cover, image, itComments } = comment
-    const { liked, likes } = this.state
+    const { liked, likes, isDeleted } = this.state
+
+    if (isDeleted) {
+      return null;
+    }
 
     const source = cover
       ? { uri: createUrl(cover) }
@@ -156,13 +189,22 @@ class Comment extends Component {
             )}
             <View style={styles.commentBottom}>
               <View style={styles.dateContainer}>
-                <Text style={styles.date}>{dayjs(date).format('D MMMM, YYYY')}</Text>
+                <Text style={styles.date}>{dayjs(date).fromNow()}</Text>
               </View>
               <View style={styles.likesContainer}>
                 <Text style={styles.likesCount} >{likes || 0} me gusta</Text>
-                {!itDoComments && (
-                  <Text style={styles.likesCount} onPress={this.onComments} >Comentar</Text>
-                )}
+              </View>
+              {!itDoComments && (
+                <View style={styles.commentTextContainer}>
+                  <Text style={styles.commentText} onPress={this.onComments}>Comentar</Text>
+                </View>
+              )}
+              { user && user.userId === comment.user && (
+                <View style={styles.deleteCommentContainer}>
+                  <Text style={styles.deleteComment} onPress={this.onDeleteComment}>Eliminar</Text>
+                </View>
+              )}
+              <View style={styles.likeContainer}>
                 <Heart style={styles.like} active={!!liked} onPress={this.toggleLike} />
               </View>
             </View>
@@ -206,9 +248,10 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   likesContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
+    paddingRight: 10,
+    marginRight: 10,
+    borderRightColor: colors.slateGrey,
+    borderRightWidth: 1,
   },
   date: {
     color: colors.slateGrey,
@@ -249,14 +292,37 @@ const styles = StyleSheet.create({
   comments: {
     flex: 1,
   },
+  commentContainer: {
+    flex: 1,
+  },
   photo: {
     height: 40,
     width: 40,
     borderRadius: 20,
     marginRight: 10,
   },
-  commentContainer: {
-    flex: 1,
-    alignItems: 'flex-start',
+  commentTextContainer: {
+    paddingRight: 10,
+    marginRight: 10,
+    borderRightColor: colors.slateGrey,
+    borderRightWidth: 1,
   },
+  commentText: {
+    color: colors.whiteTwo,
+    fontWeight: 'bold',
+    fontSize: 10,
+  },
+  deleteCommentContainer: {
+  },
+  deleteComment: {
+    color: colors.whiteTwo,
+    fontWeight: 'bold',
+    fontSize: 10,
+  },
+  likeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  }
 })

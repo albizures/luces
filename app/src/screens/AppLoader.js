@@ -45,10 +45,13 @@ class AppLoader extends Component {
       if (Array.isArray(categories)) {
         setCategories(getCategoryValue(categories))
       }
+
       if (token) {
         const interests = await AsyncStorage.getItem('interests')
+        const userId = await AsyncStorage.getItem('userId')
         await changeUser({
           token,
+          userId: Number(userId),
           interests: Boolean(interests),
         })
       }

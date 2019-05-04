@@ -79,9 +79,9 @@ class Account extends Component {
   }
 
   onLogoutOrLogin = () => {
-    const { logout, navigation } = this.props
+    const { logout, navigation, user } = this.props
 
-    if (!this.checkUser()) {
+    if (!user) {
       return this.onCreateAccount()
     }
 
@@ -104,16 +104,16 @@ class Account extends Component {
 
     if (user) {
       return (
-        <View style={[styles.logout, { paddingLeft: 28 }]}>
-          <Text style={styles.logoutText}>Ingresar</Text>
+        <View style={styles.logout}>
+          <Image style={styles.logoutIcon} source={require('../../assets/account/logout.png')} />
+          <Text style={styles.logoutText}>Cerrar Sesión</Text>
         </View>
       )
     }
 
     return (
-      <View style={styles.logout}>
-        <Image style={styles.logoutIcon} source={require('../../assets/account/logout.png')} />
-        <Text style={styles.logoutText}>Cerrar Sesión</Text>
+      <View style={[styles.logout, { paddingLeft: 28 }]}>
+        <Text style={styles.logoutText}>Ingresar</Text>
       </View>
     )
   }
