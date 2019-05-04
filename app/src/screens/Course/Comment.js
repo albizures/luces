@@ -248,20 +248,16 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   likesContainer: {
-    paddingRight: 10,
-    marginRight: 10,
-    borderRightColor: colors.slateGrey,
-    borderRightWidth: 1,
+    paddingLeft: 10,
+    marginLeft: 10,
+    borderLeftColor: colors.slateGrey,
+    borderLeftWidth: 1,
   },
   date: {
     color: colors.slateGrey,
     fontSize: 10,
   },
   dateContainer: {
-    paddingRight: 10,
-    marginRight: 10,
-    borderRightColor: colors.slateGrey,
-    borderRightWidth: 1,
   },
   commentBottom: {
     flexDirection: 'row',
@@ -302,10 +298,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   commentTextContainer: {
-    paddingRight: 10,
-    marginRight: 10,
-    borderRightColor: colors.slateGrey,
-    borderRightWidth: 1,
+    paddingLeft: 10,
+    marginLeft: 10,
+    borderLeftColor: colors.slateGrey,
+    borderLeftWidth: 1,
   },
   commentText: {
     color: colors.whiteTwo,
@@ -313,6 +309,10 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   deleteCommentContainer: {
+    paddingLeft: 10,
+    marginLeft: 10,
+    borderLeftColor: colors.slateGrey,
+    borderLeftWidth: 1,
   },
   deleteComment: {
     color: colors.whiteTwo,
