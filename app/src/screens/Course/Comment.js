@@ -19,7 +19,7 @@ class Comment extends Component {
     courseContext: PropTypes.shape(CourseContextShape).isRequired,
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     const { comment } = this.props
@@ -97,14 +97,14 @@ class Comment extends Component {
     }
   }
 
-  deleteComment = async() => {
+  deleteComment = async () => {
     const { id } = this.props.comment
     try {
       await http.del(`comments/${id}`)
 
       this.setState({ isDeleted: true })
     } catch (error) {
-      alert('No se pudo eliminar el comentario');
+      alert('No se pudo eliminar el comentario')
     }
   }
 
@@ -121,8 +121,6 @@ class Comment extends Component {
       ],
       { cancelable: true },
     )
-
-    
   }
 
   getComments = () => {
@@ -152,13 +150,13 @@ class Comment extends Component {
     )
   }
 
-  render() {
+  render () {
     const { comment, user } = this.props
     const { comment: text, userName, date, cover, image, itComments } = comment
     const { liked, likes, isDeleted } = this.state
 
     if (isDeleted) {
-      return null;
+      return null
     }
 
     const source = cover
@@ -324,5 +322,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-  }
+  },
 })
