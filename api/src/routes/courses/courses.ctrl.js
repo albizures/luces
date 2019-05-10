@@ -206,7 +206,6 @@ exports.getComments = asyncHandler(async (req, res) => {
 })
 
 const extractImage = (req) => {
-  console.log('extractImage', req.file, req.files)
   if (req.file) {
     return req.file.path
   }
@@ -242,6 +241,7 @@ exports.postComment = asyncHandler(async (req, res) => {
       userName: 'users.name',
       cover: 'users.cover',
       image: 'comments.image',
+      user: 'users.id_user',
       itComments: 'comments.itComments'
     })
     .join('users', 'users.id_user', 'comments.id_user')
