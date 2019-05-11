@@ -63,7 +63,7 @@ class LoginAccount extends Component {
           data = {},
         },
       } = error
-      this.setState({ isLoading: true })
+      this.setState({ isLoading: false })
       alert('Error al ingresar: ' + (data.message || error.message))
     }
   }
