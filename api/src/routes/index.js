@@ -15,12 +15,9 @@ router.use('/courses', require('./courses/courses'))
 router.use('/images', authRoute, require('./images/images'))
 router.use('/interests', authRoute, require('./interests/interests'))
 
-// router.use(function (err, req, res, next) {
-//   if (err.name === 'UnauthorizedError') {
-//     res.status(404).send()
-//   } else {
-//     next()
-//   }
-// })
+router.use(function (error, req, res, next) {
+  console.error(error.message, error.response, error.response && error.response.body)
+  res.status(500).json({ message: error.message })
+})
 
 module.exports = router

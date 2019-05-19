@@ -6,7 +6,7 @@ const port = process.env.PORT || 80
 
 require('./config/connection')
 
-const publicRoutes = ['_next', 'login', 'privacy-policy']
+const publicRoutes = ['_next', 'login', 'privacy-policy', 'redirect']
 
 const isNotPublicRoute = (url) => publicRoutes.every(path => !url.includes(path))
 
@@ -50,7 +50,8 @@ app.then(() => {
     if (
       (req.originalUrl.indexOf('/login') !== -1) ||
       (req.originalUrl.indexOf('/_next/') !== -1) ||
-      (req.originalUrl.indexOf('/privacy-policy') !== -1)
+      (req.originalUrl.indexOf('/privacy-policy') !== -1) ||
+      (req.originalUrl.indexOf('/redirect') !== -1)
     ) {
       return next()
     }

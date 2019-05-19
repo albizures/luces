@@ -9,5 +9,7 @@ router.get('/me', authRoute, controller.getProfile)
 router.post('/', controller.login)
 router.post('/signup', controller.signUp)
 router.post('/password', controller.loginPassword)
+router.post('/password/forgot', controller.forgotPassword)
+router.post('/password/change', controller.changePassword)
 
 module.exports = router

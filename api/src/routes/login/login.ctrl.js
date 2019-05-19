@@ -3,13 +3,19 @@ const bcrypt = require('bcrypt')
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
 const isEmail = require('is-email-maybe')
+const mail = require('@sendgrid/mail')
+const dayjs = require('dayjs')
 
 const { encryptPassword } = require('../../utils')
 const downloadFile = require('../../utils/downloadFile')
 
 const knex = require('../../config/connection')
 
-const { SECRET_KEY } = process.env
+const { SECRET_KEY, SENDGRID_KEY, HOST, PORT } = process.env
+
+const baseUrl = PORT ? `http://${HOST}:${PORT}` : `http://${HOST}`
+
+mail.setApiKey(SENDGRID_KEY)
 
 const getFacebookFields = (token) => `https://graph.facebook.com/v2.8/me?fields=id,gender,name,email,picture&access_token=${token}`
 const getFacebookPicture = (id) => `https://graph.facebook.com/${id}/picture?type=large`
@@ -167,4 +173,112 @@ exports.getProfile = asyncHandler(async (req, res) => {
     })
 
   res.json(user)
+})
+
+const deleteTokens = async (userId) => {
+  try {
+    await knex('reset_password')
+      .where({ id_user: userId })
+      .update('deleted', true)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+exports.forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body
+  const users = await knex('users')
+    .select({
+      id_user: 'id_user',
+      name: 'name'
+    }).where({
+      email,
+      deleted: false
+    })
+
+  if (users.length === 0) {
+    return res.json({ email })
+  }
+
+  const [{ id_user, name }] = users
+
+  const token = await encryptPassword(Date.now().toString())
+
+  await deleteTokens(id_user)
+
+  await knex('reset_password')
+    .insert({ token, id_user })
+
+  const url = `lucesbeautiful://change-password/${encodeURIComponent(token)}`
+
+  await mail.send({
+    to: email,
+    from: {
+      name: 'Luces Beautiful App',
+      email: 'app@lucesbeautiful.com'
+    },
+    subject: 'Reinicio de Contraseña',
+    html: `
+Hola ${name},
+<br/>
+<br/>
+Recientemente solicitaste una recuperación de password para tu cuenta de Luces Beautiful. Haz click en el siguiente link para reiniciar tu contraseña.
+<br/>
+<br/>
+<a href="${url}"
+  href="${baseUrl}/redirect?url=${encodeURIComponent(url)}"
+  href="${url}">
+  ${url}
+</a>
+<br/>
+<br/>
+Si tú no fuiste quien pidió este reinicio de contraseña, por favor ignora este correo o escríbenos para déjanoslo saber. Este reinicio de contraseña es válido únicamente por los siguientes 30 minutos. 
+<br/>
+<br/>
+Gracias por tu preferencia,<br/>
+El equipo de Luces Beautiful.
+`
+  })
+
+  res.json({ email })
+})
+
+exports.changePassword = asyncHandler(async (req, res) => {
+  const { password: rawPassword, token } = req.body
+
+  if (!rawPassword || !token) {
+    return res.status(400).end()
+  }
+
+  const tokens = await knex('reset_password')
+    .select({
+      id_user: 'id_user',
+      created_at: 'created_at'
+    }).where({
+      token,
+      deleted: false
+    })
+
+  if (tokens.length < 0) {
+    return res.status(400).end()
+  }
+
+  const [{ id_user, created_at }] = tokens
+  const minutesOld = dayjs().diff(dayjs(created_at), 'minute')
+
+  if (minutesOld > 30) {
+    await deleteTokens(id_user)
+
+    return res.status(400).end()
+  }
+
+  const password = await encryptPassword(rawPassword)
+
+  await knex('users')
+    .where({ id_user })
+    .update('password', password)
+
+  await deleteTokens(id_user)
+
+  res.json({ id_user })
 })

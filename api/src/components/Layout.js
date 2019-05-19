@@ -14,7 +14,7 @@ function logout ({ key }) {
   document.location.pathname = '/login'
 }
 
-export default ({children, withoutMenus}) => (
+export default ({ children, withoutMenus }) => (
   <div>
     <Head>
       <link rel='stylesheet' href='https://unpkg.com/antd@3/dist/antd.min.css' />
@@ -40,7 +40,7 @@ export default ({children, withoutMenus}) => (
                   <a>Categorias</a>
                 </Link>
               </Item>
-              <Item style={{float: 'right'}} key='3'>Salir</Item>
+              <Item style={{ float: 'right' }} key='3'>Salir</Item>
             </Menu>
           )
         }
