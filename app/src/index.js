@@ -23,11 +23,15 @@ import Subcategory from './screens/Subcategory'
 import AppLoader from './screens/AppLoader'
 import LoginAccount from './screens/LoginAccount'
 import SignUp from './screens/SignUp'
+import ForgotPassword from './screens/ForgotPassword'
+import ChangePassword from './screens/ChangePassword'
 
 import { Provider as UserProvider, getValue } from './components/UserContext'
 import { Provider as CategoryProvider } from './components/CategoriesContext'
 import { instance } from './utils/http'
 import { tabBarIcon } from './components/TabIcon'
+
+const prefix = 'lucesbeautiful://'
 
 dayjs.locale('es', {
   relativeTime: {
@@ -37,15 +41,15 @@ dayjs.locale('es', {
     ss: '%ss',
     m: '1m',
     mm: '%dm',
-    h:  '1h',
+    h: '1h',
     hh: '%dh',
-    d:  '1d',
+    d: '1d',
     dd: '%dd',
-    M:  '1M',
+    M: '1M',
     MM: '%dM',
-    y:  '1a',
-    yy: '%da'
-  }
+    y: '1a',
+    yy: '%da',
+  },
 })
 dayjs.extend(relativeTime)
 
@@ -155,6 +159,7 @@ const AppStack = createStackNavigator({
   },
   LoginAccount,
   SignUp,
+  ForgotPassword,
 }, {
   mode: 'modal',
   initialRouteName: 'Main',
@@ -170,6 +175,10 @@ const RootStack = createSwitchNavigator({
   },
   App: {
     screen: AppStack,
+  },
+  ChangePassword: {
+    screen: ChangePassword,
+    path: 'change-password/:token',
   },
 }, {
   initialRouteName: 'AppLoader',
@@ -189,8 +198,8 @@ export default class App extends Component {
   }
 
   onChangeUser = async (user) => {
-    const { token, userId, interests } = user || {};
-    
+    const { token, userId, interests } = user || {}
+
     if (token) {
       await AsyncStorage.setItem('token', token)
     } else {
@@ -231,7 +240,7 @@ export default class App extends Component {
         <StatusBar barStyle='light-content' />
         <CategoryProvider value={{ categories, setCategories: this.setCategories }}>
           <UserProvider value={contextValue}>
-            <RootStack ref={this.rootStackRef} />
+            <RootStack uriPrefix={prefix} ref={this.rootStackRef} />
           </UserProvider>
         </CategoryProvider>
       </View>

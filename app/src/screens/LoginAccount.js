@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, StyleSheet } from 'react-native'
+import { Text, StyleSheet, View } from 'react-native'
 import isEmail from 'is-email-maybe'
 
 import { withUser } from '../components/UserContext'
@@ -79,6 +79,12 @@ class LoginAccount extends Component {
     navigation.goBack()
   }
 
+  onForgotPassword = () => {
+    const { navigation } = this.props
+
+    navigation.navigate('ForgotPassword')
+  }
+
   onLoginFacebook = () => {
     const { navigation, changeUser } = this.props
 
@@ -105,7 +111,11 @@ class LoginAccount extends Component {
         </Text>
         <TextInput onChange={this.onChange} value={email} name='email' placeholder='Correo electronico' autoCapitalize='none' />
         <TextInput onChange={this.onChange} value={password} name='password' placeholder='Contraseña' mask />
-        <ButtonCTA title='INGRESAR' style={{ marginTop: 20 }} onPress={this.onLogin} />
+        <View style={{ width: '100%' }}>
+          <Text onPress={this.onForgotPassword} style={[styles.text, { marginTop: 20, marginBottom: 40 }]}>¿Olvidaste tu contraseña?</Text>
+        </View>
+
+        <ButtonCTA title='INGRESAR' onPress={this.onLogin} />
         <Text onPress={this.onSignUp} style={[styles.text, { marginTop: 40 }]}>¿No tienes cuenta? Crea una ahora</Text>
         <TextDivider>O también puedes</TextDivider>
         <ButtonCTA isFilled={false} title='INGRESAR CON FACEBOOK' style={{ marginVertical: 20 }} onPress={this.onLoginFacebook} />
