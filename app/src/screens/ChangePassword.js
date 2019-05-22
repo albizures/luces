@@ -35,6 +35,7 @@ class ChangePassword extends Component {
     this.setState({ isLoading: true })
 
     if (password !== confirmPassword) {
+      this.setState({ isLoading: false })
       return alert('Las contraseñas ingresadas no coinciden.')
     }
 
@@ -44,7 +45,7 @@ class ChangePassword extends Component {
         token,
       })
 
-      alert('Tu contraseña se ha cambiada exitosamente.')
+      alert('Tu contraseña se ha cambiado exitosamente.')
       navigation.navigate('AppLoader')
     } catch (error) {
       console.log(error)
