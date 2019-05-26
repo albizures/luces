@@ -1,10 +1,10 @@
-import 'dayjs/locale/es'
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
+
 import React, { Component } from 'react'
 
 import { StatusBar, View, AsyncStorage } from 'react-native'
 import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation'
+
+import './config'
 
 import Onboarding from './screens/Onboarding'
 import Interests from './screens/Interests'
@@ -32,26 +32,6 @@ import { instance } from './utils/http'
 import { tabBarIcon } from './components/TabIcon'
 
 const prefix = 'lucesbeautiful://'
-
-dayjs.locale('es', {
-  relativeTime: {
-    future: 'en %s',
-    past: '%s',
-    s: '< 0s',
-    ss: '%ss',
-    m: '1m',
-    mm: '%dm',
-    h: '1h',
-    hh: '%dh',
-    d: '1d',
-    dd: '%dd',
-    M: '1M',
-    MM: '%dM',
-    y: '1a',
-    yy: '%da',
-  },
-})
-dayjs.extend(relativeTime)
 
 const OnboardingStack = createStackNavigator({
   Onboarding: {

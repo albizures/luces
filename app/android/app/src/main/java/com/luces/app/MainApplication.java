@@ -14,6 +14,7 @@ import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
 import com.imagepicker.ImagePickerPackage; 
 import com.BV.LinearGradient.LinearGradientPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage; 
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +37,8 @@ public class MainApplication extends Application implements ReactApplication {
           new ImagePickerPackage(),
           new FBSDKPackage(mCallbackManager),
           new ReactNativeYouTube(),
-          new LinearGradientPackage()
+          new LinearGradientPackage(),
+          new ReactNativePushNotificationPackage(),
       );
     }
 
