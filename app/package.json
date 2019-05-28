@@ -1,6 +1,6 @@
 {
   "name": "luces-app",
-  "version": "1.0.11",
+  "version": "1.0.13",
   "private": true,
   "scripts": {
     "start:android": "react-native run-android",
@@ -22,6 +22,7 @@
     "react-native": "0.56.0",
     "react-native-elevated-view": "0.0.6",
     "react-native-fbsdk": "^0.8.0",
+    "react-native-firebase": "^5.4.0",
     "react-native-fit-image": "^1.5.4",
     "react-native-image-picker": "^0.28.0",
     "react-native-keyboard-accessory": "^0.1.9",

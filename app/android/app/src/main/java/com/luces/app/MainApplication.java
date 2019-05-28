@@ -5,6 +5,9 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.shell.MainReactPackage;
@@ -39,6 +42,9 @@ public class MainApplication extends Application implements ReactApplication {
           new ReactNativeYouTube(),
           new LinearGradientPackage(),
           new ReactNativePushNotificationPackage(),
+          new RNFirebasePackage(),
+          new RNFirebaseMessagingPackage(),
+          new RNFirebaseNotificationsPackage()
       );
     }
 

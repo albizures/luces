@@ -100,8 +100,8 @@ android {
         applicationId "com.luces.app"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 33
-        versionName "1.0.11"
+        versionCode 35
+        versionName "1.0.13"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -154,7 +154,11 @@ android {
 }
 
 dependencies {
+    compile(project(':react-native-firebase')) {
+        transitive = false
+    }
     compile project(':react-native-push-notification')
+    compile project('com.google.firebase:firebase-core:16.0.9')
     compile project(':react-native-image-picker')
     compile project(':react-native-splash-screen')
     compile(project(':react-native-fbsdk')){
@@ -174,3 +178,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'
