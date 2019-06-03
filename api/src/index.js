@@ -5,6 +5,7 @@ const isProd = process.env.NODE_ENV === 'production'
 const port = process.env.PORT || 80
 
 require('./config/connection')
+require('./config/firebase')
 
 const publicRoutes = ['_next', 'login', 'privacy-policy', 'redirect']
 

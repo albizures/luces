@@ -113,3 +113,4 @@ api/uploads
 db
 
 app/ios/Index
+serviceAccountKey.json

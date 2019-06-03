@@ -27,6 +27,7 @@
     "express": "^4.16.4",
     "express-async-handler": "^1.1.4",
     "express-jwt": "^5.3.1",
+    "firebase-admin": "^8.0.0",
     "get-video-id": "^3.1.0",
     "is-email-maybe": "^1.0.1",
     "is-required": "^1.0.5",

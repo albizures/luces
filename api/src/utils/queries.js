@@ -96,3 +96,62 @@ exports.getComments = async (config) => {
 
   return comments
 }
+
+exports.getCourse = async (config) => {
+  const {
+    user,
+    id,
+    countVideos = false
+  } = config
+
+  assert(id, '`id` is required')
+
+  const query = knex('courses')
+
+  const columns = {
+    id: 'courses.id',
+    name: 'courses.name',
+    description: 'courses.description',
+    image: 'courses.image_url',
+    author: 'courses.author',
+    idCategory: 'categories.id',
+    categoryName: 'categories.name',
+    icon: 'categories.icon'
+  }
+
+  if (user) {
+    assign(columns, {
+      favorite: 'favorites.id_course'
+    })
+
+    query.leftJoin(
+      knex.raw(`
+        favorites as favorites
+        on favorites.id_user = ${user}
+          and courses.id = favorites.id_course 
+          and favorites.deleted = 0`)
+    )
+  }
+
+  if (countVideos) {
+    assign(columns, {
+      videos: knex.raw('COUNT(course_videos.id_course)')
+    })
+
+    query
+      .leftJoin('course_videos', 'courses.id', 'course_videos.id_course')
+      .whereNot({
+        'course_videos.deleted': true
+      })
+  }
+
+  const [course] = await query
+    .select(columns)
+    .join('categories', 'courses.id_category', 'categories.id')
+    .where({
+      'courses.deleted': false,
+      'courses.id': id
+    })
+
+  return course
+}
