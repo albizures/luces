@@ -1,46 +1,8 @@
 import 'dayjs/locale/es'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { PushNotificationIOS } from 'react-native'
-import PushNotification from 'react-native-push-notification'
-
-PushNotification.configure({
-  // (optional) Called when Token is generated (iOS and Android)
-  onRegister (token) {
-    console.log('TOKEN:', token)
-  },
-
-  // (required) Called when a remote or local notification is opened or received
-  onNotification (notification) {
-    console.log('NOTIFICATION:', notification)
-
-    // process the notification
-
-    // required on iOS only (see fetchCompletionHandler docs: https://facebook.github.io/react-native/docs/pushnotificationios.html)
-    notification.finish(PushNotificationIOS.FetchResult.NoData)
-  },
-
-  // ANDROID ONLY: GCM or FCM Sender ID (product_number) (optional - not required for local notifications, but is need to receive remote push notifications)
-  senderID: 'YOUR GCM (OR FCM) SENDER ID',
-
-  // IOS ONLY (optional): default: all - Permissions to register.
-  permissions: {
-    alert: true,
-    badge: true,
-    sound: true,
-  },
-
-  // Should the initial notification be popped automatically
-  // default: true
-  popInitialNotification: true,
-
-  /**
-   * (optional) default: true
-   * - Specified if permissions (ios) and token (android and ios) will requested or not,
-   * - if not, you must call PushNotificationsHandler.requestPermissions() later
-   */
-  requestPermissions: true,
-})
+import firebase from 'react-native-firebase'
+import { AsyncStorage } from 'react-native'
 
 dayjs.locale('es', {
   relativeTime: {
@@ -62,3 +24,82 @@ dayjs.locale('es', {
 })
 
 dayjs.extend(relativeTime)
+
+export function createNotificationListeners (handler) {
+  firebase.messaging().subscribeToTopic('new-course')
+
+  // Triggered when a particular notification has been received in foreground
+  const notificationListener = firebase.notifications().onNotification((notification) => {
+    handler(notification)
+  })
+
+  // If the app is in background
+  const notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+    handler(notificationOpen.notification)
+  })
+
+  // If the app is closed
+  firebase
+    .notifications()
+    .getInitialNotification()
+    .then((notificationOpen) => {
+      handler(notificationOpen.notification)
+    })
+
+  /*
+  * Triggered for data only payload in foreground
+  * */
+  const messageListener = firebase.messaging().onMessage((message) => {
+    // process data message
+    const { _messageId: id, _data: data } = message
+    const payload = JSON.parse(data.payload)
+
+    const { notification: { title, body } } = payload
+    console.log(message)
+
+    const notification = new firebase.notifications.Notification()
+      .setNotificationId(id)
+      .setTitle(title)
+      .setBody(body)
+      .setData(payload)
+
+    firebase.notifications().displayNotification(notification)
+  })
+
+  return () => {
+    notificationListener()
+    notificationOpenedListener()
+    messageListener()
+  }
+}
+
+async function getToken () {
+  let fcmToken = await AsyncStorage.getItem('fcmToken')
+  if (!fcmToken) {
+    fcmToken = await firebase.messaging().getToken()
+    if (fcmToken) {
+      // user has a device token
+      await AsyncStorage.setItem('fcmToken', fcmToken)
+    }
+  }
+}
+
+async function requestPermission () {
+  try {
+    await firebase.messaging().requestPermission()
+    // User has authorised
+    getToken()
+  } catch (error) {
+    // User has rejected permissions
+    console.log('permission rejected')
+  }
+}
+
+export async function checkPermission () {
+  const enabled = await firebase.messaging().hasPermission()
+  if (enabled) {
+    getToken()
+  } else {
+    requestPermission()
+  }
+}

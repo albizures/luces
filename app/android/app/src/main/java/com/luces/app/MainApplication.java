@@ -16,8 +16,7 @@ import com.facebook.appevents.AppEventsLogger;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
 import com.imagepicker.ImagePickerPackage; 
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage; 
+import com.BV.LinearGradient.LinearGradientPackage; 
 
 import java.util.Arrays;
 import java.util.List;
