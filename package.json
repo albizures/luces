@@ -15,5 +15,7 @@
     "url": "https://github.com/albizures/luces/issues"
   },
   "homepage": "https://github.com/albizures/luces#readme",
-  "dependencies": {}
+  "dependencies": {
+    "react-native": "^0.59.8"
+  }
 }
