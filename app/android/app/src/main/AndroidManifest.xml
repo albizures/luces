@@ -20,7 +20,19 @@
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
-     <meta-data android:name="com.facebook.sdk.ApplicationId" tools:replace="android:value" android:value="@string/facebook_app_id"/>
+
+      <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
+        <intent-filter>
+          <action android:name="com.google.firebase.MESSAGING_EVENT" />
+        </intent-filter>
+      </service>
+      <service android:name="io.invertase.firebase.messaging.RNFirebaseInstanceIdService">
+        <intent-filter>
+          <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+        </intent-filter>
+      </service>
+      <service android:name="io.invertase.firebase.messaging.RNFirebaseBackgroundMessagingService" />
+      <meta-data android:name="com.facebook.sdk.ApplicationId" tools:replace="android:value" android:value="@string/facebook_app_id"/>
 
       <meta-data android:name="com.dieam.reactnativepushnotification.notification_channel_name" android:value="Luces Beautiful"/>
       <meta-data android:name="com.dieam.reactnativepushnotification.notification_channel_description" android:value="Luces Beautiful"/>

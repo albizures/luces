@@ -30,11 +30,18 @@ export function createNotificationListeners (handler) {
 
   // Triggered when a particular notification has been received in foreground
   const notificationListener = firebase.notifications().onNotification((notification) => {
+    if (!notification) {
+      return
+    }
     handler(notification)
   })
 
   // If the app is in background
   const notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+    if (!notificationOpen) {
+      return
+    }
+
     handler(notificationOpen.notification)
   })
 
@@ -43,6 +50,9 @@ export function createNotificationListeners (handler) {
     .notifications()
     .getInitialNotification()
     .then((notificationOpen) => {
+      if (!notificationOpen) {
+        return
+      }
       handler(notificationOpen.notification)
     })
 
