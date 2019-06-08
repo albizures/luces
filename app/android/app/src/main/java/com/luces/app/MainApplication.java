@@ -40,7 +40,6 @@ public class MainApplication extends Application implements ReactApplication {
           new FBSDKPackage(mCallbackManager),
           new ReactNativeYouTube(),
           new LinearGradientPackage(),
-          new ReactNativePushNotificationPackage(),
           new RNFirebasePackage(),
           new RNFirebaseMessagingPackage(),
           new RNFirebaseNotificationsPackage()
