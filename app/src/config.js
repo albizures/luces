@@ -2,7 +2,7 @@ import 'dayjs/locale/es'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import firebase from 'react-native-firebase'
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 
 dayjs.locale('es', {
   relativeTime: {

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash.debounce'
-import { View, Text, TextInput, Image, AsyncStorage } from 'react-native'
+import { View, Text, TextInput, Image } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import colors from '../utils/colors'
 
 import { tabBarIcon } from '../components/TabIcon'

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, View, ScrollView, Image, AsyncStorage } from 'react-native'
+import { Text, View, ScrollView, Image } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 
 import { withCategories } from '../../components/CategoriesContext'
 import { withUser } from '../../components/UserContext'

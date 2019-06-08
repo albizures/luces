@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, ImageBackground, AsyncStorage } from 'react-native'
+import { View, Text, ImageBackground } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import LinearGradient from 'react-native-linear-gradient'
 
 import ButtonCTA from '../components/ButtonCTA'

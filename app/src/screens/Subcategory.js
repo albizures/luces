@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, AsyncStorage } from 'react-native'
+import { View } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 
 import createUrl from '../utils/createUrl'
 import http from '../utils/http'

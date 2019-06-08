@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, View, ScrollView, AsyncStorage } from 'react-native'
+import { Text, View, ScrollView } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 
 import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
