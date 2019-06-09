@@ -20,6 +20,9 @@ exports.get = asyncHandler(async (req, res) => {
       name: 'courses.name',
       description: 'courses.description',
       image: 'courses.image_url',
+      idCategory: 'categories.id',
+      categoryName: 'categories.name',
+      icon: 'categories.icon',
       author: 'courses.author'
     }, id_user && { favorite: 'favorites.id_course' }))
 
@@ -33,10 +36,12 @@ exports.get = asyncHandler(async (req, res) => {
     )
   }
 
-  const [course] = await query.where({
-    'courses.deleted': false,
-    'courses.id': id
-  })
+  const [course] = await query
+    .join('categories', 'courses.id_category', 'categories.id')
+    .where({
+      'courses.deleted': false,
+      'courses.id': id
+    })
 
   res.json(course)
 })
