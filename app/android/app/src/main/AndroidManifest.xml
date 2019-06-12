@@ -20,15 +20,13 @@
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <meta-data
+        android:name="com.google.firebase.messaging.default_notification_channel_id"
+        android:value="@string/default_notification_channel_id"/>
 
       <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
         <intent-filter>
           <action android:name="com.google.firebase.MESSAGING_EVENT" />
-        </intent-filter>
-      </service>
-      <service android:name="io.invertase.firebase.messaging.RNFirebaseInstanceIdService">
-        <intent-filter>
-          <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
         </intent-filter>
       </service>
       <service android:name="io.invertase.firebase.messaging.RNFirebaseBackgroundMessagingService" />
@@ -45,10 +43,10 @@
         android:name="com.facebook.CustomTabActivity"
         android:exported="true">
         <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="@string/fb_login_protocol_scheme" />
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="@string/fb_login_protocol_scheme" />
         </intent-filter>
       </activity>
       <activity
@@ -78,6 +76,7 @@
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
         android:windowSoftInputMode="adjustResize"
         android:exported="true"
+        android:launchMode="singleTask"
         />
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>

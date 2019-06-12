@@ -28,4 +28,10 @@ public class MainActivity extends ReactActivity {
         super.onActivityResult(requestCode, resultCode, data);
         MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+       super.onNewIntent(intent);
+       setIntent(intent);
+    }
 }

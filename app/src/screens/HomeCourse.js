@@ -11,6 +11,7 @@ import Container from '../components/Container'
 import colors from '../utils/colors'
 import createUrl from '../utils/createUrl'
 import { getIcon } from '../utils/icons'
+import http from '../utils/http'
 
 export default class CourseHome extends Component {
   static navigationOptions = {
@@ -23,8 +24,31 @@ export default class CourseHome extends Component {
     },
   };
 
+  state = {}
+
   static propTypes = {
     navigation: PropTypes.object.isRequired,
+  }
+
+  getCourse = async () => {
+    const { navigation } = this.props
+    const courseId = navigation.getParam('courseId')
+    const { data: course } = await http.get(`courses/${courseId}`)
+
+    this.setState({
+      course,
+    })
+  }
+
+  componentDidMount () {
+    const { navigation } = this.props
+    const course = navigation.getParam('course')
+
+    if (course) {
+      return this.setState({ course })
+    }
+
+    this.getCourse()
   }
 
   onBack = () => {
@@ -32,8 +56,7 @@ export default class CourseHome extends Component {
   }
 
   startCourse = async () => {
-    const { navigation } = this.props
-    const course = navigation.getParam('course')
+    const { course } = this.state
     try {
       await AsyncStorage.setItem(`course-${course.id}`, 'started')
       this.props.navigation.navigate('Course', { course })
@@ -44,7 +67,19 @@ export default class CourseHome extends Component {
 
   render () {
     const { navigation } = this.props
-    const course = navigation.getParam('course', {})
+    const {
+      course = navigation.getParam('course'),
+    } = this.state
+
+    if (!course) {
+      return (
+        <Container isLoading>
+          <TopBar
+            onBack={this.onBack}
+            text='Curso' />
+        </Container>
+      )
+    }
 
     const { name: title, categoryName: subTitle, image, description, icon: iconId } = course
     const icon = getIcon(iconId).checked
@@ -55,9 +90,6 @@ export default class CourseHome extends Component {
           onBack={this.onBack}
           icon={icon}
           text='Curso' />
-        {/* <View style={styles.header}>
-          <Text>{title}</Text>
-        </View> */}
         <ImageBackground elevation={20} style={styles.cover} source={{ uri: createUrl(image) }} imageStyle={styles.imageBackground} >
           <LinearGradient colors={['transparent', colors.black]} style={styles.gradient}>
             <Text style={styles.title}>{title}</Text>
@@ -66,7 +98,6 @@ export default class CourseHome extends Component {
         </ImageBackground>
         <View style={styles.description}>
           <Text style={styles.mainDescription}>{description}</Text>
-          {/* <Text style={styles.secondaryDescription}>{secondaryDescription}</Text> */}
           <ButtonCTA title='EMPEZAR CURSO' onPress={this.startCourse} />
         </View>
       </Container>

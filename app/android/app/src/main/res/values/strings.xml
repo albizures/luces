@@ -2,4 +2,5 @@
     <string name="app_name">Luces</string>
     <string name="facebook_app_id">2112097415677031</string>
     <string name="fb_login_protocol_scheme">fb2112097415677031</string>
+    <string name="default_notification_channel_id">new-course</string>
 </resources>

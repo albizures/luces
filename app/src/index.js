@@ -212,26 +212,22 @@ export default class App extends Component {
   }
 
   async componentDidMount () {
-    checkPermission()
+    await checkPermission()
     this.removeNotificationListeners = createNotificationListeners(this.handlerNotification)
   }
 
-  handlerNotification (notification) {
-    const { course } = notification
+  handlerNotification = (notification) => {
+    const { _data: data } = notification
+    const payload = JSON.parse(data.payload)
+
+    const { courseId } = payload
     const { current: rootStack } = this.rootStackRef
-    // const {
-    //   name,
-    //   categoryName,
-    //   image,
-    //   description,
-    //   icon
-    // } = course
 
     rootStack.dispatch(
       NavigationActions.navigate({
         routeName: 'HomeCourse',
         params: {
-          course,
+          courseId,
         },
       })
     )

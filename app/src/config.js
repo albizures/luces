@@ -28,12 +28,18 @@ dayjs.extend(relativeTime)
 export function createNotificationListeners (handler) {
   firebase.messaging().subscribeToTopic('new-course')
 
-  // Triggered when a particular notification has been received in foreground
+  const channel = new firebase.notifications.Android
+    .Channel('new-course', 'Nuevo Curso', firebase.notifications.Android.Importance.Max)
+    .setDescription('Luces Beautiful - Nuevo Curso')
+
+  firebase.notifications().android.createChannel(channel)
+
   const notificationListener = firebase.notifications().onNotification((notification) => {
     if (!notification) {
       return
     }
-    handler(notification)
+
+    displayNotification(notification)
   })
 
   // If the app is in background
@@ -42,7 +48,11 @@ export function createNotificationListeners (handler) {
       return
     }
 
-    handler(notificationOpen.notification)
+    const { notification } = notificationOpen
+
+    firebase.notifications().removeDeliveredNotification(notification.notificationId)
+
+    handler(notification)
   })
 
   // If the app is closed
@@ -50,6 +60,7 @@ export function createNotificationListeners (handler) {
     .notifications()
     .getInitialNotification()
     .then((notificationOpen) => {
+      console.log('firebase.notifications().getInitialNotification', notificationOpen)
       if (!notificationOpen) {
         return
       }
@@ -61,19 +72,7 @@ export function createNotificationListeners (handler) {
   * */
   const messageListener = firebase.messaging().onMessage((message) => {
     // process data message
-    const { _messageId: id, _data: data } = message
-    const payload = JSON.parse(data.payload)
-
-    const { notification: { title, body } } = payload
-    console.log(message)
-
-    const notification = new firebase.notifications.Notification()
-      .setNotificationId(id)
-      .setTitle(title)
-      .setBody(body)
-      .setData(payload)
-
-    firebase.notifications().displayNotification(notification)
+    displayNotification(message)
   })
 
   return () => {
@@ -83,8 +82,30 @@ export function createNotificationListeners (handler) {
   }
 }
 
+const displayNotification = async (message) => {
+  const { _messageId: messageId, _notificationId: notificationId, _data: data } = message
+  const payload = JSON.parse(data.payload)
+
+  const { notification: { title, body } } = payload
+
+  const notification = new firebase.notifications.Notification()
+    .setNotificationId(messageId || notificationId)
+    .setTitle(title)
+    .setBody(body)
+    .setData(data)
+    .android.setAutoCancel(true)
+    .android.setChannelId('new-course')
+
+  try {
+    await firebase.notifications().displayNotification(notification)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 async function getToken () {
   let fcmToken = await AsyncStorage.getItem('fcmToken')
+
   if (!fcmToken) {
     fcmToken = await firebase.messaging().getToken()
     if (fcmToken) {
@@ -98,18 +119,18 @@ async function requestPermission () {
   try {
     await firebase.messaging().requestPermission()
     // User has authorised
-    getToken()
+    await getToken()
   } catch (error) {
     // User has rejected permissions
-    console.log('permission rejected')
+    console.error('permission rejected')
   }
 }
 
 export async function checkPermission () {
   const enabled = await firebase.messaging().hasPermission()
   if (enabled) {
-    getToken()
+    await getToken()
   } else {
-    requestPermission()
+    await requestPermission()
   }
 }
