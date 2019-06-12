@@ -81,7 +81,7 @@ class CourseForm extends Component {
         subcategory: []
       })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       notification.error(messages.getSubcategories)
     }
   }

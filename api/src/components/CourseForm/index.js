@@ -207,7 +207,7 @@ export default class Course extends Component {
       }
       this.setState({ videos, videosData })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       notification.error(messages.errorOrder)
     }
   }

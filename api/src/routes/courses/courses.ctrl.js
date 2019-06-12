@@ -327,7 +327,7 @@ exports.post = asyncHandler(async (req, res) => {
     id = await knex.transaction(beginTransaction(req.body))
     res.json({ id })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return
   }
 
@@ -335,7 +335,7 @@ exports.post = asyncHandler(async (req, res) => {
     const course = await getCourse({ id })
     sendNewCourseNotification(course)
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 })
 

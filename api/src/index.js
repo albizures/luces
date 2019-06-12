@@ -40,7 +40,7 @@ app.then(() => {
       next()
     },
     (err, req, res, next) => {
-      console.log(err)
+      console.error(err)
       if (err.name === 'UnauthorizedError') {
         return res.redirect('/login')
       }

@@ -41,7 +41,7 @@ export default class Search extends Component {
         navigation.navigate('HomeCourse', { course })
       }
     } catch (error) {
-      console.log('Home', error)
+      console.error('Home', error)
       alert('No se pudo carga el curso')
     }
   }

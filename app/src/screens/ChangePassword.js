@@ -48,7 +48,7 @@ class ChangePassword extends Component {
       alert('Tu contraseña se ha cambiado exitosamente.')
       navigation.navigate('AppLoader')
     } catch (error) {
-      console.log(error)
+      console.error(error)
       alert('No se pudo cambiar la contraseña.')
       this.setState({ isLoading: false })
     }

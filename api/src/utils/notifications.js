@@ -21,6 +21,6 @@ exports.sendNewCourseNotification = async (course) => {
     const response = await admin.messaging().send(message)
     console.log('Successfully sent message:', response)
   } catch (error) {
-    console.log('Error sending message:', error)
+    console.error('Error sending message:', error)
   }
 }

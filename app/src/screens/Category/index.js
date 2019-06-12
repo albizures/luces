@@ -31,7 +31,7 @@ class Category extends Component {
 
       this.setState({ subcategories, highlights })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       alert('No se pudieron cargar las subcategorias')
     }
   }
@@ -49,7 +49,7 @@ class Category extends Component {
         this.props.navigation.navigate('HomeCourse', { course })
       }
     } catch (error) {
-      console.log('Home', error)
+      console.error('Home', error)
       alert('No se pudo carga el curso')
     }
   }

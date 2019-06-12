@@ -41,7 +41,7 @@ class Home extends Component {
           return navigation.navigate('Interests')
         }
       } catch (error) {
-        console.log('we couldn`t get the interests', error)
+        console.error('we couldn`t get the interests', error)
       }
     }
   }
@@ -59,7 +59,7 @@ class Home extends Component {
       const { data: courses = [] } = await http.get('courses/latest')
       this.setState({ courses })
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
 
     try {
@@ -67,7 +67,7 @@ class Home extends Component {
 
       this.setState({ highlights })
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
@@ -92,7 +92,7 @@ class Home extends Component {
         this.props.navigation.navigate('HomeCourse', { course })
       }
     } catch (error) {
-      console.log('Home', error)
+      console.error('Home', error)
       alert('No se pudo carga el curso')
     }
   }

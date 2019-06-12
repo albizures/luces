@@ -62,7 +62,7 @@ class Favorites extends Component {
         isLoading: false,
       })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       alert('No se pudieron cargar los favoritos')
       this.setState({
         isLoading: false,
@@ -109,7 +109,7 @@ class Favorites extends Component {
         navigation.navigate('HomeCourse', { course })
       }
     } catch (error) {
-      console.log('Home', error)
+      console.error('Home', error)
       alert('No se pudo carga el curso')
     }
   }
