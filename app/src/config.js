@@ -50,8 +50,6 @@ export function createNotificationListeners (handler) {
 
     const { notification } = notificationOpen
 
-    firebase.notifications().removeDeliveredNotification(notification.notificationId)
-
     handler(notification)
   })
 
@@ -60,7 +58,6 @@ export function createNotificationListeners (handler) {
     .notifications()
     .getInitialNotification()
     .then((notificationOpen) => {
-      console.log('firebase.notifications().getInitialNotification', notificationOpen)
       if (!notificationOpen) {
         return
       }
@@ -82,7 +79,7 @@ export function createNotificationListeners (handler) {
   }
 }
 
-const displayNotification = async (message) => {
+export const displayNotification = async (message) => {
   const { _messageId: messageId, _notificationId: notificationId, _data: data } = message
   const payload = JSON.parse(data.payload)
 

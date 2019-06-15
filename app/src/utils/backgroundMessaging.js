@@ -1,7 +1,7 @@
-// import firebase from 'react-native-firebase'
+import { displayNotification } from '../config'
 
 export default async (message) => {
   // handle your message
-  alert('test' + JSON.stringify(message))
+  displayNotification(message)
   return Promise.resolve()
 }
