@@ -1,4 +1,7 @@
 {
   "name": "Luces",
-  "displayName": "Luces"
+  "displayName": "Luces",
+  "packagerOpts": {
+    "config": "metro.config.js"
+  }
 }
