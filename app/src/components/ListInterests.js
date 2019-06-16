@@ -32,7 +32,7 @@ class ListInterests extends Component {
         interests: interests.reduce((obj, interest) => Object.assign(obj, { [interest.category]: true }), {}),
       })
     } catch (error) {
-      console.log('ListInterests', error)
+      console.error('ListInterests', error)
       alert('No se pudieron cargar los intereses')
     }
   }
@@ -58,7 +58,7 @@ class ListInterests extends Component {
       })
     } catch (error) {
       alert('No se puedo guardar')
-      console.log(error)
+      console.error(error)
     }
   }
 

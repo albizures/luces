@@ -5,6 +5,7 @@ const isProd = process.env.NODE_ENV === 'production'
 const port = process.env.PORT || 80
 
 require('./config/connection')
+require('./config/firebase')
 
 const publicRoutes = ['_next', 'login', 'privacy-policy', 'redirect']
 
@@ -39,7 +40,7 @@ app.then(() => {
       next()
     },
     (err, req, res, next) => {
-      console.log(err)
+      console.error(err)
       if (err.name === 'UnauthorizedError') {
         return res.redirect('/login')
       }

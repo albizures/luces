@@ -57,7 +57,7 @@ class Comment extends Component {
       }
     } catch (error) {
       alert('No se puedo guardar la reaccion')
-      console.log('Comments', error)
+      console.error('Comments', error)
     }
   }
 

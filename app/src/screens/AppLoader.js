@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, AsyncStorage } from 'react-native'
+import { Text } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import SplashScreen from 'react-native-splash-screen'
 
 import { withCategories, getValue as getCategoryValue } from '../components/CategoriesContext'

@@ -1,10 +1,16 @@
-import 'dayjs/locale/es'
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
+
 import React, { Component } from 'react'
 
-import { StatusBar, View, AsyncStorage } from 'react-native'
-import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation'
+import { StatusBar, View } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
+import {
+  createStackNavigator,
+  createBottomTabNavigator,
+  createSwitchNavigator,
+  NavigationActions,
+} from 'react-navigation'
+
+import { createNotificationListeners, checkPermission } from './config'
 
 import Onboarding from './screens/Onboarding'
 import Interests from './screens/Interests'
@@ -32,26 +38,6 @@ import { instance } from './utils/http'
 import { tabBarIcon } from './components/TabIcon'
 
 const prefix = 'lucesbeautiful://'
-
-dayjs.locale('es', {
-  relativeTime: {
-    future: 'en %s',
-    past: '%s',
-    s: '< 0s',
-    ss: '%ss',
-    m: '1m',
-    mm: '%dm',
-    h: '1h',
-    hh: '%dh',
-    d: '1d',
-    dd: '%dd',
-    M: '1M',
-    MM: '%dM',
-    y: '1a',
-    yy: '%da',
-  },
-})
-dayjs.extend(relativeTime)
 
 const OnboardingStack = createStackNavigator({
   Onboarding: {
@@ -223,6 +209,32 @@ export default class App extends Component {
 
   setCategories = (categories) => {
     this.setState({ categories })
+  }
+
+  async componentDidMount () {
+    await checkPermission()
+    this.removeNotificationListeners = createNotificationListeners(this.handlerNotification)
+  }
+
+  handlerNotification = (notification) => {
+    const { _data: data } = notification
+    const payload = JSON.parse(data.payload)
+
+    const { courseId } = payload
+    const { current: rootStack } = this.rootStackRef
+
+    rootStack.dispatch(
+      NavigationActions.navigate({
+        routeName: 'HomeCourse',
+        params: {
+          courseId,
+        },
+      })
+    )
+  }
+
+  componentWillUnmount () {
+    this.removeNotificationListeners()
   }
 
   render () {

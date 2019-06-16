@@ -81,7 +81,7 @@ class CourseForm extends Component {
         subcategory: []
       })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       notification.error(messages.getSubcategories)
     }
   }
@@ -193,11 +193,11 @@ class CourseForm extends Component {
         {/* </div>
         </div> */}
         <FormItem wrapperCol={{ span: formItemLayout.wrapperCol.span, offset: formItemLayout.labelCol.span }}>
-          <Button style={{float: 'left'}} type='primary' htmlType='submit' disabled={!videos.length}>
+          <Button style={{ float: 'left' }} type='primary' htmlType='submit' disabled={!videos.length}>
             {course ? 'Guardar curso' : 'Agregar curso'}
           </Button>
           {course && (
-            <Button style={{float: 'right'}} onClick={this.onCancel}>
+            <Button style={{ float: 'right' }} onClick={this.onCancel}>
               Cancelar
             </Button>
           )}

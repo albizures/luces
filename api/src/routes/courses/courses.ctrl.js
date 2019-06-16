@@ -1,7 +1,8 @@
 const asyncHandler = require('express-async-handler')
 
 const knex = require('../../config/connection')
-const { getComments } = require('../../utils/queries')
+const { getComments, getCourse } = require('../../utils/queries')
+const { sendNewCourseNotification } = require('../../utils/notifications')
 const downloadFile = require('../../utils/downloadFile')
 
 const { assign } = Object
@@ -19,6 +20,9 @@ exports.get = asyncHandler(async (req, res) => {
       name: 'courses.name',
       description: 'courses.description',
       image: 'courses.image_url',
+      idCategory: 'categories.id',
+      categoryName: 'categories.name',
+      icon: 'categories.icon',
       author: 'courses.author'
     }, id_user && { favorite: 'favorites.id_course' }))
 
@@ -32,10 +36,12 @@ exports.get = asyncHandler(async (req, res) => {
     )
   }
 
-  const [course] = await query.where({
-    'courses.deleted': false,
-    'courses.id': id
-  })
+  const [course] = await query
+    .join('categories', 'courses.id_category', 'categories.id')
+    .where({
+      'courses.deleted': false,
+      'courses.id': id
+    })
 
   res.json(course)
 })
@@ -96,17 +102,9 @@ exports.getHighlights = asyncHandler(async (req, res) => {
       categoryName: 'categories.name',
       icon: 'categories.icon',
       author: 'courses.author'
-      // favorite: 'favorites.id_course'
     })
     .join('courses', 'courses.id_category', 'interests.id_category')
     .join('categories', 'categories.id', 'interests.id_category')
-    // .leftJoin(
-    //   knex.raw(`
-    //     favorites as favorites
-    //     on favorites.id_user = ${id_user}
-    //       and courses.id = favorites.id_course
-    //       and favorites.deleted = 0`)
-    // )
     .where(assign({
       'courses.deleted': false,
       'interests.deleted': false,
@@ -254,7 +252,7 @@ exports.postComment = asyncHandler(async (req, res) => {
   res.json(newComment)
 })
 
-const createVideo = (course, trx) => async (data) => {
+const createVideoFactory = (course, trx) => async (data) => {
   const { name, description, id: id_youtube, image, order, author } = data
   const { url, download } = image
 
@@ -281,6 +279,7 @@ const createVideo = (course, trx) => async (data) => {
     })
   return videoId
 }
+
 const createSubcategory = (course, trx) => async (subcategoryId) => {
   await trx('course_subcategories')
     .insert({
@@ -310,21 +309,34 @@ const beginTransaction = (body) => async (trx) => {
       image_url
     })
 
-  const videoCreator = createVideo(courseId, trx)
+  const createVideo = createVideoFactory(courseId, trx)
   const subcategoryCreator = createSubcategory(courseId, trx)
 
   await Promise.all(
     videos
-      .map(videoCreator)
+      .map(createVideo)
       .concat(subcategories.map(subcategoryCreator))
   )
+
   return courseId
 }
 
 exports.post = asyncHandler(async (req, res) => {
-  const result = await knex.transaction(beginTransaction(req.body))
+  let id
+  try {
+    id = await knex.transaction(beginTransaction(req.body))
+    res.json({ id })
+  } catch (error) {
+    console.error(error)
+    return
+  }
 
-  res.json({ id: result })
+  try {
+    const course = await getCourse({ id })
+    sendNewCourseNotification(course)
+  } catch (error) {
+    console.error(error)
+  }
 })
 
 exports.put = asyncHandler(async (req, res) => {
@@ -354,9 +366,9 @@ exports.putVideos = asyncHandler(async (req, res) => {
   const { id } = req.params
   const videos = req.body
 
-  const videoCreator = createVideo(id, knex)
+  const createVideo = createVideoFactory(id, knex)
 
-  const videoIds = await Promise.all(videos.map(videoCreator))
+  const videoIds = await Promise.all(videos.map(createVideo))
 
   res.json({ videos: videoIds })
 })

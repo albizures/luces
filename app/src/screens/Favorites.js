@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Alert, View, AsyncStorage, Text } from 'react-native'
+import { Alert, View, Text } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 
 import createUrl from '../utils/createUrl'
 import http from '../utils/http'
@@ -61,7 +62,7 @@ class Favorites extends Component {
         isLoading: false,
       })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       alert('No se pudieron cargar los favoritos')
       this.setState({
         isLoading: false,
@@ -108,7 +109,7 @@ class Favorites extends Component {
         navigation.navigate('HomeCourse', { course })
       }
     } catch (error) {
-      console.log('Home', error)
+      console.error('Home', error)
       alert('No se pudo carga el curso')
     }
   }

@@ -60,7 +60,7 @@ class Interests extends Component {
       await this.props.changeUser({ ...this.props.user, interests: true })
       this.props.navigation.dispatch(NavigationActions.back())
     } catch (error) {
-      console.log('Interest', error)
+      console.error('Interest', error)
       alert('No se pudieron cargar tus intereses')
     }
   }

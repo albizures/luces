@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "150832679612",
+    "firebase_url": "https://luces-app.firebaseio.com",
+    "project_id": "luces-app",
+    "storage_bucket": "luces-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150832679612:android:33123185d66ddbbd",
+        "android_client_info": {
+          "package_name": "com.luces.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150832679612-pself0asi3lp9isp8vug5f65i0ppb06i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.luces.app",
+            "certificate_hash": "c97dbc279b952afbe661b415613429bd3783f1a8"
+          }
+        },
+        {
+          "client_id": "150832679612-e2kue35bb382bgmv6pgspde2quq9i8l3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxXGYgiK0rj27dzlLU1-RthOmDh1YaLq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150832679612-e2kue35bb382bgmv6pgspde2quq9i8l3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

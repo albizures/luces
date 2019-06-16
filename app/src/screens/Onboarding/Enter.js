@@ -1,4 +1,5 @@
-import { Dimensions, View, ImageBackground, AsyncStorage } from 'react-native'
+import { Dimensions, View, ImageBackground } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 

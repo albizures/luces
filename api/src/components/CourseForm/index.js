@@ -110,7 +110,7 @@ export default class Course extends Component {
 
         notification.success(messages.videoEdited)
       } else {
-        const {data: videos} = await api.courses.putVideos(this.props.course.id, [{
+        const { data: videos } = await api.courses.putVideos(this.props.course.id, [{
           ...videoData,
           order: this.getLastOrder()
         }])
@@ -205,9 +205,9 @@ export default class Course extends Component {
           modifiedVideos
         )
       }
-      this.setState({videos, videosData})
+      this.setState({ videos, videosData })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       notification.error(messages.errorOrder)
     }
   }
@@ -285,7 +285,7 @@ export default class Course extends Component {
             <div className='ant-col-offset-4 ant-col-xs-20 ant-col-sm-20'>
               <List
                 bordered
-                locale={{emptyText: 'No hay ningun video'}}
+                locale={{ emptyText: 'No hay ningun video' }}
                 itemLayout='vertical'
                 dataSource={videos}
                 renderItem={this.getListItem} />

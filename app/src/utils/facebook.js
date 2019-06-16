@@ -22,7 +22,7 @@ export const login = async (options) => {
 
     instance.defaults.headers.common['Authorization'] = 'Bearer ' + token
 
-    const { id_user: userId } = user;
+    const { id_user: userId } = user
     const { data: interests } = await http.get('interests/user')
     await changeUser({
       ...user,
@@ -32,7 +32,7 @@ export const login = async (options) => {
     })
     goHome()
   } catch (error) {
-    console.log('facebook login', error)
+    console.error('facebook login', error)
     alert(error.message)
     setLoaderStatus(false)
   }

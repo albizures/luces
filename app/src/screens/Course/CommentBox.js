@@ -105,8 +105,8 @@ class CommentBox extends Component {
       addComment(newComment)
     } catch (error) {
       console.error(error)
-      console.log(error.code)
-      console.log(error.config)
+      console.error(error.code)
+      console.error(error.config)
 
       alert('No se pudo agregar el comentario')
     }

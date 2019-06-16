@@ -76,7 +76,7 @@ class Course extends Component {
         routes: videos.length > 1 ? moreThanOneVideoConfig : oneVideoConfig,
       })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       alert('No se pudo carga el curso')
     }
 
@@ -121,7 +121,7 @@ class Course extends Component {
       }
       this.setState({ isLoading: false })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       alert('No se pudo agregar a favoritos')
     }
   }

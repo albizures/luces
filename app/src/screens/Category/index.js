@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, View, ScrollView, AsyncStorage } from 'react-native'
+import { Text, View, ScrollView } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 
 import Container from '../../components/Container'
 import TopBar from '../../components/TopBar'
@@ -30,7 +31,7 @@ class Category extends Component {
 
       this.setState({ subcategories, highlights })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       alert('No se pudieron cargar las subcategorias')
     }
   }
@@ -48,7 +49,7 @@ class Category extends Component {
         this.props.navigation.navigate('HomeCourse', { course })
       }
     } catch (error) {
-      console.log('Home', error)
+      console.error('Home', error)
       alert('No se pudo carga el curso')
     }
   }

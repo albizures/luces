@@ -47,7 +47,7 @@ class Login extends Component {
 
       goHome()
     } catch (error) {
-      console.log('Login', error)
+      console.error('Login', error)
       alert(error.message)
       this.props.setLoaderStatus(false)
     }
