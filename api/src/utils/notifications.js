@@ -3,8 +3,8 @@ const admin = require('firebase-admin')
 exports.sendNewCourseNotification = async (course) => {
   const { id: courseId, name } = course
   const notification = {
-    title: 'Curso nuevo!!!',
-    body: name
+    title: 'Tenemos nuevo curso!',
+    body: `${name} 🤓💁🏻‍💅🏻`
   }
 
   const data = Object.assign({ courseId }, { notification })
