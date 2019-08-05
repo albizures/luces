@@ -108,7 +108,7 @@ android {
         versionCode 3
         versionName "1.0.15"
         ndk {
-            abiFilters "armeabi-v7a", "x86", "x86_64"
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
     }
     signingConfigs {
@@ -125,8 +125,8 @@ android {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86", "x86_64"
+            universalApk false // If true, also generate a universal APK
+            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
     buildTypes {
