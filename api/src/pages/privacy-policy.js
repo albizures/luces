@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row, Col} from 'antd/lib/grid'
+import { Row, Col } from 'antd/lib/grid'
 
 import Layout from '../components/Layout'
 

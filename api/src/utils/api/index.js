@@ -53,7 +53,8 @@ export const courses = {
   removeVideo: (
     courseId = isRequired('courseId'),
     videoId = isRequired('videoId')
-  ) => api.delete(`/courses/${encode(courseId)}/videos/${encode(videoId)}`)
+  ) => api.delete(`/courses/${encode(courseId)}/videos/${encode(videoId)}`),
+  search: (search = isRequired('search')) => api.get(`/courses/search/${encode(search)}`)
 }
 
 export const images = {
@@ -83,6 +84,10 @@ export const server = (req) => {
   }
 }
 
+export const notifications = {
+  send: (data = isRequired('data')) => api.post(`/notifications/send`, data)
+}
+
 export default {
   server,
   login,
@@ -90,5 +95,6 @@ export default {
   categories,
   courses,
   images,
-  videos
+  videos,
+  notifications
 }

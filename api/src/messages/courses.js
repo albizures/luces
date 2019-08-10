@@ -30,5 +30,9 @@ export default {
   getSubcategories: {
     message: 'Error',
     description: 'Ocurrio un error consultando las subcategorias'
+  },
+  failSearch: {
+    message: 'error',
+    description: 'Cursos no disponibles'
   }
 }

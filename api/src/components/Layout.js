@@ -14,7 +14,7 @@ function logout ({ key }) {
   document.location.pathname = '/login'
 }
 
-export default ({ children, withoutMenus }) => (
+export default ({ children, withoutMenus, content }) => (
   <div>
     <Head>
       <link rel='stylesheet' href='https://unpkg.com/antd@3/dist/antd.min.css' />
@@ -28,7 +28,6 @@ export default ({ children, withoutMenus }) => (
             <Menu
               theme='dark'
               mode='horizontal'
-              onClick={logout}
               style={{ lineHeight: '64px' }}>
               <Item key='1'>
                 <Link href='/'>
@@ -40,16 +39,24 @@ export default ({ children, withoutMenus }) => (
                   <a>Categorias</a>
                 </Link>
               </Item>
-              <Item style={{ float: 'right' }} key='3'>Salir</Item>
+              <Item key='3'>
+                <Link href='/push-notifications'>
+                  <a>Notificaciones</a>
+                </Link>
+              </Item>
+              <Item onClick={logout} style={{ float: 'right' }} key='4'>Salir</Item>
             </Menu>
           )
         }
       </Header>
-      <Content style={{ padding: '0 50px' }}>
-        <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
-          {children}
-        </div>
-      </Content>
+      {content || (
+        <Content style={{ padding: '0 50px' }}>
+          <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+            {children}
+          </div>
+        </Content>
+
+      )}
     </Layout>
     <Footer style={{ textAlign: 'center' }}>
       Luces Beautiful ©2018 Created by The Digital Catapult
