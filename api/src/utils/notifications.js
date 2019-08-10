@@ -1,19 +1,24 @@
 const admin = require('firebase-admin')
 
-exports.sendNewCourseNotification = async (course) => {
-  const { id: courseId, name } = course
+/**
+ * @param {object} data
+ * @param {string} data.payload
+ * @param {string} [data.topic='global']
+ * @param {string} data.title
+ * @param {string} data.body
+ */
+const sendNotification = async (data) => {
+  const { payload, topic = 'global', title, body } = data
   const notification = {
-    title: 'Tenemos nuevo curso!',
-    body: `${name} 🤓💁🏻‍💅🏻`
+    title,
+    body
   }
-
-  const data = Object.assign({ courseId }, { notification })
 
   const message = {
     data: {
-      payload: JSON.stringify(data)
+      payload: JSON.stringify(Object.assign(payload, { notification }))
     },
-    topic: 'new-course',
+    topic,
     notification
   }
 
@@ -23,4 +28,20 @@ exports.sendNewCourseNotification = async (course) => {
   } catch (error) {
     console.error('Error sending message:', error)
   }
+}
+
+const sendNewCourseNotification = async (course) => {
+  const { id: courseId, name } = course
+
+  await sendNotification({
+    payload: JSON.stringify({ courseId }),
+    title: 'Tenemos nuevo curso!',
+    body: `${name} 🤓💁🏻‍💅🏻`,
+    topic: 'course'
+  })
+}
+
+module.exports = {
+  sendNotification,
+  sendNewCourseNotification
 }

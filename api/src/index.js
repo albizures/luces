@@ -9,7 +9,7 @@ require('./config/firebase')
 
 const publicRoutes = ['_next', 'login', 'privacy-policy', 'redirect']
 
-const isNotPublicRoute = (url) => publicRoutes.every(path => !url.includes(path))
+const isPublicRoute = (url) => publicRoutes.some(path => !url.includes(path))
 
 const { handle, app } = require('./config/next')
 const routes = require('./routes')
@@ -34,10 +34,15 @@ app.then(() => {
   server.use(
     jwt({ secret: process.env.SECRET_KEY, credentialsRequired: false }),
     (req, res, next) => {
-      if (!req.user && isNotPublicRoute(req.url)) {
-        return res.redirect('/login')
+      if (isPublicRoute(req.url)) {
+        return next()
       }
-      next()
+
+      if (req.user) {
+        return next()
+      }
+
+      return res.redirect('/login')
     },
     (err, req, res, next) => {
       console.error(err)

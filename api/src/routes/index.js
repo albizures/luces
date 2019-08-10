@@ -13,6 +13,7 @@ router.use('/categories', require('./categories/categories'))
 router.use('/subcategories', require('./subcategories/subcategories'))
 router.use('/courses', require('./courses/courses'))
 router.use('/images', authRoute, require('./images/images'))
+router.use('/notifications', authRoute, require('./notifications/notifications'))
 router.use('/interests', authRoute, require('./interests/interests'))
 
 router.use(function (error, req, res, next) {
