@@ -16,7 +16,7 @@ const sendNotification = async (data) => {
 
   const message = {
     data: {
-      payload: JSON.stringify(Object.assign(payload, { notification }))
+      payload: JSON.stringify(Object.assign(payload, { notification, topic }))
     },
     topic,
     notification

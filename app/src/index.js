@@ -170,6 +170,14 @@ const RootStack = createSwitchNavigator({
   initialRouteName: 'AppLoader',
 })
 
+const parseJSON = (string) => {
+  try {
+    return JSON.parse(string)
+  } catch (error) {
+    return {}
+  }
+}
+
 export default class App extends Component {
   rootStackRef = React.createRef()
 
@@ -218,10 +226,20 @@ export default class App extends Component {
 
   handlerNotification = (notification) => {
     const { _data: data } = notification
-    const payload = JSON.parse(data.payload)
+    const payload = parseJSON(data.payload)
 
-    const { courseId } = payload
+    const { courseId, topic } = payload
     const { current: rootStack } = this.rootStackRef
+
+    if (topic === 'global') {
+      rootStack.dispatch(
+        NavigationActions.navigate({
+          routeName: 'AppLoader',
+        })
+      )
+
+      return
+    }
 
     rootStack.dispatch(
       NavigationActions.navigate({

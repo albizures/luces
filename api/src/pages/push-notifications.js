@@ -32,20 +32,15 @@ class PushNotifications extends React.Component {
   }
 
   onCancel = () => {
-    this.props.cancelEdit()
     this.props.form.resetFields()
-  }
-
-  cleanValues (values) {
-    return Object.assign(values, {
-      image: values.image[0]
-    })
+    this.setState({ courseId: undefined })
   }
 
   sendNotification = (data) => {
     api.notifications.send(data).then(() => {
       notification.success(notificationsMessages.sent)
       this.props.form.resetFields()
+      this.setState({ courseId: undefined })
     }).catch(error => {
       console.error(error)
       notification.error(notificationsMessages.failSent)
@@ -58,8 +53,6 @@ class PushNotifications extends React.Component {
       if (err) {
         return console.error(err)
       }
-
-      console.log(values)
 
       values.courseId = this.state.courseId
       this.sendNotification(values)

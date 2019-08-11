@@ -26,13 +26,19 @@ dayjs.locale('es', {
 dayjs.extend(relativeTime)
 
 export function createNotificationListeners (handler) {
-  firebase.messaging().subscribeToTopic('new-course')
+  firebase.messaging().subscribeToTopic('course')
+  firebase.messaging().subscribeToTopic('global')
 
-  const channel = new firebase.notifications.Android
-    .Channel('new-course', 'Nuevo Curso', firebase.notifications.Android.Importance.Max)
+  const courseChannel = new firebase.notifications.Android
+    .Channel('course', 'Nuevo Curso', firebase.notifications.Android.Importance.Max)
     .setDescription('Luces Beautiful - Nuevo Curso')
 
-  firebase.notifications().android.createChannel(channel)
+  const globalChannel = new firebase.notifications.Android
+    .Channel('global', 'Luces Beautiful', firebase.notifications.Android.Importance.Max)
+    .setDescription('Luces Beautiful')
+
+  firebase.notifications().android.createChannel(courseChannel)
+  firebase.notifications().android.createChannel(globalChannel)
 
   const notificationListener = firebase.notifications().onNotification((notification) => {
     if (!notification) {
@@ -83,7 +89,7 @@ export const displayNotification = async (message) => {
   const { _messageId: messageId, _notificationId: notificationId, _data: data } = message
   const payload = JSON.parse(data.payload)
 
-  const { notification: { title, body } } = payload
+  const { notification: { title, body }, topic } = payload
 
   const notification = new firebase.notifications.Notification()
     .setNotificationId(messageId || notificationId)
@@ -91,7 +97,7 @@ export const displayNotification = async (message) => {
     .setBody(body)
     .setData(data)
     .android.setAutoCancel(true)
-    .android.setChannelId('new-course')
+    .android.setChannelId(topic)
 
   try {
     await firebase.notifications().displayNotification(notification)
