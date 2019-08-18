@@ -21,6 +21,7 @@ import Search from './screens/Search'
 import Account from './screens/Account'
 import Profile from './screens/Profile'
 import Notifications from './screens/Notifications'
+import Stores from './screens/Account/Stores'
 import InterestsAccount from './screens/InterestsAccount'
 import Course from './screens/Course'
 import Courses from './screens/Courses'
@@ -58,6 +59,7 @@ const AccountStack = createStackNavigator({
   Notifications: {
     screen: Notifications,
   },
+  Stores,
   InterestsAccount: {
     screen: InterestsAccount,
   },

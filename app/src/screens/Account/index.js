@@ -120,6 +120,7 @@ class Account extends Component {
 
   render () {
     const { name, cover, isLoading } = this.state
+    const { navigation } = this.props
     const source = cover
       ? { uri: createUrl(cover) }
       : require('../../assets/account2.png')
@@ -138,6 +139,7 @@ class Account extends Component {
         <Text style={styles.configuration}>Configuración</Text>
         <Option onPress={() => this.navigateTo('Notifications')} title='Notificationes' icon={require('../../assets/account/notifications.png')} />
         <Option onPress={() => this.navigateTo('InterestsAccount')} title='Intereses' icon={require('../../assets/account/interests.png')} />
+        <Option onPress={() => navigation.navigate('Stores')} title='Tiendas oficiales' icon={require('../../assets/account/email.png')} />
         <View style={styles.logoutAbout}>
           <TouchableHighlight onPress={this.onLogoutOrLogin}>
             {this.getLogoutOrLoginOption()}
