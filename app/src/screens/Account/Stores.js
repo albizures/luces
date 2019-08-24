@@ -20,6 +20,7 @@ const stores = [
       description: 'Domingo',
       schedule: '10:00 am a 4:00 pm',
     }],
+    phoneNumber: '2230-1691',
   },
   {
     title: 'Hair & Nails',
@@ -34,6 +35,7 @@ const stores = [
       description: 'Domingo',
       schedule: '10:00 am a 3:30 pm',
     }],
+    phoneNumber: '2220-6793',
   },
   {
     title: 'Luces Beautiful Paseo la Sexta',
@@ -48,6 +50,7 @@ const stores = [
       description: 'Domingo',
       schedule: '10:00 am a 6:00 pm',
     }],
+    phoneNumber: '2220-1037',
   },
   {
     title: 'Luces Beautiful Metronorte',
@@ -62,6 +65,7 @@ const stores = [
       description: 'Domingo',
       schedule: '10:30 am a 7:00 pm',
     }],
+    phoneNumber: '2255-2613',
   },
   {
     title: 'Luces Beautiful Eskala',
@@ -76,6 +80,7 @@ const stores = [
       description: 'Domingo',
       schedule: '10:30 am a 7:00 pm',
     }],
+    phoneNumber: '2441-0535',
   },
 ]
 

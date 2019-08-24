@@ -139,7 +139,7 @@ class Account extends Component {
         <Text style={styles.configuration}>Configuración</Text>
         <Option onPress={() => this.navigateTo('Notifications')} title='Notificationes' icon={require('../../assets/account/notifications.png')} />
         <Option onPress={() => this.navigateTo('InterestsAccount')} title='Intereses' icon={require('../../assets/account/interests.png')} />
-        <Option onPress={() => navigation.navigate('Stores')} title='Tiendas oficiales' icon={require('../../assets/account/email.png')} />
+        <Option onPress={() => navigation.navigate('Stores')} title='Tiendas oficiales' icon={require('../../assets/account/store_icon.png')} />
         <View style={styles.logoutAbout}>
           <TouchableHighlight onPress={this.onLogoutOrLogin}>
             {this.getLogoutOrLoginOption()}
