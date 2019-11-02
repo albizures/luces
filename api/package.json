@@ -32,7 +32,7 @@
     "is-email-maybe": "^1.0.1",
     "is-required": "^1.0.5",
     "jsonwebtoken": "^8.4.0",
-    "knex": "^0.16.3",
+    "knex": "^0.19.5",
     "lodash.difference": "^4.5.0",
     "material-ui": "^0.20.2",
     "morgan": "^1.9.1",
